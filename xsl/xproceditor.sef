@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://ns.saxonica.com/xslt/export" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vv="http://saxon.sf.net/generated-variable" xmlns:java-type="http://saxon.sf.net/java-type" version="30" packageVersion="1" saxonVersion="9.8.0.12" target="JS" targetVersion="1" relocatable="true">
+ <co id="0" binds="">
+  <globalVariable name="Q{}serialization-params" type="element(Q{http://www.w3.org/2010/xslt-xquery-serialization}serialization-parameters)" line="45" module="xproceditor.xsl" visibility="PRIVATE" jsAcceptor="function test(item) {function a() {var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';};function b() {function a() {var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';};function b() {return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;};return a()&amp;&amp;b();};return a()&amp;&amp;b();};if (test(val)) {return val;} else {throw SaxonJS.XError('Conversion failed', 'XTTE0590');}" jsCardCheck="function c(n) {return n==1;};">
+   <treat defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="47" as="element(Q{http://www.w3.org/2010/xslt-xquery-serialization}serialization-parameters)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';" diag="3|0|XTTE0570|serialization-params">
+    <elem xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization" name="output:serialization-parameters" nsuri="http://www.w3.org/2010/xslt-xquery-serialization" namespaces="xs my fn output math p">
+     <elem name="output:indent" nsuri="http://www.w3.org/2010/xslt-xquery-serialization" flags="l" namespaces="xs my fn output math p">
+      <att name="value" flags="l">
+       <str val="yes"/>
+      </att>
+     </elem>
+    </elem>
+   </treat>
+  </globalVariable>
+ </co>
+ <co id="1" binds="2">
+  <mode name="Q{http://saxonica.com/ns/interactiveXSLT}click" onNo="TC" flags="W" patternSlots="0">
+   <templateRule prec="0" prio="0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="15" module="xproceditor.xsl">
+    <p.nodeSet role="match" type="element()">
+     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="15" name="id">
+      <str val="btn_pipe"/>
+     </fn>
+    </p.nodeSet>
+    <resultDoc role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="16" global="#&#xD;&#xA;#Mon Nov 26 15:14:59 CET 2018&#xD;&#xA;" local="#&#xD;&#xA;#Mon Nov 26 15:14:59 CET 2018&#xD;&#xA;method={http\://saxonica.com/ns/interactiveXSLT}replace-content&#xD;&#xA;">
+     <str role="href" val="#xproc_xml"/>
+     <callT role="content" line="17" name="create-xpl" bSlot="0"/>
+    </resultDoc>
+   </templateRule>
+  </mode>
+ </co>
+ <co id="2" binds="">
+  <template name="Q{}create-xpl" flags="os" line="22" module="xproceditor.xsl" slots="0">
+   <elem xmlns:p="http://www.w3.org/ns/xproc" role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="p=http://www.w3.org/ns/xproc xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization c=http://www.w3.org/ns/xproc-step fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="24" name="p:declare-step" nsuri="http://www.w3.org/ns/xproc" namespaces="p c xs my fn output math">
+    <sequence>
+     <att name="version" flags="l">
+      <str val="1.0"/>
+     </att>
+     <elem line="25" name="p:input" nsuri="http://www.w3.org/ns/xproc" flags="l">
+      <sequence>
+       <att name="port" flags="l">
+        <str val="source"/>
+       </att>
+       <att name="primary" flags="l">
+        <str val="true"/>
+       </att>
+       <elem line="27" name="p:inline" nsuri="http://www.w3.org/ns/xproc" flags="l">
+        <elem name="doc" nsuri="" flags="l" namespaces="p c xs my fn output math">
+         <valueOf flags="l">
+          <str val="Hello world!"/>
+         </valueOf>
+        </elem>
+       </elem>
+      </sequence>
+     </elem>
+     <elem line="31" name="p:output" nsuri="http://www.w3.org/ns/xproc" flags="l">
+      <sequence>
+       <att name="port" flags="l">
+        <str val="result"/>
+       </att>
+       <att name="primary" flags="l">
+        <str val="true"/>
+       </att>
+      </sequence>
+     </elem>
+     <elem name="p:identity" nsuri="http://www.w3.org/ns/xproc" flags="l" namespaces="p c xs my fn output math">
+      <empty/>
+     </elem>
+    </sequence>
+   </elem>
+  </template>
+ </co>
+ <co id="3" binds="">
+  <mode onNo="TC" flags="dW" patternSlots="0">
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="38" module="xproceditor.xsl">
+    <p.nodeTest role="match" test="document-node()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11);"/>
+    <empty role="action"/>
+   </templateRule>
+  </mode>
+ </co>
+ <overridden/>
+ <output>
+  <property name="{http://saxon.sf.net/}stylesheet-version" value="30"/>
+ </output>
+ <decimalFormat/>
+</package>
+<?Σ 9de68741?>

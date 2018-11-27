@@ -11,7 +11,7 @@ body{
     display: inline-grid;
     width: 95vw;
     height: 95vh;
-    grid-template-columns: [stepPanel] 160px [paper] 70% [meta] 220px;
+    grid-template-columns: [stepPanel] 160px [paper] 70% [metaPanel] 220px;
     grid-template-rows: fit-content(0%) 90% 30px;
     /*justify-content: center;*/
     margin-left: 1vw;
@@ -24,14 +24,14 @@ body{
   display:none;
 }
 
-#paper1, #paper2, #paper3, #paper4, #paper5, #stencil, #meta, #paperSwitch {
+#paper1, #paper2, #paper3, #paper4, #paper5, #stencil, #metaPanel, #paperSwitch {
     /*overflow: hidden;*/
 }
 #paper1, #paper2, #paper3, #paper4, #paper5 {
     grid-row: 2 / 3;
     grid-column: 2 / 3;
 }
-/*.papercontent {*/
+/*.paperContent {*/
     /*border-style: solid;*/
     /*border-width: 2px;*/
 /*}*/
@@ -58,7 +58,7 @@ body{
     margin: 0.2em 0;
 }
 
-#btns_menu {
+#btn_menu {
     margin-right: 5%;
     display: inline;
 }
@@ -69,7 +69,7 @@ body{
 #drpdwn_file:hover #drp_file {
     display: block;
 }
-#btns_sub {
+#btn_sub {
     display: inline;
 }
 .btn_sub {
@@ -153,7 +153,7 @@ body{
     float: left;
 }
 
-#metaTest {
+#metaPanel {
     grid-row: 1 / 4;
     grid-column: 3 /4;
     /*border-style: solid;*/
@@ -161,7 +161,7 @@ body{
     background-color: #c1ebf0;
 }
 
-#metaTest h1 {
+#metaPanel h1 {
     text-align: center;
     color: #4ea7bb;
     font-family: 'Source Sans Pro', sans-serif;

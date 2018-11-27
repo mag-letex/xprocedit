@@ -1,5 +1,5 @@
     let browserHeight = window.innerHeight;
-    console.log(browserHeight);
+    // console.log(browserHeight);
     // document.querySelector("#container").style["max-height"] = browserHeight - 50 + "px";
     // document.querySelector("#container").style["min-height"] = browserHeight - 50 + "px";
 
@@ -28,7 +28,6 @@
         }
     });
     let compoundInput = document.querySelector("#inputCompoundStep");
-    // let compoundInput = document.getElementById("inputCompoundStep");
     compoundInput.addEventListener("keyup", function () {
         let input, filter, ul, li, a, i;
         input = document.getElementById("inputCompoundStep");
@@ -46,7 +45,6 @@
         }
     });
     let transpectInput = document.querySelector("#inputTranspectStep");
-    // let transpectInput = document.getElementById("inputCompoundStep");
     transpectInput.addEventListener("keyup", function () {
         let input, filter, ul, li, a, i;
         input = document.getElementById("inputTranspectStep");
@@ -64,7 +62,6 @@
         }
     });
     let customInput = document.querySelector("#inputCustomStep");
-    // let customInput = document.getElementById("inputCustomStep");
     customInput.addEventListener("keyup", function () {
         let input, filter, ul, li, a, i;
         input = document.getElementById("inputCustomStep");
@@ -161,8 +158,8 @@
             embeddingMode: true,
             // width: 938,
             // height: 854
-            width: $('#paper2').width(),
-            height: $('#paper2').height()
+            width: canvas.offsetWidth,
+            height: canvas.offsetHeight
         });
     let graph3 = new joint.dia.Graph,
         paper3 = new joint.dia.Paper({
@@ -196,23 +193,19 @@
         });
 
     // Paper-Switch-Event
-    $('.papercontent').css("display", "none");
-
     function switchPaper(evt, paperId) {
         // Declare all variables
-        let i, papercontent, tablink;
-
-        // Get all elements with class="papercontent" and hide them
-        papercontent = document.getElementsByClassName("papercontent");
-        for (i = 0; i < papercontent.length; i++) {
-            papercontent[i].style.display = "none";
+        let i, paperContent, tablink;
+        // Get all elements with class="paperContent" and hide them
+        paperContent = document.getElementsByClassName("paperContent");
+        for (i = 0; i < paperContent.length; i++) {
+            paperContent[i].style.display = "none";
         }
         // Get all elements with class="tablink" and remove the class "active"
         tablink = document.getElementsByClassName("tablink");
         for (i = 0; i < tablink.length; i++) {
             tablink[i].className = tablink[i].className.replace(" active", "");
         }
-
         // Show the current tab, and add an "active" class to the button that opened the tab
         document.getElementById(paperId).style.display = "block";
         evt.currentTarget.className += " active";

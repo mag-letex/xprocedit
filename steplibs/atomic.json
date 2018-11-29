@@ -1,0 +1,326 @@
+{
+  "atomicSteps": [
+    {
+      "stepType": "pAddAttribute",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:add-attribute"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "match",
+          "required": true
+        },
+        {
+          "name": "attribute-name",
+          "required": true
+        },
+        {
+          "name": "attribute-prefix"
+        },
+        {
+          "name": "attribute-namespace"
+        },
+        {
+          "name": "attribute-value",
+          "required": true
+        }
+      ]
+    },
+    {
+      "stepType": "pAddXmlBase",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:add-xml-base"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "all",
+          "required": false
+        },
+        {
+          "name": "relative",
+          "required": true
+        }
+      ]
+    },
+    {
+      "stepType": "pCompare",
+      "inPorts": [
+        "source",
+        "alternate"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:compare"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        },
+        {
+          "portId": "alternate",
+          "portGroup": "in"
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "fail-if-not-equal",
+          "required": false
+        }
+      ]
+    },
+    {
+      "stepType": "pCount",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:count"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true,
+          "portSequence": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "limit",
+          "select": 0
+        }
+      ]
+    },
+    {
+      "stepType": "pDelete",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:delete"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "match",
+          "required": true
+        }
+      ]
+    },
+    {
+      "stepType": "pDirectoryList",
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:directory-list"
+        }
+      },
+      "portData": [
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "path",
+          "required": true
+        },
+        {
+          "name": "include-filter"
+        },
+        {
+          "name": "exclude-filter"
+        }
+      ]
+    },
+    {
+      "stepType": "pError",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:error"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": false
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true,
+          "portSequence": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "code",
+          "required": true
+        },
+        {
+          "name": "code-prefix"
+        },
+        {
+          "name": "code-namespace"
+        }
+      ]
+    },
+    {
+      "stepType": "pEscapeMarkup",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:escape-markup"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "cdata-section-elements",
+          "select": ""
+        },
+        {
+          "name": "doctype-public"
+        },
+        {
+          "name": "doctype-system"
+        },
+        {
+          "name": "escape-uri-attributes",
+          "select": false
+        },
+        {
+          "name": "include-content-type",
+          "select": true
+        },
+        {
+          "name": "indent",
+          "select": false
+        },
+        {
+          "name": "media-type"
+        },
+        {
+          "name": "method",
+          "select": "xml"
+        },
+        {
+          "name": "omit-xml-declaration",
+          "select": true
+        },
+        {
+          "name": "standalone",
+          "select": "omit"
+        },
+        {
+          "name": "undeclare-prefixes",
+          "select": "1.0 "
+        }
+      ]
+    }
+  ]
+}

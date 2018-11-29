@@ -2,132 +2,139 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="libs/joint.css"/>
-    <link rel="stylesheet" href="style.css"/>
-    <script src="libs/SaxonJS.js"></script>
-    <script>
-              window.onload = function() {
-              SaxonJS.transform({
-                sourceLocation:     "xsl/xproceditor.sef",
-                stylesheetLocation: "xsl/xproceditor.sef"
-              });
-              }     
-    </script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="libs/joint.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="libs/SaxonJS.js"></script>
+  <script>
+    window.onload = function () {
+      SaxonJS.transform({
+        sourceLocation: "xsl/xproceditor.sef",
+        stylesheetLocation: "xsl/xproceditor.sef"
+      });
+    }
+  </script>
 </head>
 <body>
 <div id="container">
-    <div id="stepPanel">
-        <div id="stepPanelAtomic" class="stepPanelGroup">
-            <h2>Atomic Steps</h2>
-            <input type="text" id="inputAtomicStep" placeholder="Search an Atomic Step..." autocomplete="off"/>
-            <div class="stepGroup">
-                <ul id="atomicUL">
-                    <li id="pAddAttribute" class="atomicStep"><a>p:add-attribute</a></li>
-                    <li id="pAddXmlBase" class="atomicStep"><a>p:add-xml-base</a></li>
-                    <li id="pCompare" class="atomicStep"><a>p:compare</a></li>
-                    <li id="pCount" class="atomicStep"><a>p:count</a></li>
-                    <li id="pDelete" class="atomicStep"><a>p:delete</a></li>
-                    <li id="pDirectoryList" class="atomicStep"><a>p:directory-list</a></li>
-                    <li id="pError" class="atomicStep"><a>p:error</a></li>
-                    <li id="pEscapeMarkup" class="atomicStep"><a>p:escape-markup</a></li>
-                </ul>
-            </div>
-        </div>
-        <div id="stepPanelCompound" class="stepPanelGroup">
-            <h2>Compound Steps</h2>
-            <input type="text" id="inputCompoundStep" placeholder="Search a Compound Step..." autocomplete="off"/>
-            <div class="stepGroup">
-                <ul id="compoundUL">
-                    <li><a>p:add-attribute</a></li>
-                    <li><a>p:add-xml-base</a></li>
-                    <li><a>p:compare</a></li>
-                    <li><a>p:count</a></li>
-                    <li><a>p:delete</a></li>
-                    <li><a>p:directory-list</a></li>
-                    <li><a>p:error</a></li>
-                    <li><a>p:escape-markup</a></li>
-                </ul>
-            </div>
-        </div>
-        <div id="stepPanelTranspect" class="stepPanelGroup">
-            <h2>Transpect Steps</h2>
-            <input type="text" id="inputTranspectStep" placeholder="Search a Transpect Step..." autocomplete="off"/>
-            <div class="stepGroup">
-                <ul id="transpectUL">
-                    <li><a>p:add-attribute</a></li>
-                    <li><a>p:add-xml-base</a></li>
-                    <li><a>p:compare</a></li>
-                    <li><a>p:count</a></li>
-                    <li><a>p:delete</a></li>
-                    <li><a>p:directory-list</a></li>
-                    <li><a>p:error</a></li>
-                    <li><a>p:escape-markup</a></li>
-                </ul>
-            </div>
-        </div>
-        <div id="stepPanelCustom" class="stepPanelGroup">
-            <h2>User Steps</h2>
-            <input type="text" id="inputCustomStep" placeholder="Search your Custom Step..." autocomplete="off"/>
-            <div class="stepGroup">
-                <ul id="customUL">
-                    <li><a>p:add-attribute</a></li>
-                    <li><a>p:add-xml-base</a></li>
-                    <li><a>p:compare</a></li>
-                    <li><a>p:count</a></li>
-                    <li><a>p:delete</a></li>
-                    <li><a>p:directory-list</a></li>
-                    <li><a>p:error</a></li>
-                    <li><a>p:escape-markup</a></li>
-                </ul>
-            </div>
-        </div>
+  <div id="stepPanel">
+    <div id="stepPanelAtomic" class="stepPanelGroup">
+      <h2>Atomic Steps</h2>
+      <input type="text" id="inputAtomicStep" placeholder="Search an Atomic Step..." autocomplete="off"/>
+      <div class="stepGroup">
+        <ul id="atomicUL">
+          <li id="pAddAttribute" class="atomicStep"><a>p:add-attribute</a></li>
+          <li id="pAddXmlBase" class="atomicStep"><a>p:add-xml-base</a></li>
+          <li id="pCompare" class="atomicStep"><a>p:compare</a></li>
+          <li id="pCount" class="atomicStep"><a>p:count</a></li>
+          <li id="pDelete" class="atomicStep"><a>p:delete</a></li>
+          <li id="pDirectoryList" class="atomicStep"><a>p:directory-list</a></li>
+          <li id="pError" class="atomicStep"><a>p:error</a></li>
+          <li id="pEscapeMarkup" class="atomicStep"><a>p:escape-markup</a></li>
+        </ul>
+      </div>
     </div>
-    <div id="topPanel">
-        <div id="btn_menu">
-            <button id="drpdwn_file" class="btn_menu">FILE</button>
-            <ul id="drp_file">
-                <li>New</li>
-                <li>Save</li>
-                <li>Export Pipeline</li>
-            </ul>
-        </div>
-        <div id="btn_sub">
-            <button id="btn_link" class="btn_sub" value="off">Main Link</button>
-            <button id="btn_json" class="btn_sub">get JSON/ Custom Step</button>
-            <button id="btn_create" class="btn_sub">JSON-Graph</button>
-            <button id="btn_compound" class="btn_sub">Extend Compound</button>
-            <button id="btn_clear" class="btn_sub">Clear LS</button>
-            <button id="btn_get" class="btn_sub">Get LS</button>
-            <button id="btn_reset" class="btn_sub">Reset Graph</button>
-            <button id="btn_pipe" class="btn_sub">Export Pipeline</button>
-        </div>
+    <div id="stepPanelCompound" class="stepPanelGroup">
+      <h2>Compound Steps</h2>
+      <input type="text" id="inputCompoundStep" placeholder="Search a Compound Step..." autocomplete="off"/>
+      <div class="stepGroup">
+        <ul id="compoundUL">
+          <li><a>p:add-attribute</a></li>
+          <li><a>p:add-xml-base</a></li>
+          <li><a>p:compare</a></li>
+          <li><a>p:count</a></li>
+          <li><a>p:delete</a></li>
+          <li><a>p:directory-list</a></li>
+          <li><a>p:error</a></li>
+          <li><a>p:escape-markup</a></li>
+        </ul>
+      </div>
     </div>
-   <div id="papers">
+    <div id="stepPanelTranspect" class="stepPanelGroup">
+      <h2>Transpect Steps</h2>
+      <input type="text" id="inputTranspectStep" placeholder="Search a Transpect Step..." autocomplete="off"/>
+      <div class="stepGroup">
+        <ul id="transpectUL">
+          <li><a>p:add-attribute</a></li>
+          <li><a>p:add-xml-base</a></li>
+          <li><a>p:compare</a></li>
+          <li><a>p:count</a></li>
+          <li><a>p:delete</a></li>
+          <li><a>p:directory-list</a></li>
+          <li><a>p:error</a></li>
+          <li><a>p:escape-markup</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="stepPanelCustom" class="stepPanelGroup">
+      <h2>User Steps</h2>
+      <input type="text" id="inputCustomStep" placeholder="Search your Custom Step..." autocomplete="off"/>
+      <div class="stepGroup">
+        <ul id="customUL">
+          <li><a>p:add-attribute</a></li>
+          <li><a>p:add-xml-base</a></li>
+          <li><a>p:compare</a></li>
+          <li><a>p:count</a></li>
+          <li><a>p:delete</a></li>
+          <li><a>p:directory-list</a></li>
+          <li><a>p:error</a></li>
+          <li><a>p:escape-markup</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="topPanel">
+    <div id="btn_menu">
+      <button id="drpdwn_file" class="btn_menu">FILE</button>
+      <ul id="drp_file">
+        <li>New</li>
+        <li>Save</li>
+        <li>Export Pipeline</li>
+      </ul>
+    </div>
+    <div id="btnSub">
+      <button id="btn_link" class="btnStd btnSub" value="off">Main Link</button>
+      <button id="btn_json" class="btnStd btnSub">get JSON</button>
+      <button id="btn_clear" class="btnStd btnSub">Clear LS</button>
+      <button id="btn_get" class="btnStd btnSub">Get LS</button>
+      <button id="btn_reset" class="btnStd btnSub">Reset Graph</button>
+    </div>
+    <div style="display: inline-flex;">
+    <div id="pipeImport">
+      <button id="btnImportPipe" class="btnStd">Import Pipeline</button>
+    </div>
+    <div id="pipeExport">
+      <button id="btn_pipe" class="btnStd">Export Pipeline</button>
+      <input type="checkbox" name="layout" value="preserve">preserve Layout
+    </div>
+    </div>
+  </div>
+  <div id="papers">
     <div id="paper1" class="paperContent" style="background-color: #5fb598;"></div>
     <div id="paper2" class="paperContent" style="background-color: #ABD2C1;"></div>
     <div id="paper3" class="paperContent" style="background-color: #25b9ff;"></div>
     <div id="paper4" class="paperContent" style="background-color: #b6e3ff;"></div>
     <div id="paper5" class="paperContent" style="background-color: #c7ffa3;"></div>
-   </div>
-    <div id="paperSwitch">
-        <div class="tab">
-            <button id="defaultOpen" class="tablink" onclick="switchPaper(event, 'paper1')">Paper 1</button>
-            <button class="tablink" onclick="switchPaper(event, 'paper2')">Paper 2</button>
-            <button class="tablink" onclick="switchPaper(event, 'paper3')">Paper 3</button>
-            <button class="tablink" onclick="switchPaper(event, 'paper4')">Paper 4</button>
-            <button class="tablink" onclick="switchPaper(event, 'paper5')">Paper 5</button>
-        </div>
+  </div>
+  <div id="paperSwitch">
+    <div class="tab">
+      <button id="defaultOpen" class="tablink" onclick="switchPaper(event, 'paper1')">Paper 1</button>
+      <button class="tablink" onclick="switchPaper(event, 'paper2')">Paper 2</button>
+      <button class="tablink" onclick="switchPaper(event, 'paper3')">Paper 3</button>
+      <button class="tablink" onclick="switchPaper(event, 'paper4')">Paper 4</button>
+      <button class="tablink" onclick="switchPaper(event, 'paper5')">Paper 5</button>
     </div>
-    <div id="metaPanel">
-        <h1>Meta</h1>
-        <div class="step"></div>
-    </div>
+  </div>
+  <div id="metaPanel">
+    <h1>Meta</h1>
+    <div class="step"></div>
+    <ul id="stepList"></ul>
+  </div>
 </div>
-    
+
 <div id="xproc_xml"></div>
-    
+
 <script src="libs/jquery.js"></script>
 <script src="libs/lodash.js"></script>
 <script src="libs/backbone.js"></script>

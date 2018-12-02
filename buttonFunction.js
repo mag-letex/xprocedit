@@ -32,16 +32,16 @@ function makeBoeppl(cellView, boeppelId, optionName) {
   let modelObject = JSON.parse(modelString);
   let modelIdNow = modelObject.id;
   let modelColor = '#16766D';
-  if (modelObject.stepType == "pipeline") {
+  if (modelObject.stepType === "pipeline") {
     modelColor = '#647664';
   }
-  if (modelObject.type == 'xproc.Atomic') {
+  if (modelObject.type === "xproc.Atomic") {
     modelColor = '#c3b0ff';
   }
-  if (modelObject.type == 'xproc.Compound' && modelObject.stepType != 'pipeline') {
+  if (modelObject.type == "xproc.Compound" && modelObject.stepType != "pipeline") {
     modelColor = '#a1c9ff';
   }
-  if (modelObject.stepType == 'xMyAtomicStep' || modelObject.stepType == 'xMyCompoundStep') {
+  if (modelObject.stepType == "xMyAtomicStep" || modelObject.stepType == "xMyCompoundStep") {
     modelColor = '#D25C29';
   }
   if (modelIdNow != modelIdOld) {

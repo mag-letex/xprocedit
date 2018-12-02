@@ -1,45 +1,57 @@
-/**{*/
-/*box-sizing: border-box;*/
-/*}*/
-
-body {
-  /*width: 100%;*/
-  /*height: auto;*/
-}
-
 #container {
-  display: inline-grid;
+  display: grid;
   width: 95vw;
   height: 95vh;
-  grid-template-columns: [stepPanel] 160px [paper] 70% [metaPanel] 220px;
-  grid-template-rows: fit-content(0%) 90% 30px;
-  /*justify-content: center;*/
+  grid-template-columns: [stepPanel] 160px [paper] 70% [metaPanel] 240px;
+  grid-template-rows: 3.8em repeat(11, 1fr) 1.8em;
   margin-left: 1vw;
 }
 
+/* PAPERS */
 #papers {
-  grid-row: 2 / 3;
+  grid-row: 2 / 13;
   grid-column: 2 / 3;
 }
+#paper1, #paper2, #paper3, #paper4, #paper5 {
+  grid-row: 2 / 13;
+  grid-column: 2 / 3;
+}
+/*PAPER-SWITCH*/
+#paperSwitch {
+  grid-row: 13 / 14;
+  grid-column: 2 / 3;
+  /*border: 5px solid black;*/
+  background-color: grey;
+  width: 100%;
+  transition: 0.5s;
+}
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 6px 16px;
+  transition: 0.3s;
+}
+.tab button:hover {
+  background-color: #ddd;
+}
+.tab button.active {
+  background-color: #ccc;
+}
 
+/* HIDDEN XPROC-DIV */
 #xproc_xml {
   display: none;
 }
 
-#paper1, #paper2, #paper3, #paper4, #paper5, #stencil, #metaPanel, #paperSwitch {
-  /*overflow: hidden;*/
-}
-
-#paper1, #paper2, #paper3, #paper4, #paper5 {
-  grid-row: 2 / 3;
-  grid-column: 2 / 3;
-}
-
-/*.paperContent {*/
-/*border-style: solid;*/
-/*border-width: 2px;*/
-/*}*/
-
+/* TOP-PANEL/ MENUE */
 #topPanel {
   grid-row: 1 / 2;
   grid-column: 2 / 3;
@@ -48,7 +60,6 @@ body {
   display: flex;
   justify-content: space-between;
 }
-
 #drp_file {
   display: none;
   position: absolute;
@@ -56,35 +67,28 @@ body {
   padding: 0;
   margin: 0.2em 0;
 }
-
 #drp_file li {
   background-color: red;
   list-style-type: none;
   margin: 0.2em 0;
 }
-
 .btnStd{
   padding: 0.5em;
   border-radius: 0.5em;
 }
-
 #btn_menu {
   align-self: center;
 }
-
 .btn_menu {
   background-color: #fa9c9c;
 }
-
 #drpdwn_file:hover #drp_file {
   display: block;
 }
-
 #btnSub{
 align-self: center;
 }
 .btnSub {
-  /*padding: 0.2em 0.6em;*/
   background-color: lightgray;
   font-weight: bold;
   color: #5d6263;
@@ -93,7 +97,6 @@ align-self: center;
   background-color: #a2a2a2;
   color: #efefef;
 }
-
 #pipeImport{
   border: 0.13em dashed #b8efd9;
   padding: 0.2em;
@@ -110,7 +113,6 @@ align-self: center;
   background-color: #266c6c;
   color: #fbdf4a;
 }
-
 #pipeExport {
   border: 0.13em dashed #b8efd9;
   padding: 0.2em;
@@ -129,92 +131,87 @@ align-self: center;
 
 /*STEP PANEL*/
 #stepPanel {
-  grid-row: 1 / 4;
+  grid-row: 1 / 14;
   grid-column: 1 / 2;
   overflow: hidden;
-  /*border: 5px solid black;*/
   background-color: #c1ebf0;
   opacity: 0.9;
   z-index: 1;
+  display: grid;
 }
-
 .stepPanelGroup {
-  height: 24.5%;
-  overflow: hidden;
+  grid-column: 1 / 2;
 }
-
 .stepGroup {
-  height: 75%;
-  overflow: scroll;
-  overflow-x: scroll;
-  overflow-x: hidden;
+  height: 12vh;
+  overflow-y: scroll;
 }
-
 #stepPanel input {
   width: 100%;
   z-index: 1;
 }
-
 #stepPanel h2 {
-  font-family: Courier;
+  font-family: Courier, sans-serif;
   font-size: 1.3em;
   text-align: center;
-  /*margin-bottom: 8px;*/
 }
-
 #stepPanel ul {
-  padding: 0 0.5em;
+  padding: 0 0.3em;
+  margin-top: 0.05em;
 }
-
 #stepPanel li {
   margin: 0.4em 0;
   padding: 0.3em 0.4em;
   color: white;
   border-radius: 0.9em;
   width: 8.7em;
-  height: 17px;
   list-style-type: none;
   cursor: move;
   text-align: center;
   font-weight: bold;
   font-size: 0.85em;
+  user-select: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
 }
-
+#stepPanelAtomic{
+  grid-row: 1 / 4;
+}
 #stepPanelAtomic li {
   background-color: #800080;
 }
-
+#stepPanelCompound{
+  grid-row: 4 / 7;
+}
 #stepPanelCompound li {
   background-color: #6FB7FF;
 }
-
+#stepPanelTranspect{
+  grid-row: 7 / 10;
+}
 #stepPanelTranspect li {
   background-color: #95a524;
 }
-
+#stepPanelCustom{
+  grid-row: 10 / 14;
+}
 #stepPanelCustom li {
   background-color: #359B2B;
 }
 
-#stencil {
-  position: relative;
-  float: left;
-}
-
+/* META-PANEL*/
 #metaPanel {
-  grid-row: 1 / 4;
+  grid-row: 1 / 14;
   grid-column: 3 /4;
-  /*border-style: solid;*/
-  /*border-width: 5px;*/
   background-color: #c1ebf0;
 }
-
 #metaPanel h1 {
   text-align: center;
   color: #4ea7bb;
   font-family: 'Source Sans Pro', sans-serif;
 }
-
 /*.modelString {*/
 /*position: absolute;*/
 /*top: 75px;*/
@@ -224,44 +221,35 @@ align-self: center;
 /*overflow-y: auto;*/
 /*}*/
 
+/* JOINT-JS */
 /* PORTS */
-
 .port-label {
   fill: white;
   font-weight: bold;
   text-anchor: middle;
 }
-
 .port-body {
   fill: #fff;
   stroke: #000;
 }
-
 .in-ports {
   fill: #CAFF3A;
 }
-
 .out-ports {
   fill: #ff804a;
 }
-
 .primary {
   stroke: #000;
-  /*fill: rgba(202, 255, 58, 0.91);*/
 }
-
 .sequence {
   stroke: #000;
   fill: yellow;
 }
-
 .port-label {
   display: none;
 }
-
 .port-head {
   color: aliceblue;
-  text-align: left;
   margin: 5px;
   text-transform: full-width;
   text-align: center;
@@ -272,7 +260,6 @@ align-self: center;
   font-weight: bold;
   font-size: 1.2em;
 }
-
 .word2 {
   fill: #ffe3b4;
   font-weight: bold;
@@ -280,106 +267,44 @@ align-self: center;
   text-anchor: middle;
 }
 
-/*table {*/
-/*width: 170px;*/
-/*margin: 5px 5px 10px 5px;*/
-/*color: aliceblue;*/
-/*text-align: left;*/
-/*}*/
-
-/*table, td {*/
-/*border: 1px solid black;*/
-/*}*/
-
-/*.model-head {*/
-/*color: aliceblue;*/
-/*text-align: center;*/
-/*font-size: 1.5em;*/
-/*}*/
-
-/*TAB-SWITCH*/
-#paperSwitch {
-  grid-row: 3 / 4;
-  grid-column: 2 / 3;
-  /*border: 5px solid black;*/
-  background-color: grey;
-  width: 100%;
-  transition: 0.5s;
-}
-
-.tab {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
-}
-
-.tab button {
-  background-color: inherit;
-  float: left;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 6px 16px;
-  transition: 0.3s;
-}
-
-.tab button:hover {
-  background-color: #ddd;
-}
-
-.tab button.active {
-  background-color: #ccc;
-}
-
 /*Model-Effekte*/
 .element-tools {
   display: none;
   cursor: pointer;
 }
-
 .element-tools:hover {
   display: block;
 }
-
 .rotatable:hover + .element-tools {
   display: block;
 }
-
 .element-tool-big:hover {
   /*display: block;*/
   fill: #1ABC9C;
 }
-
 .element-tool-big {
   transform: translate(200px, 0) rotate(45deg);
 }
-
 .element-tool-small {
   display: none;
   transform: translate(200px, 0) rotate(45deg);
 }
-
 .element-tool-meta {
   transform: translate(100px, 60px);
 }
-
 .element-tool-options {
   transform: translate(15px, 86px);
 }
-
 .element-tool-boeppel {
   transform: translate(30px, 78px);
   /*transform: translate(0px, 102px);*/
 }
-
 .newBoeppel > g {
   font-size: 0.8em;
 }
-
 .xplEl > .element-tools > .element-tool-options {
   transform: translate(60px, 686px);
 }
-
 .xplEl > .element-tools > .element-tool-boeppel {
   transform: translate(90px, 675px);;
 }
@@ -388,11 +313,11 @@ align-self: center;
 .highlight-class > g > g > rect {
   stroke: red;
 }
-
 .highlight-class > g > rect {
   stroke: red;
 }
 
+/*UI*/
 /*TOGGLE SLIDER*/
 .toggle label {
   position: relative;
@@ -400,11 +325,9 @@ align-self: center;
   width: 7em;
   height: 1.5em;
 }
-
 .toggle input {
   display: none;
 }
-
 .toggle .slider {
   /* Grundfläche */
   position: absolute;
@@ -417,7 +340,6 @@ align-self: center;
   transition: all 0.3s ease-in-out;
   border-radius: 1em;
 }
-
 .toggle .slider:before {
   /* verschiebbarer Button */
   position: absolute;
@@ -430,12 +352,10 @@ align-self: center;
   border-radius: 50%;
   transition: all .3s ease-in-out;
 }
-
 .toggle input:checked + .slider {
   background-color: #5a9900;
   /* green */
 }
-
 .toggle input:focus + .slider {
   background-color: pink;
   box-shadow: 0 0 1px #5a9900;
@@ -448,7 +368,6 @@ align-self: center;
   /* IE9 */
   transform: translateX(4em);
 }
-
 .text .slider:after {
   /* Text vor dem FlipFlop-Schalter */
   position: absolute;
@@ -457,9 +376,7 @@ align-self: center;
   font-weight: bold;
   height: 1.3em;
   left: 2em;
-  bottom: 0em;
 }
-
 .text input:checked + .slider:after {
   /* Text hinter dem FlipFlop-Schalter */
   position: absolute;
@@ -467,21 +384,17 @@ align-self: center;
   color: #fff;
   left: 0.3em;
 }
-
 .toggle li {
   padding: 0.4em;
 }
-
 .ui-state-default {
   background: #0889a1;
   color: #fff;
   font-weight: bold;
 }
-
 .ui-accordion .ui-accordion-content {
   padding: 0.5em 0.2em;
 }
-
 .toggleClick {
   background-color: #0e6dcd;
   height: 0.6em;
@@ -489,27 +402,22 @@ align-self: center;
   cursor: pointer;
   margin: 0 0 0.5em 0;
 }
-
 .toggleClose::before {
   content: "";
   display: inline-block;
-  background-image: url("play-button.svg");
   background-size: 14px 14px;
-  background-repeat: no-repeat;
+  background: url("img/play-button.svg") no-repeat;
   width: 18px;
   height: 14px;
 }
-
 .toggleOpen::before {
   content: "";
   display: inline-block;
-  background-image: url("play-button-open.svg");
   background-size: 14px 14px;
-  background-repeat: no-repeat;
+  background: url("img/play-button-open.svg") no-repeat;
   width: 18px;
   height: 14px;
 }
-
 .toggleView {
   display: none;
 }

@@ -322,5 +322,163 @@
         }
       ]
     }
+  ],
+  "compoundSteps": [
+    {
+      "stepType": "pForEach",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:for-each"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": false
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true,
+          "portSequence": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "code",
+          "required": true
+        },
+        {
+          "name": "code-prefix"
+        },
+        {
+          "name": "code-namespace"
+        }
+      ]
+    },
+    {
+      "stepType": "pViewport",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:viewport"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": false
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true,
+          "portSequence": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "code",
+          "required": true
+        },
+        {
+          "name": "code-prefix"
+        },
+        {
+          "name": "code-namespace"
+        }
+      ]
+    },
+    {
+      "stepType": "pTryCatch",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:try-catch"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": false
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true,
+          "portSequence": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "code",
+          "required": true
+        },
+        {
+          "name": "code-prefix"
+        },
+        {
+          "name": "code-namespace"
+        }
+      ]
+    },
+    {
+      "stepType": "pChoose",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:choose"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": false
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true,
+          "portSequence": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "code",
+          "required": true
+        },
+        {
+          "name": "code-prefix"
+        },
+        {
+          "name": "code-namespace"
+        }
+      ]
+    }
   ]
 }

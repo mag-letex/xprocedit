@@ -8,11 +8,10 @@ let btnReset = document.getElementById('btn_reset');
 
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
-xhr.open("GET", "stepLibs/atomic.json", true);
+xhr.open("GET", "stepLibs/steps.json", true);
 xhr.responseType = "json";
 xhr.send();
 xhr.onload = function (e) {
-  console.log(this.response);
   //HTML-OUTPUT
   let obj;
   if (e.target.responseType === 'json') {
@@ -21,9 +20,21 @@ xhr.onload = function (e) {
     obj = JSON.parse(e.target.responseText);
   }
   for (let i = 0; i < obj.atomicSteps.length; i++) {
-    document.querySelector("#stepList").innerHTML +=
-      "<li>" + obj.atomicSteps[i].stepType + "</li>";
+    document.querySelector("#atomicUL").innerHTML +=
+      "<li id='" + obj.atomicSteps[i].stepType + "' class='step atomicStep'>"
+      + obj.atomicSteps[i].attrs[".label"].text + "</li>";
   }
+  for (let j = 0; j < obj.compoundSteps.length; j++) {
+    document.querySelector("#compoundUL").innerHTML +=
+      "<li id='" + obj.compoundSteps[j].stepType + "' class='step compoundStep'><a>"
+      + obj.compoundSteps[j].attrs[".label"].text + "</a></li>";
+  }
+  let stepsHtml = document.querySelectorAll('.step');
+  stepsHtml.forEach(function (elem) {
+    elem.addEventListener("dblclick", function() {
+      stepLoad(elem);
+    });
+  });
 };
 
 // let browserHeight = window.innerHeight;
@@ -36,75 +47,25 @@ xhr.onload = function (e) {
 //     $("#log").text("pageX: " + event.pageX + ", pageY: " + event.pageY);
 // });
 
-// Step Panel Function --> W3schools
-let atomicInput = document.querySelector("#inputAtomicStep");
-atomicInput.addEventListener("keyup", function () {
-  let input, filter, ul, li, a, i;
-  input = document.getElementById("inputAtomicStep");
-  filter = input.value.toUpperCase();
-  ul = document.getElementById("atomicUL");
-  li = ul.getElementsByTagName("li");
-  for (i = 0; i < li.length; i++) {
-    a = li[i].getElementsByTagName("a")[0];
-    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = "";
+// Step Panel Function
+let stepInput = document.querySelectorAll('[id^="input"]');
+stepInput.forEach(function (elem) {
+  elem.addEventListener("input", function () {
+    let filter, ul, li, i;
+    filter = elem.value.toUpperCase();
+    ul = elem.parentElement.children[2];
+    li = ul.children;
+    for (i = 0; i < li.length; i++) {
+      if (li[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      }
+      else {
+        li[i].style.display = "none";
+      }
     }
-    else {
-      li[i].style.display = "none";
-    }
-  }
+  })
 });
-let compoundInput = document.querySelector("#inputCompoundStep");
-compoundInput.addEventListener("keyup", function () {
-  let input, filter, ul, li, a, i;
-  input = document.getElementById("inputCompoundStep");
-  filter = input.value.toUpperCase();
-  ul = document.getElementById("compoundUL");
-  li = ul.getElementsByTagName("li");
-  for (i = 0; i < li.length; i++) {
-    a = li[i].getElementsByTagName("a")[0];
-    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = "";
-    }
-    else {
-      li[i].style.display = "none";
-    }
-  }
-});
-let transpectInput = document.querySelector("#inputTranspectStep");
-transpectInput.addEventListener("keyup", function () {
-  let input, filter, ul, li, a, i;
-  input = document.getElementById("inputTranspectStep");
-  filter = input.value.toUpperCase();
-  ul = document.getElementById("transpectUL");
-  li = ul.getElementsByTagName("li");
-  for (i = 0; i < li.length; i++) {
-    a = li[i].getElementsByTagName("a")[0];
-    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = "";
-    }
-    else {
-      li[i].style.display = "none";
-    }
-  }
-});
-let customInput = document.querySelector("#inputCustomStep");
-customInput.addEventListener("keyup", function () {
-  let input, filter, ul, li, a, i;
-  input = document.getElementById("inputCustomStep");
-  filter = input.value.toUpperCase();
-  ul = document.getElementById("customUL");
-  li = ul.getElementsByTagName("li");
-  for (i = 0; i < li.length; i++) {
-    a = li[i].getElementsByTagName("a")[0];
-    if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-      li[i].style.display = "";
-    }
-    else {
-      li[i].style.display = "none";
-    }
-  }
-});
+
 
 let devsLink = joint.dia.Link.define('devs.StandLink', {});
 let devsStandLink = new devsLink({
@@ -675,6 +636,7 @@ xplD.portProp('source', 'markup', '<g><circle class="port-body in-ports primary"
 xplD.portProp('result', 'markup', '<g><circle class="port-body out-ports primary" r="10"/><text fill="#000" y="5" text-anchor="middle" font-weight="bold">P</text></g>');
 xplD.portProp('source', 'attrs/g/port-group', 'pipe-in');
 xplD.portProp('result', 'attrs/g/port-group', 'pipe-out');
+xplD.prop('id', 'XProc-Pipeline');
 graph.addCells([xplD]);
 V(paper.findViewByModel(xplD).el).addClass('xplEl');
 

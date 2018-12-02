@@ -462,34 +462,8 @@ let xMyAtomicStepD = new joint.shapes.xproc.Atomic({
   ],
   stepOption: []
 });
-
 localStorage.setItem('xMyAtomicStep', JSON.stringify(xMyAtomicStepD));
-let xMyCompoundStepD = new joint.shapes.xproc.Compound({
-  stepType: "xMyCompoundStep",
-  inPorts: ["source"],
-  outPorts: ["result"],
-  attrs: {
-    '.label': {text: "x:my-compound-step"},
-    // '.word2': {text: newId},
-    rect: {fill: '#d25c29', stroke: 'black', 'stroke-width': 1, 'follow-scale': true, width: 160, height: 80}
 
-  },
-  portData: [
-    {
-      portId: "source",
-      portGroup: "in",
-      portPrimary: false,
-    },
-    {
-      portId: "result",
-      portGroup: "out",
-      portPrimary: true,
-      portSequence: true
-    }
-  ],
-  stepOption: []
-});
-localStorage.setItem('xMyCompoundStep', JSON.stringify(xMyCompoundStepD));
 
 let xTestObject = new joint.shapes.xproc.Atomic({
   stepType: 'xTestObject',

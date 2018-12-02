@@ -22,40 +22,21 @@
     <div id="stepPanelAtomic" class="stepPanelGroup">
       <h2>Atomic Steps</h2>
       <input type="text" id="inputAtomicStep" placeholder="Search an Atomic Step..." autocomplete="off"/>
-      <div class="stepGroup">
-        <ul id="atomicUL">
-          <li id="pAddAttribute" class="atomicStep"><a>p:add-attribute</a></li>
-          <li id="pAddXmlBase" class="atomicStep"><a>p:add-xml-base</a></li>
-          <li id="pCompare" class="atomicStep"><a>p:compare</a></li>
-          <li id="pCount" class="atomicStep"><a>p:count</a></li>
-          <li id="pDelete" class="atomicStep"><a>p:delete</a></li>
-          <li id="pDirectoryList" class="atomicStep"><a>p:directory-list</a></li>
-          <li id="pError" class="atomicStep"><a>p:error</a></li>
-          <li id="pEscapeMarkup" class="atomicStep"><a>p:escape-markup</a></li>
+        <ul id="atomicUL" class="stepGroup">
+          <!--Content vom JSON-Object-->
         </ul>
-      </div>
     </div>
     <div id="stepPanelCompound" class="stepPanelGroup">
       <h2>Compound Steps</h2>
       <input type="text" id="inputCompoundStep" placeholder="Search a Compound Step..." autocomplete="off"/>
-      <div class="stepGroup">
-        <ul id="compoundUL">
-          <li><a>p:add-attribute</a></li>
-          <li><a>p:add-xml-base</a></li>
-          <li><a>p:compare</a></li>
-          <li><a>p:count</a></li>
-          <li><a>p:delete</a></li>
-          <li><a>p:directory-list</a></li>
-          <li><a>p:error</a></li>
-          <li><a>p:escape-markup</a></li>
+        <ul id="compoundUL" class="stepGroup">
+          <!-- Content von JSON-Objekt -->
         </ul>
-      </div>
     </div>
     <div id="stepPanelTranspect" class="stepPanelGroup">
       <h2>Transpect Steps</h2>
       <input type="text" id="inputTranspectStep" placeholder="Search a Transpect Step..." autocomplete="off"/>
-      <div class="stepGroup">
-        <ul id="transpectUL">
+        <ul id="transpectUL" class="stepGroup">
           <li><a>p:add-attribute</a></li>
           <li><a>p:add-xml-base</a></li>
           <li><a>p:compare</a></li>
@@ -65,13 +46,11 @@
           <li><a>p:error</a></li>
           <li><a>p:escape-markup</a></li>
         </ul>
-      </div>
     </div>
     <div id="stepPanelCustom" class="stepPanelGroup">
       <h2>User Steps</h2>
       <input type="text" id="inputCustomStep" placeholder="Search your Custom Step..." autocomplete="off"/>
-      <div class="stepGroup">
-        <ul id="customUL">
+        <ul id="customUL" class="stepGroup">
           <li><a>p:add-attribute</a></li>
           <li><a>p:add-xml-base</a></li>
           <li><a>p:compare</a></li>
@@ -81,7 +60,6 @@
           <li><a>p:error</a></li>
           <li><a>p:escape-markup</a></li>
         </ul>
-      </div>
     </div>
   </div>
   <div id="topPanel">
@@ -106,9 +84,12 @@
     </div>
     <div id="pipeExport">
       <button id="btn_pipe" class="btnStd">Export Pipeline</button>
-      <input type="checkbox" name="layout" value="preserve">preserve Layout
+      <input type="checkbox" name="layout" value="preserve" placeholder="preserve Layout">
     </div>
     </div>
+  </div>
+  <div id="metaPanel">
+    <h1>Meta</h1>
   </div>
   <div id="papers">
     <div id="paper1" class="paperContent" style="background-color: #5fb598;"></div>
@@ -125,11 +106,6 @@
       <button class="tablink" onclick="switchPaper(event, 'paper4')">Paper 4</button>
       <button class="tablink" onclick="switchPaper(event, 'paper5')">Paper 5</button>
     </div>
-  </div>
-  <div id="metaPanel">
-    <h1>Meta</h1>
-    <div class="step"></div>
-    <ul id="stepList"></ul>
   </div>
 </div>
 

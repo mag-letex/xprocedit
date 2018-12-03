@@ -12,6 +12,11 @@
   xpath-default-namespace="http://www.w3.org/1999/xhtml"
 >
 
+  <xsl:import href="xproceditor-noninteractive.xsl"/>
+
+  <xsl:template match="/"/>
+
+
   <xsl:template mode="ixsl:click" match="id('btn_pipe')">
     <xsl:result-document href="#xproc_xml" method="ixsl:replace-content">
       <xsl:call-template name="create-xpl"/> 
@@ -23,51 +28,12 @@
       select="json-to-xml(
                 ixsl:eval('JSON.stringify(graphX.toJSON())')
               )"/>
-    <xsl:apply-templates select="$graph" mode="simplify-json-representation"/>
+    <xsl:apply-templates select="$graph" mode="simplify-json-representation">
+      <xsl:with-param name="retain-layout" select="ixsl:get(id('layout-checkbox',ixsl:page()), 'checked')" 
+        as="xs:boolean" tunnel="yes"/>
+    </xsl:apply-templates>
     <xsl:sequence select="$graph"/>
   </xsl:template>
   
-  <xsl:template match="fn:*[@key]" mode="simplify-json-representation">
-    <xsl:element name="{my:normalize-map-key(@key)}">
-      <xsl:apply-templates mode="#current"/>
-    </xsl:element>
-  </xsl:template>
-  
-  <xsl:function name="my:normalize-map-key" as="xs:string">
-    <xsl:param name="input" as="xs:string"/>
-    <xsl:choose>
-      <xsl:when test="$input castable as xs:NCName">
-        <xsl:sequence select="$input"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:sequence select="string-join(
-                                replace(substring($input, 1, 1), '\I', '_'), 
-                                replace(substring($input, 2), '\C', '_')
-                              )"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:function>
-  
-  <xsl:template match="/fn:map" mode="simplify-json-representation">
-    <doc>
-      <xsl:apply-templates mode="#current"/>
-    </doc>
-  </xsl:template>
-  
-
-  
-
-  <xsl:template match="/"/>
-
-  
-  
-  
-  
-  
-  <xsl:variable name="serialization-params" as="element(output:serialization-parameters)">
-    <output:serialization-parameters>
-      <output:indent value="yes"/>
-    </output:serialization-parameters>
-  </xsl:variable>
   
 </xsl:stylesheet>

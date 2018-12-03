@@ -1,7 +1,8 @@
 {
   "atomicSteps": [
     {
-      "stepType": "pAddAttribute",
+      "stepType": "xproc.Atomic",
+      "stepName": "pAddAttribute",
       "inPorts": [
         "source"
       ],
@@ -47,7 +48,8 @@
       ]
     },
     {
-      "stepType": "pAddXmlBase",
+      "stepType": "xproc.Atomic",
+      "stepName": "pAddXmlBase",
       "inPorts": [
         "source"
       ],
@@ -83,7 +85,8 @@
       ]
     },
     {
-      "stepType": "pCompare",
+      "stepType": "xproc.Atomic",
+      "stepName": "pCompare",
       "inPorts": [
         "source",
         "alternate"
@@ -120,7 +123,8 @@
       ]
     },
     {
-      "stepType": "pCount",
+      "stepType": "xproc.Atomic",
+      "stepName": "pCount",
       "inPorts": [
         "source"
       ],
@@ -153,7 +157,8 @@
       ]
     },
     {
-      "stepType": "pDelete",
+      "stepType": "xproc.Atomic",
+      "stepName": "pDelete",
       "inPorts": [
         "source"
       ],
@@ -185,7 +190,8 @@
       ]
     },
     {
-      "stepType": "pDirectoryList",
+      "stepType": "xproc.Atomic",
+      "stepName": "pDirectoryList",
       "outPorts": [
         "result"
       ],
@@ -215,7 +221,8 @@
       ]
     },
     {
-      "stepType": "pError",
+      "stepType": "xproc.Atomic",
+      "stepName": "pError",
       "inPorts": [
         "source"
       ],
@@ -254,7 +261,8 @@
       ]
     },
     {
-      "stepType": "pEscapeMarkup",
+      "stepType": "xproc.Atomic",
+      "stepName": "pEscapeMarkup",
       "inPorts": [
         "source"
       ],
@@ -317,15 +325,206 @@
           "select": "omit"
         },
         {
-          "name": "undeclare-prefixes",
-          "select": "1.0 "
+          "name": "undeclare-prefixes"
+        },
+        {
+          "name": "version",
+          "select": "1.0"
+        }
+      ]
+    },
+    {
+      "stepType": "xproc.Atomic",
+      "stepName": "pFilter",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:filter"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true,
+          "portSequence": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "select",
+          "required": true
+        }
+      ]
+    },
+    {
+      "stepType": "xproc.Atomic",
+      "stepName": "pHttpRequest",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:http-request"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "byte-order-mark"
+        },
+        {
+          "name": "cdata-section-elements",
+          "select": ""
+        },
+        {
+          "name": "doctype-public"
+        },
+        {
+          "name": "doctype-system"
+        },
+        {
+          "name": "encoding"
+        },
+        {
+          "name": "escape-uri-attributes",
+          "select": false
+        },
+        {
+          "name": "include-content-type",
+          "select": true
+        },
+        {
+          "name": "indent",
+          "select": false
+        },
+        {
+          "name": "media-type"
+        },
+        {
+          "name": "method",
+          "select": "xml"
+        },
+        {
+          "name": "normalization-form",
+          "select": "none"
+        },
+        {
+          "name": "omit-xml-declaration",
+          "select": true
+        },
+        {
+          "name": "standalone",
+          "select": "omit"
+        },
+        {
+          "name": "undeclare-prefixes"
+        },
+        {
+          "name": "version",
+          "select": "1.0"
+        }
+      ]
+    },
+    {
+      "stepType": "xproc.Atomic",
+      "stepName": "pIdentity",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:identity"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portSequence": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portSequence": true
+        }
+      ]
+    },
+    {
+      "stepType": "xproc.Atomic",
+      "stepName": "pInsert",
+      "inPorts": [
+        "source",
+        "insertion"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:insert"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        },
+        {
+          "portId": "insertion",
+          "portGroup": "in",
+          "portSequence": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out"
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "match",
+          "select": "/*"
+        },
+        {
+          "name": "position",
+          "required": true
         }
       ]
     }
+
   ],
   "compoundSteps": [
     {
-      "stepType": "pForEach",
+      "stepType": "xproc.Compound",
+      "stepName": "pForEach",
       "inPorts": [
         "source"
       ],
@@ -364,7 +563,8 @@
       ]
     },
     {
-      "stepType": "pViewport",
+      "stepType": "xproc.Compound",
+      "stepName": "pViewport",
       "inPorts": [
         "source"
       ],
@@ -403,7 +603,8 @@
       ]
     },
     {
-      "stepType": "pTryCatch",
+      "stepType": "xproc.Compound",
+      "stepName": "pTryCatch",
       "inPorts": [
         "source"
       ],
@@ -442,7 +643,8 @@
       ]
     },
     {
-      "stepType": "pChoose",
+      "stepType": "xproc.Compound",
+      "stepName": "pChoose",
       "inPorts": [
         "source"
       ],

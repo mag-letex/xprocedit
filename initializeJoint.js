@@ -8,12 +8,13 @@ let btnReset = document.getElementById('btn_reset');
 
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
+let obj;
+let superObj = [];
 xhr.open("GET", "stepLibs/steps.json", true);
 xhr.responseType = "json";
 xhr.send();
 xhr.onload = function (e) {
   //HTML-OUTPUT
-  let obj;
   if (e.target.responseType === 'json') {
     obj = xhr.response;
   } else {
@@ -21,13 +22,15 @@ xhr.onload = function (e) {
   }
   for (let i = 0; i < obj.atomicSteps.length; i++) {
     document.querySelector("#atomicUL").innerHTML +=
-      "<li id='" + obj.atomicSteps[i].stepType + "' class='step atomicStep'>"
+      "<li id='" + obj.atomicSteps[i].stepName + "' class='step atomicStep'>"
       + obj.atomicSteps[i].attrs[".label"].text + "</li>";
+    superObj.push(obj.atomicSteps[i]);
   }
   for (let j = 0; j < obj.compoundSteps.length; j++) {
     document.querySelector("#compoundUL").innerHTML +=
-      "<li id='" + obj.compoundSteps[j].stepType + "' class='step compoundStep'><a>"
+      "<li id='" + obj.compoundSteps[j].stepName + "' class='step compoundStep'><a>"
       + obj.compoundSteps[j].attrs[".label"].text + "</a></li>";
+    superObj.push(obj.compoundSteps[j]);
   }
   let stepsHtml = document.querySelectorAll('.step');
   stepsHtml.forEach(function (elem) {
@@ -35,6 +38,7 @@ xhr.onload = function (e) {
       stepLoad(elem);
     });
   });
+  console.log(superObj);
 };
 
 // let browserHeight = window.innerHeight;
@@ -348,7 +352,8 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
         }
       }
     },
-    stepType: "unset",
+    stepType: "AtomicStep",
+    stepName: "unset",
     portData: [
       {
         portId: "unset",
@@ -637,7 +642,7 @@ xplD.portProp('result', 'markup', '<g><circle class="port-body out-ports primary
 xplD.portProp('source', 'attrs/g/port-group', 'pipe-in');
 xplD.portProp('result', 'attrs/g/port-group', 'pipe-out');
 xplD.prop('id', 'XProc-Pipeline');
-graph.addCells([xplD]);
+graph.addCell(xplD);
 V(paper.findViewByModel(xplD).el).addClass('xplEl');
 
 window.addEventListener("resize", function () {

@@ -3,7 +3,7 @@
   width: 95vw;
   height: 95vh;
   grid-template-columns: [stepPanel] 160px [paper] 70% [metaPanel] 240px;
-  grid-template-rows: 3.8em repeat(11, 1fr) 1.8em;
+  grid-template-rows: 2.6em repeat(11, 1fr) 1.85em;
   margin-left: 1vw;
 }
 
@@ -73,7 +73,7 @@
   margin: 0.2em 0;
 }
 .btnStd{
-  padding: 0.5em;
+  padding: 0.3em;
   border-radius: 0.5em;
 }
 #btn_menu {
@@ -99,7 +99,7 @@ align-self: center;
 }
 #pipeImport{
   border: 0.13em dashed #b8efd9;
-  padding: 0.2em;
+  padding: 0.13em;
   color: gold;
   align-self: center;
   margin-right: 1em;
@@ -115,7 +115,7 @@ align-self: center;
 }
 #pipeExport {
   border: 0.13em dashed #b8efd9;
-  padding: 0.2em;
+  padding: 0.13em;
   color: gold;
   align-self: center;
 }
@@ -164,7 +164,6 @@ align-self: center;
   padding: 0.3em 0.4em;
   color: white;
   border-radius: 0.9em;
-  width: 8.7em;
   list-style-type: none;
   cursor: move;
   text-align: center;

@@ -28,54 +28,55 @@ function getId() {
 //LOAD STEPS INTO PAPER
 //DOUBLE-CLICK-FUNCTION
 function stepLoad (elem) {
-  // console.log("Hello Load-Function");
-  // console.log(elem);
   getId();
   let id = elem.id;
   let step;
   let stepIdNum = newId;
-  switch (id) {
-    //Atomic Steps
-    case "pAddAttribute":
-      step = pAddAttributeD;
-      break;
-    case "pAddXmlBase":
-      step = pAddXmlBaseD;
-      break;
-    case "pCompare":
-      step = pCompareD;
-      break;
-    case "pCount":
-      step = pCountD;
-      break;
-    case "pDelete":
-      step = pDeleteD;
-      break;
-    case "pDirectoryList":
-      step = pDirectoryListD;
-      break;
-    case "pError":
-      step = pErrorD;
-      break;
-    case "pEscapeMarkup":
-      step = pEscapeMarkupD;
-      break;
-    //Compound Steps
-    case "pForEach":
-      step = pForEachD;
-      break;
-    case "pViewport":
-      step = pViewportD;
-      break;
-    case "pTryCatch":
-      step = pTryCatchD;
-      break;
-    case "pChoose":
-      step = pChooseD;
-      break;
-    default:
-      step = xTestObject;
+  let i;
+  console.log(obj);
+  let objLength = obj.atomicSteps.length + obj.compoundSteps.length;
+
+  console.log(objLength);
+  console.log(id);
+  // for (i=0; i < obj.atomicSteps.length; i++){
+  //   if(obj.atomicSteps[i].stepName === id) {
+  //     let newAtomicCell = new joint.shapes.xproc.Atomic(obj.atomicSteps[i])
+  //       .prop('id', '' + id + '_' + stepIdNum)
+  //       .attr({'.word2': {text: stepIdNum}})
+  //       .translate(100, 100);
+  //     graph.addCell(newAtomicCell);
+  //   }
+  //   else if (!obj.atomicSteps){
+  //     let newTest = xTestObject.clone()
+  //       .prop('id', '' + id + '_' + stepIdNum)
+  //       .attr({'.word2': {text: stepIdNum}})
+  //       .translate(100, 100);
+  //     graph.addCell(newTest);
+  //   }
+  // }
+  for (i = 0; i < superObj.length; i++) {
+    if (superObj[i].stepName === id) {
+      let type = superObj[i].stepType;
+      console.log(type);
+      if (type === "xproc.Atomic") {
+        let newCell = new joint.shapes.xproc.Atomic(superObj[i])
+          .prop('id', '' + id + '_' + stepIdNum)
+          .attr({'.word2': {text: stepIdNum}})
+          .translate(100, 100);
+        graph.addCell(newCell);
+      }
+      if (type === "xproc.Compound"){
+        let newCell = new joint.shapes.xproc.Compound(superObj[i])
+          .prop('id', '' + id + '_' + stepIdNum)
+          .attr({'.word2': {text: stepIdNum}})
+          .translate(100, 100);
+        graph.addCell(newCell);
+      }
+    }
   }
+}
+
+
   // let stepPrimary = [];
   // let stepPrimaryPortGroup = [];
   // let stepPrimarySequencePortGroup = [];
@@ -114,10 +115,10 @@ function stepLoad (elem) {
   //     step.portProp('' + stepPrimarySequence[k], 'markup', '<g><circle class="port-body out-ports primary-sequence" r="10"/><text fill="#000" y="5" text-anchor="middle" font-weight="bold" font-size="0.9em">PS</text></g>');
   //   }
   // }
-  graph.addCell(step.clone().translate(xRel, yRel).prop('id', '' + id + '_' + stepIdNum).attr({'.word2': {text: stepIdNum}}));
+  // graph.addCell(step.clone().translate(xRel, yRel).prop('id', '' + id + '_' + stepIdNum).attr({'.word2': {text: stepIdNum}}));
   // });
 // });
-}
+
 
 //Fly - Function
 // let blaFunc = function (cellView, e, x, y) {

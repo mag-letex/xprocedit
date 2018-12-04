@@ -3,17 +3,17 @@
   width: 95vw;
   height: 95vh;
   grid-template-columns: [stepPanel] 160px [paper] 70% [metaPanel] 240px;
-  grid-template-rows: 2.6em repeat(11, 1fr) 1.85em;
+  grid-template-rows: 2.6em 1.8em repeat(10, 1fr) 1.85em;
   margin-left: 1vw;
 }
 
 /* PAPERS */
 #papers {
-  grid-row: 2 / 13;
+  grid-row: 3 / 13;
   grid-column: 2 / 3;
 }
 #paper1, #paper2, #paper3, #paper4, #paper5 {
-  grid-row: 2 / 13;
+  grid-row: 3 / 13;
   grid-column: 2 / 3;
 }
 /*PAPER-SWITCH*/
@@ -127,6 +127,37 @@ align-self: center;
 #btn_pipe:hover {
   background-color: #c61010;
   color: gold;
+}
+
+/*TOOL BAR*/
+#toolBar{
+  background-color: #8bd0d8;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.btnToolBar{
+  height: 1.7em;
+  width: 1.7em;
+  border: none;
+  background-color: unset;
+  margin: 0 0.2em 0 0.2em;
+}
+
+#btnBack img
+{
+  width: 1.7em;
+  height: 1.7em;
+}
+#btnForward img
+{
+  width: 1.7em;
+  height: 1.7em;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 /*STEP PANEL*/

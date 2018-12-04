@@ -1,13 +1,10 @@
 // BUTTON FUNCTIONS
-
 btnFile.addEventListener('mousemove', function () {
-  let id = this.id;
   filemenu(this.id, "drp_file");
 });
 btnFile.addEventListener('mouseout', function () {
   leave(this.id, "drp_file");
 });
-
 btnLink.addEventListener('click', function () {
   let val = btnLink.getAttribute('value');
   if (val === "off") {
@@ -18,12 +15,82 @@ btnLink.addEventListener('click', function () {
     btnLink.innerHTML = "Main Link";
   }
 });
-btnJSON.onclick = getJSON;
-btnClear.onclick = clearLS;
-btnGet.onclick = getLS;
-btnReset.onclick = resetGraph;
-
+btnJSON.addEventListener('click', function(){
+  let graphJSON = graphX.toJSON();
+  let graphJSONstring = JSON.stringify(graphJSON);
+  console.log(graphJSON);
+  console.log(graphJSONstring);
+});
+btnLSClear.addEventListener('click', function(){
+    localStorage.clear();
+});
+btnLSGet.addEventListener('click', function(){
+  let i;
+  console.log(">>>>> local storage");
+  for (i = 0; i < localStorage.length; i++) {
+    console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+  }
+  console.log(">>>>> session storage");
+  for (i = 0; i < sessionStorage.length; i++) {
+    console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
+  }
+  console.log(">>>>> in Short: ");
+  for (i = 0; i < localStorage.length; i++)   {
+    console.log(localStorage.key(i));
+  }
+});
+btnClearGraph.addEventListener('click', function(){
+  graph.clear();
+  graph.addCell(xplD);
+});
 // let clicks = 0;
+btnBack.addEventListener('click', function(){
+  getLastGraphState();
+});
+btnForward.addEventListener('click', function(){
+  getNextGraphState();
+});
+paper.on('element:pointerdown', function(){
+  saveLastGraphState();
+});
+paper.on('element:pointerup', function(){
+  saveNextGraphState();
+});
+
+function filemenu(handler, object){
+  // let list = document.getElementById("drp_file");
+  let hndlr = document.getElementById(handler);
+  let obj = document.getElementById(object);
+  obj.style.display = "block";
+  hndlr.style.backgroundColor = "#ececec";
+}
+function leave(handler, object) {
+  let hndlr = document.getElementById(handler);
+  let obj = document.getElementById(object);
+  obj.style.display = "none";
+  hndlr.style.backgroundColor = null;
+}
+
+function saveLastGraphState(){
+  let graphJSONstring = JSON.stringify(graphX.toJSON());
+  localStorage.setItem('lastGraphState', graphJSONstring);
+}
+function saveNextGraphState(){
+  let graphJSONstring = JSON.stringify(graphX.toJSON());
+  localStorage.setItem('nextGraphState', graphJSONstring);
+}
+function getLastGraphState(){
+  let lastGraphState = localStorage.getItem('lastGraphState');
+  lastGraphState = JSON.parse(lastGraphState);
+  graph.clear();
+  graph.fromJSON(lastGraphState);
+}
+function getNextGraphState(){
+  let nextGraphState = localStorage.getItem('nextGraphState');
+  nextGraphState = JSON.parse(nextGraphState);
+  graph.clear();
+  graph.fromJSON(nextGraphState);
+}
 
 function makeBoeppl(cellView, boeppelId, optionName) {
   let modelX = cellView.model.get('position').x;
@@ -38,19 +105,18 @@ function makeBoeppl(cellView, boeppelId, optionName) {
   if (modelObject.type === "xproc.Atomic") {
     modelColor = '#c3b0ff';
   }
-  if (modelObject.type == "xproc.Compound" && modelObject.stepType != "pipeline") {
+  if (modelObject.type === "xproc.Compound" && modelObject.stepType !== "pipeline") {
     modelColor = '#a1c9ff';
   }
-  if (modelObject.stepType == "xMyAtomicStep" || modelObject.stepType == "xMyCompoundStep") {
+  if (modelObject.stepType === "xMyAtomicStep" || modelObject.stepType === "xMyCompoundStep") {
     modelColor = '#D25C29';
   }
-  if (modelIdNow != modelIdOld) {
+  if (modelIdNow !== modelIdOld) {
     clicks = 0;
   }
   clicks++;
   modelNewHeight = modelNewHeight + 20;
-  let clicko = '<p>' + clicks + '</p>';
-  document.getElementById("click").innerHTML = clicko;
+  document.getElementById("click").innerHTML = '<p>' + clicks + '</p>';
 
 
   if (modelObject.stepType == "pipeline") {
@@ -121,83 +187,7 @@ function makeBoeppl(cellView, boeppelId, optionName) {
   modelIdOld = modelObject.id;
 }
 
-$('.stencilAtomic').on('click', function () {
-  stencilId = this.id;
-  blaFunc();
-});
-
-function filemenu(handler, object) {
-  // let list = document.getElementById("drp_file");
-  let hndlr = document.getElementById(handler);
-  let obj = document.getElementById(object);
-  obj.style.display = "block";
-  hndlr.style.backgroundColor = "#ececec";
-}
-
-function leave(handler, object) {
-  let hndlr = document.getElementById(handler);
-  let obj = document.getElementById(object);
-  obj.style.display = "none";
-  hndlr.style.backgroundColor = null;
-}
-
-function getJSON() {
-  graphJSON = graphX.toJSON();
-  let graphJSONparsed = JSON.stringify(graphJSON);
-  console.log(graphJSON);
-  console.log(graphJSONparsed);
-}
-
-function clearLS() {
-  localStorage.clear();
-}
-
-function getLS() {
-  let i;
-
-  console.log(">>>>> local storage");
-  for (i = 0; i < localStorage.length; i++) {
-    console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
-  }
-
-  console.log(">>>>> session storage");
-  for (i = 0; i < sessionStorage.length; i++) {
-    console.log(sessionStorage.key(i) + "=[" + sessionStorage.getItem(sessionStorage.key(i)) + "]");
-  }
-  // console.log("in Short: ");
-  // for (i = 0; i < localStorage.length; i++)   {
-  //     console.log(localStorage.key(i));
-  // }
-}
-
-function resetGraph() {
-  graph.clear();
-  graph.addCell(xplD);
-}
-
-function getCells() {
-  let xprocCells = xplD.getEmbeddedCells();
-  let xprocCellsIds = xplD.get('embeds');
-  let xprocCellsIdsLength = xprocCellsIds.length;
-  console.log(xprocCells);
-  console.log(xprocCellsIds);
-  // xprocCells.resize(400,400);
-  for (i = 0; i < xprocCellsIdsLength; i++) {
-    let currentCell = graphX.getCell(xprocCellsIds[i]);
-    if (globalWidth >= pipelineWidth && globalHeight >= pipelineHeight) {
-      currentCell.resize(pipelineWidth / xprocCellsIdsLength, globalHeight - 100);
-    }
-
-  }
-}
-
-paper.on('blank:pointerdown', function () {
-  // $("#meta").fadeOut();
-  $("#stringCont").remove();
-});
-
 //HIGHLIGHTING und META-FUNCTION
-let selectedElement;
 let oldCellView = null;
 clickHighlight = 0;
 
@@ -207,12 +197,11 @@ paper.on('element:pointerdown', function (cellView, evt, x, y) {
     metaActive(cellView);
   }
 
-  //HIGHLIGHTING Function
+  //HIGHLIGHTING FUNCTION
   if (oldCellView != null) {
     oldCellView.unhighlight();
     V(paper.findViewByModel(oldCellView.model).el).removeClass('highlight-class');
   }
-
   if (oldCellView != cellView) {
     V(paper.findViewByModel(cellView.model).el).addClass('highlight-class');
     cellView.highlight(null, {
@@ -228,11 +217,12 @@ paper.on('element:pointerdown', function (cellView, evt, x, y) {
     oldCellView = null;
   }
   return;
-
 });
 
 //META
-
+// paper.on('blank:pointerdown', function () {
+//   $("#stringCont").remove();
+// });
 function metaActive(cellView) {
   let thisView = cellView.model;
   let thisModel = cellView.model.toJSON();
@@ -407,16 +397,18 @@ function metaActive(cellView) {
 }
 
 
-// Console Function
+// CONSOLE-FUNCTION
 paper.on('cell:pointerdblclick', function (cellView, evt, x, y) {
   console.log(cellView.model.id);
   console.log(cellView.model.toJSON());
 });
 
 paper.on('cell:highlight', function () {
-  $(document).bind('keydown', function (e) {
+  $(document).bind('keyup', function (e) {
     if (e.keyCode == 46) {
-      // mydiv.fadeIn();
+      // let graphJSON = graphX.toJSON();
+      let graphJSONstring = JSON.stringify(graphX.toJSON());
+      localStorage.setItem('lastGraphState', graphJSONstring);
       console.log("ENTF");
       if (oldCellView != null) {
         oldCellView.remove();
@@ -426,51 +418,36 @@ paper.on('cell:highlight', function () {
 });
 
 // //Button-based zoom-function
-// $('#paper1').append('<div id="button_zoomIn" style="position:absolute; top: 820px; left: 1165px; z-index:100;opacity:1;"><button id="btn_zoomIn">+</button></div>');
-// $('#paper1').append('<div id="button_zoomOut" style="position:absolute; top: 820px; left: 1087px; z-index:100;opacity:1;"><button id="btn_zoomOut">-</button></div>');
-// $('#paper1').append('<div id="button_zoomReset" style="position:absolute; top: 820px; left: 1125px; z-index:100;opacity:1;"><button id="btn_zoomReset">^</button></div>');
-//
 // let btnZoomIn = document.getElementById('btn_zoomIn');
 // let btnZoomOut = document.getElementById('btn_zoomOut');
 // let btnZoomReset = document.getElementById('btn_zoomReset');
 // btnZoomIn.onclick = zoomIn;
 // btnZoomOut.onclick = zoomOut;
 // btnZoomReset.onclick = zoomReset;
-
-let graphScale = 1;
-
-let paperScale = function (sx, sy) {
-  paper.scale(sx, sy);
-};
-
-function zoomOut() {
-  graphScale -= 0.1;
-  paperScale(graphScale, graphScale);
-};
-
-function zoomIn() {
-  graphScale += 0.1;
-  paperScale(graphScale, graphScale);
-};
-
-function zoomReset() {
-  graphScale = 1;
-  paperScale(graphScale, graphScale);
-};
-
-paper.on('cell:contextmenu', function (cellView, evt, x, y) {
-  console.log("Heyhohey!");
-});
+// let graphScale = 1;
+// let paperScale = function (sx, sy) {
+//   paper.scale(sx, sy);
+// };
+// function zoomOut() {
+//   graphScale -= 0.1;
+//   paperScale(graphScale, graphScale);
+// }
+// function zoomIn() {
+//   graphScale += 0.1;
+//   paperScale(graphScale, graphScale);
+// }
+// function zoomReset() {
+//   graphScale = 1;
+//   paperScale(graphScale, graphScale);
+// }
 
 // Mousewheel-ZOOM-function
 paper.$el.on('mousewheel DOMMouseScroll', function onMouseWheel(e) {
   //function onMouseWheel(e){
   e.preventDefault();
   e = e.originalEvent;
-
   let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))) / 50;
   let offsetX = (e.offsetX || e.clientX - $(this).offset().left);
-
   let offsetY = (e.offsetY || e.clientY - $(this).offset().top);
   let p = offsetToLocalPoint(offsetX, offsetY);
   let newScale = V(paper.viewport).scale().sx + delta;
@@ -480,19 +457,10 @@ paper.$el.on('mousewheel DOMMouseScroll', function onMouseWheel(e) {
     paper.scale(newScale, newScale, p.x, p.y);
   }
 });
-
 function offsetToLocalPoint(x, y) {
   let svgPoint = paper.svg.createSVGPoint();
   svgPoint.x = x;
   svgPoint.y = y;
-
   let pointTransformed = svgPoint.matrixTransform(paper.viewport.getCTM().inverse());
   return pointTransformed;
 }
-
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNav() {
-  document.getElementById("stencil").style.width = "180px";
-}
-
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */

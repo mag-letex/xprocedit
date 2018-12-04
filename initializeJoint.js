@@ -1,10 +1,23 @@
+window.onload = function(){
+  let lastGraphState = localStorage.getItem('lastGraphState');
+  lastGraphState = JSON.parse(lastGraphState);
+  if (lastGraphState !== undefined){
+    graph.fromJSON(lastGraphState);
+  }
+};
+window.onunload = function() {
+  saveLastGraphState();
+};
+
 //BUTTON-INITIALIZATION
 let btnFile = document.getElementById('drpdwn_file');
 let btnJSON = document.getElementById('btn_json');
-let btnClear = document.getElementById('btn_clear');
-let btnGet = document.getElementById('btn_get');
-let btnReset = document.getElementById('btn_reset');
-
+let btnLSClear = document.getElementById('btnLSClear');
+let btnLSGet = document.getElementById('btnLSGet');
+let btnLink = document.getElementById('btn_link');
+let btnClearGraph = document.getElementById('btnClearGraph');
+let btnBack = document.getElementById('btnBack');
+let btnForward = document.getElementById('btnForward');
 
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
@@ -22,13 +35,13 @@ xhr.onload = function (e) {
   }
   for (let i = 0; i < obj.atomicSteps.length; i++) {
     document.querySelector("#atomicUL").innerHTML +=
-      "<li id='" + obj.atomicSteps[i].stepName + "' class='step atomicStep'>"
+      "<li id='" + obj.atomicSteps[i].stepType + "' class='step atomicStep'>"
       + obj.atomicSteps[i].attrs[".label"].text + "</li>";
     superObj.push(obj.atomicSteps[i]);
   }
   for (let j = 0; j < obj.compoundSteps.length; j++) {
     document.querySelector("#compoundUL").innerHTML +=
-      "<li id='" + obj.compoundSteps[j].stepName + "' class='step compoundStep'><a>"
+      "<li id='" + obj.compoundSteps[j].stepType + "' class='step compoundStep'><a>"
       + obj.compoundSteps[j].attrs[".label"].text + "</a></li>";
     superObj.push(obj.compoundSteps[j]);
   }
@@ -70,7 +83,6 @@ stepInput.forEach(function (elem) {
   })
 });
 
-
 let devsLink = joint.dia.Link.define('devs.StandLink', {});
 let devsStandLink = new devsLink({
   router: {name: 'manhattan'},
@@ -89,10 +101,8 @@ let devsMainLink = new devsLink({
   }
 });
 
-let btnLink = document.getElementById('btn_link');
 // Canvas Initialization
 let canvas = document.querySelector('#papers');
-
 let graph = new joint.dia.Graph,
   paper = new joint.dia.Paper({
     el: $('#paper1'),
@@ -352,8 +362,8 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
         }
       }
     },
-    stepType: "AtomicStep",
-    stepName: "unset",
+    stepGroup: "xproc.Atomic",
+    stepType: "unset",
     portData: [
       {
         portId: "unset",
@@ -491,6 +501,7 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
         }
       }
     },
+    stepGroup: "xproc.Compound",
     stepType: "unset",
     portData: [
       {

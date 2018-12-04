@@ -1,8 +1,8 @@
 {
   "atomicSteps": [
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pAddAttribute",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pAddAttribute",
       "inPorts": [
         "source"
       ],
@@ -48,8 +48,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pAddXmlBase",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pAddXmlBase",
       "inPorts": [
         "source"
       ],
@@ -85,8 +85,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pCompare",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pCompare",
       "inPorts": [
         "source",
         "alternate"
@@ -123,8 +123,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pCount",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pCount",
       "inPorts": [
         "source"
       ],
@@ -157,8 +157,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pDelete",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pDelete",
       "inPorts": [
         "source"
       ],
@@ -190,8 +190,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pDirectoryList",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pDirectoryList",
       "outPorts": [
         "result"
       ],
@@ -221,8 +221,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pError",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pError",
       "inPorts": [
         "source"
       ],
@@ -261,8 +261,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pEscapeMarkup",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pEscapeMarkup",
       "inPorts": [
         "source"
       ],
@@ -334,8 +334,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pFilter",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pFilter",
       "inPorts": [
         "source"
       ],
@@ -368,8 +368,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pHttpRequest",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pHttpRequest",
       "inPorts": [
         "source"
       ],
@@ -451,8 +451,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pIdentity",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pIdentity",
       "inPorts": [
         "source"
       ],
@@ -478,8 +478,8 @@
       ]
     },
     {
-      "stepType": "xproc.Atomic",
-      "stepName": "pInsert",
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pInsert",
       "inPorts": [
         "source",
         "insertion"
@@ -523,8 +523,8 @@
   ],
   "compoundSteps": [
     {
-      "stepType": "xproc.Compound",
-      "stepName": "pForEach",
+      "stepGroup": "xproc.Compound",
+      "stepType": "pForEach",
       "inPorts": [
         "source"
       ],
@@ -563,8 +563,8 @@
       ]
     },
     {
-      "stepType": "xproc.Compound",
-      "stepName": "pViewport",
+      "stepGroup": "xproc.Compound",
+      "stepType": "pViewport",
       "inPorts": [
         "source"
       ],
@@ -604,7 +604,7 @@
     },
     {
       "stepType": "xproc.Compound",
-      "stepName": "pTryCatch",
+      "stepType": "pTryCatch",
       "inPorts": [
         "source"
       ],
@@ -643,8 +643,8 @@
       ]
     },
     {
-      "stepType": "xproc.Compound",
-      "stepName": "pChoose",
+      "stepGroup": "xproc.Compound",
+      "stepType": "pChoose",
       "inPorts": [
         "source"
       ],

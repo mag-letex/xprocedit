@@ -74,9 +74,9 @@
     <div id="btnSub">
       <button id="btn_link" class="btnStd btnSub" value="off">Main Link</button>
       <button id="btn_json" class="btnStd btnSub">get JSON</button>
-      <button id="btnLSClear" class="btnStd btnSub">Clear LS</button>
-      <button id="btnLSGet" class="btnStd btnSub">Get LS</button>
-      <button id="btnClearGraph" class="btnStd btnSub">Clear Graph</button>
+      <button id="btn_clear" class="btnStd btnSub">Clear LS</button>
+      <button id="btn_get" class="btnStd btnSub">Get LS</button>
+      <button id="btn_reset" class="btnStd btnSub">Reset Graph</button>
     </div>
     <div style="display: inline-flex;">
     <div id="pipeImport">
@@ -88,14 +88,6 @@
         <label for="layout-checkbox">preserve Layout</label>
     </div>
     </div>
-  </div>
-  <div id="toolBar">
-    <button id="btnBack" class="btnToolBar">
-      <img src="img/back-arrow.svg">
-    </button>
-    <button id="btnForward" class="btnToolBar">
-      <img src="img/back-arrow.svg">
-    </button>
   </div>
   <div id="metaPanel">
     <h1>Meta</h1>
@@ -126,6 +118,7 @@
 <script src="libs/joint.js"></script>
 
 <script src="initializeJoint.js"></script>
+<script src="stepLibrary.js"></script>
 <script src="flyFunction.js"></script>
 <script src="buttonFunction.js"></script>
 

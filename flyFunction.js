@@ -30,23 +30,42 @@ function getId() {
 function stepLoad (elem) {
   getId();
   let id = elem.id;
+  let step;
   let stepIdNum = newId;
   let i;
+  console.log(obj);
   let objLength = obj.atomicSteps.length + obj.compoundSteps.length;
-  // console.log(obj);
+
   console.log(objLength);
   console.log(id);
+  // for (i=0; i < obj.atomicSteps.length; i++){
+  //   if(obj.atomicSteps[i].stepName === id) {
+  //     let newAtomicCell = new joint.shapes.xproc.Atomic(obj.atomicSteps[i])
+  //       .prop('id', '' + id + '_' + stepIdNum)
+  //       .attr({'.word2': {text: stepIdNum}})
+  //       .translate(100, 100);
+  //     graph.addCell(newAtomicCell);
+  //   }
+  //   else if (!obj.atomicSteps){
+  //     let newTest = xTestObject.clone()
+  //       .prop('id', '' + id + '_' + stepIdNum)
+  //       .attr({'.word2': {text: stepIdNum}})
+  //       .translate(100, 100);
+  //     graph.addCell(newTest);
+  //   }
+  // }
   for (i = 0; i < superObj.length; i++) {
-    if (superObj[i].stepType === id) {
-      let group = superObj[i].stepGroup;
-      if (group === "xproc.Atomic") {
+    if (superObj[i].stepName === id) {
+      let type = superObj[i].stepType;
+      console.log(type);
+      if (type === "xproc.Atomic") {
         let newCell = new joint.shapes.xproc.Atomic(superObj[i])
           .prop('id', '' + id + '_' + stepIdNum)
           .attr({'.word2': {text: stepIdNum}})
           .translate(100, 100);
         graph.addCell(newCell);
       }
-      if (group === "xproc.Compound"){
+      if (type === "xproc.Compound"){
         let newCell = new joint.shapes.xproc.Compound(superObj[i])
           .prop('id', '' + id + '_' + stepIdNum)
           .attr({'.word2': {text: stepIdNum}})
@@ -56,6 +75,7 @@ function stepLoad (elem) {
     }
   }
 }
+
 
   // let stepPrimary = [];
   // let stepPrimaryPortGroup = [];

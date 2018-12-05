@@ -1,13 +1,13 @@
-window.onload = function(){
+window.addEventListener("load", function(){
   let lastGraphState = localStorage.getItem('lastGraphState');
   lastGraphState = JSON.parse(lastGraphState);
   if (lastGraphState !== undefined){
     graph.fromJSON(lastGraphState);
   }
-};
-window.onunload = function() {
+});
+window.addEventListener("unload", function(){
   saveLastGraphState();
-};
+});
 
 //BUTTON-INITIALIZATION
 let btnFile = document.getElementById('drpdwn_file');

@@ -135,6 +135,11 @@ align-self: center;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-around;
+}
+#toolBar label{
+  font-weight: bold;
+  font-size: 1.1em;
 }
 .btnToolBar{
   height: 1.7em;
@@ -143,21 +148,20 @@ align-self: center;
   background-color: unset;
   margin: 0 0.2em 0 0.2em;
 }
-
-#btnBack img
-{
+.btnToolBar img{
   width: 1.7em;
   height: 1.7em;
 }
 #btnForward img
 {
-  width: 1.7em;
-  height: 1.7em;
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+#portBtns{
+
 }
 
 /*STEP PANEL*/
@@ -277,6 +281,9 @@ align-self: center;
 }
 .port-label {
   display: none;
+}
+.joint-cell{
+  display: block;
 }
 .port-head {
   color: aliceblue;
@@ -436,7 +443,7 @@ align-self: center;
   content: "";
   display: inline-block;
   background-size: 14px 14px;
-  background: url("img/play-button.svg") no-repeat;
+  background: url("img/btn-meta-close.svg") no-repeat;
   width: 18px;
   height: 14px;
 }
@@ -444,7 +451,7 @@ align-self: center;
   content: "";
   display: inline-block;
   background-size: 14px 14px;
-  background: url("img/play-button-open.svg") no-repeat;
+  background: url("img/btn-meta-open.svg") no-repeat;
   width: 18px;
   height: 14px;
 }

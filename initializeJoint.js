@@ -18,6 +18,8 @@ let btnLink = document.getElementById('btn_link');
 let btnClearGraph = document.getElementById('btnClearGraph');
 let btnBack = document.getElementById('btnBack');
 let btnForward = document.getElementById('btnForward');
+let btnInPortAdd = document.getElementById('btnInPortAdd');
+let btnOutPortAdd = document.getElementById('btnOutPortAdd');
 
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
@@ -111,7 +113,8 @@ let graph = new joint.dia.Graph,
     // height: 854,
     width: canvas.offsetWidth,
     height: canvas.offsetHeight,
-    defaultLink: function (elementView, magnet) {
+    // defaultLink: function (elementView, magnet) {
+    defaultLink: function () {
       if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
       else return devsStandLink.clone();
     },
@@ -271,16 +274,15 @@ joint.shapes.xproc.toolElementAtomic = joint.shapes.devs.Atomic.extend({
     '<text text-anchor="middle" stroke="#fff" stroke-width="1px" dy=".3em">O</text>',
     '<title>Open Options</title>',
     '</g>',
-    '<g class="element-tool-boeppel">',
-    '<path d="M 2,2 l 0,12 6,0" fill="none" stroke="white" stroke-width="1.5"/>',
-    // '<path d="M0,-2 l 200,0 0,25 -200,0z" fill="white" fill-opacity="0.1" cursor="default"/>',
-    '<g class="element-tool-boeppelClick" id="boepplo" transform="translate(-6,0)" cursor="pointer">',
-    '<path d="M15,2 l20,0 0,20 -20,0z" fill="grey" fill-opacity="0.1"/>',
-    '<path stroke="white" fill="white" stroke-width="1.5" d="M20,12 l 10,0 M 25,7 l0,10"/>',
-    '<circle fill="none" stroke="white" cx="25" cy="12" r="8"/>',
-    '</g>',
-    '</g>',
-
+    // '<g class="element-tool-boeppel">',
+    // '<path d="M 2,2 l 0,12 6,0" fill="none" stroke="white" stroke-width="1.5"/>',
+    // // '<path d="M0,-2 l 200,0 0,25 -200,0z" fill="white" fill-opacity="0.1" cursor="default"/>',
+    // '<g class="element-tool-boeppelClick" id="boepplo" transform="translate(-6,0)" cursor="pointer">',
+    // '<path d="M15,2 l20,0 0,20 -20,0z" fill="grey" fill-opacity="0.1"/>',
+    // '<path stroke="white" fill="white" stroke-width="1.5" d="M20,12 l 10,0 M 25,7 l0,10"/>',
+    // '<circle fill="none" stroke="white" cx="25" cy="12" r="8"/>',
+    // '</g>',
+    // '</g>',
     '</g>'].join(''),
 
   defaults: joint.util.deepSupplement({
@@ -403,23 +405,23 @@ joint.shapes.xproc.toolElementCompound = joint.shapes.devs.Coupled.extend({
     // '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">M</text>',
     // '<title>Open Meta-Information</title>',
     // '</g>',
-    '<g class="element-tool-embed" transform="translate(150,60)"><circle fill="grey" r="20"/>',
-    '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">E</text>',
-    '<title>Get Embedded Cells</title>',
-    '</g>',
+    // '<g class="element-tool-embed" transform="translate(150,60)"><circle fill="grey" r="20"/>',
+    // '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">E</text>',
+    // '<title>Get Embedded Cells</title>',
+    // '</g>',
     '<g class="element-tool-options"><circle fill="#7642B2" r="10"/>',
     '<text text-anchor="middle" stroke="#fff" stroke-width="1px" dy=".3em">O</text>',
     '<title>Open Options</title>',
     '</g>',
-    '<g class="element-tool-boeppel">',
-    '<path d="M 2,2 l 0,12 6,0" fill="none" stroke="white" stroke-width="1.5"/>',
-    // '<path d="M0,-2 l 200,0 0,25 -200,0z" fill="white" fill-opacity="0.1" cursor="default"/>',
-    '<g class="element-tool-boeppelClick" id="boepplo" transform="translate(-6,0)" cursor="pointer">',
-    '<path d="M15,2 l20,0 0,20 -20,0z" fill="grey" fill-opacity="0.1"/>',
-    '<path stroke="white" fill="white" stroke-width="1.5" d="M20,12 l 10,0 M 25,7 l0,10"/>',
-    '<circle fill="none" stroke="white" cx="25" cy="12" r="8"/>',
-    '</g>',
-    '</g>',
+    // '<g class="element-tool-boeppel">',
+    // '<path d="M 2,2 l 0,12 6,0" fill="none" stroke="white" stroke-width="1.5"/>',
+    // // '<path d="M0,-2 l 200,0 0,25 -200,0z" fill="white" fill-opacity="0.1" cursor="default"/>',
+    // '<g class="element-tool-boeppelClick" id="boepplo" transform="translate(-6,0)" cursor="pointer">',
+    // '<path d="M15,2 l20,0 0,20 -20,0z" fill="grey" fill-opacity="0.1"/>',
+    // '<path stroke="white" fill="white" stroke-width="1.5" d="M20,12 l 10,0 M 25,7 l0,10"/>',
+    // '<circle fill="none" stroke="white" cx="25" cy="12" r="8"/>',
+    // '</g>',
+    // '</g>',
     '</g>'].join(''),
 
   defaults: joint.util.deepSupplement({
@@ -666,8 +668,7 @@ window.addEventListener("resize", function () {
 });
 
 //Definition of a custom Model object
-let xprocOption = joint.shapes.devs.Model.define('xproc.Option', {
-  //default attributes
+joint.shapes.devs.Model.define('xproc.Option', {
   type: "devs.Model",
   // markup: [{
   //     tagName: 'xproc',
@@ -754,7 +755,7 @@ let xprocOption = joint.shapes.devs.Model.define('xproc.Option', {
 
 });
 
-let newBoeppel = new joint.shapes.xproc.Option({
+let newStepOption = new joint.shapes.xproc.Option({
   inPorts: ["in"],
   outPorts: ["out"],
   portData: [
@@ -783,3 +784,32 @@ let newBoeppel = new joint.shapes.xproc.Option({
   ]
 });
 
+let inPort = {
+  // id: 'abc', // generated if `id` value is not present
+  group: 'in',
+  args: {}, // extra arguments for the port layout function, see `layout.Port` section
+  label: {
+    position: {
+      name: 'right',
+      args: { y: 0, x: 25 } // extra arguments for the label layout function, see `layout.PortLabel` section
+    },
+    markup: '<text class="label-text port-label" fill="blue"/>'
+  },
+  attrs: { text: { text: 'in' } },
+  markup: '<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>'
+};
+
+let outPort = {
+  // id: 'abc', // generated if `id` value is not present
+  group: 'out',
+  args: {}, // extra arguments for the port layout function, see `layout.Port` section
+  label: {
+    position: {
+      name: 'right',
+      args: { y: 0, x: -30 } // extra arguments for the label layout function, see `layout.PortLabel` section
+    },
+    markup: '<text class="label-text port-label" fill="blue"/>'
+  },
+  attrs: { text: { text: 'out' } },
+  markup: '<circle class="port-body out-ports" r="10" stroke="#000" fill="#fff"/>'
+};

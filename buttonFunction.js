@@ -50,6 +50,24 @@ btnBack.addEventListener('click', function(){
 btnForward.addEventListener('click', function(){
   getNextGraphState();
 });
+btnInPortAdd.addEventListener('click', function(){
+  let pipe = graph.getCell('XProc-Pipeline');
+  pipe.addPort(inPort);
+});
+btnOutPortAdd.addEventListener('click', function(){
+  let pipe = graph.getCell('XProc-Pipeline');
+  pipe.addPort(outPort);
+});
+$('#btnShowOptions').on('click', function(){
+  $('.joint-type-xproc-option').fadeOut('fast');
+  $('#btnShowOptions').hide();
+  $('#btnHideOptions').show();
+});
+$('#btnHideOptions').on('click', function(){
+  $('.joint-type-xproc-option').fadeIn('fast');
+  $('#btnHideOptions').hide();
+  $('#btnShowOptions').show();
+});
 paper.on('element:pointerdown', function(){
   saveLastGraphState();
 });
@@ -71,6 +89,7 @@ function leave(handler, object) {
   hndlr.style.backgroundColor = null;
 }
 
+// FALLBACK-STATES
 function saveLastGraphState(){
   let graphJSONstring = JSON.stringify(graphX.toJSON());
   localStorage.setItem('lastGraphState', graphJSONstring);
@@ -90,101 +109,6 @@ function getNextGraphState(){
   nextGraphState = JSON.parse(nextGraphState);
   graph.clear();
   graph.fromJSON(nextGraphState);
-}
-
-function makeBoeppl(cellView, boeppelId, optionName) {
-  let modelX = cellView.model.get('position').x;
-  let modelY = cellView.model.get('position').y;
-  let modelString = JSON.stringify(cellView.model);
-  let modelObject = JSON.parse(modelString);
-  let modelIdNow = modelObject.id;
-  let modelColor = '#16766D';
-  if (modelObject.stepType === "pipeline") {
-    modelColor = '#647664';
-  }
-  if (modelObject.type === "xproc.Atomic") {
-    modelColor = '#c3b0ff';
-  }
-  if (modelObject.type === "xproc.Compound" && modelObject.stepType !== "pipeline") {
-    modelColor = '#a1c9ff';
-  }
-  if (modelObject.stepType === "xMyAtomicStep" || modelObject.stepType === "xMyCompoundStep") {
-    modelColor = '#D25C29';
-  }
-  if (modelIdNow !== modelIdOld) {
-    clicks = 0;
-  }
-  clicks++;
-  modelNewHeight = modelNewHeight + 20;
-  document.getElementById("click").innerHTML = '<p>' + clicks + '</p>';
-
-
-  if (modelObject.stepType == "pipeline") {
-    modelX = modelX + 100;
-    modelY = modelY + 600;
-  }
-  if (clicks == 1) {
-    let boeppelIdX = boeppelId + clicks;
-    let modelYbottom = modelY + 100;
-    if (modelObject.stepType == "pipeline") {
-      graph.addCell(newBoeppel.clone()
-        .translate(modelX, modelYbottom)
-        .size({width: 600, height: 20})
-        .attr(
-          {
-            text: {text: optionName},
-            rect: {fill: modelColor}
-          }).prop('id', boeppelIdX)
-      );
-    }
-    else {
-      graph.addCell(newBoeppel.clone().translate(modelX, modelYbottom).attr(
-        {
-          text: {text: optionName},
-          rect: {fill: modelColor}
-        }).prop('id', boeppelIdX)
-      );
-    }
-    if (modelObject.stepType == "pipeline") {
-      modelNewHeight = modelNewHeight + 600;
-      $('.xplEl>.element-tools>.element-tool-boeppel').css("transform", "translate(90px,675px)");
-    }
-
-    let chello = graph.getCell(boeppelIdX);
-    cellView.model.embed(chello);
-    V(paper.findViewByModel(chello).el).addClass('newBoeppel');
-    // clicks++;
-  }
-  else if (clicks > 1) {
-    if (clicks == 2) {
-      let boeppelIdX = boeppelId + 1; //vorheriger Böppel soll gewählt werden
-    }
-    else if (clicks > 2) {
-      clickso = clicks - 1;
-      let boeppelIdX = boeppelId + clickso;
-    }
-    let chello = graph.getCell(boeppelIdX);
-    let chelloY = chello.get('position').y;
-    if (modelObject.stepType == "pipeline") {
-      graph.addCell(newBoeppel.clone().translate(modelX, chelloY + 20).size({width: 600, height: 20}).attr(
-        {text: {text: optionName}, rect: {fill: modelColor}}).prop('id', boeppelId + clicks));
-    }
-    else {
-      graph.addCell(newBoeppel.clone().translate(modelX, chelloY + 20).attr(
-        {text: {text: optionName}, rect: {fill: modelColor}}).prop('id', boeppelId + clicks)
-      );
-    }
-
-    let chelloNew = graph.getCell(boeppelId + clicks);
-    cellView.model.embed(chelloNew);
-    let chelloNewY = chelloNew.get('position').y;
-    if (modelObject.stepType == "pipeline") {
-      modelNewHeight = modelNewHeight + 600;
-      $('.element-tool-boeppel').css("transform", "translate(90px,675px)");
-    }
-    V(paper.findViewByModel(chelloNew).el).addClass('newBoeppel');
-  }
-  modelIdOld = modelObject.id;
 }
 
 //HIGHLIGHTING und META-FUNCTION
@@ -395,7 +319,6 @@ function metaActive(cellView) {
     });
   });
 }
-
 
 // CONSOLE-FUNCTION
 paper.on('cell:pointerdblclick', function (cellView, evt, x, y) {

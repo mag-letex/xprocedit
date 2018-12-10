@@ -27,70 +27,76 @@ function getId() {
 
 //LOAD STEPS INTO PAPER
 //DOUBLE-CLICK-FUNCTION
-function stepLoad (elem) {
+function stepLoad (elem, placeX, placeY) {
   getId();
+  console.log(elem)
   let id = elem.id;
   let stepIdNum = newId;
   let stepId = "" + id + "_" + stepIdNum;
   let i;
-  let objLength = obj.atomicSteps.length + obj.compoundSteps.length;
-  // console.log(obj);
-  console.log(objLength);
-  console.log(id);
   for (i = 0; i < superObj.length; i++) {
     if (superObj[i].stepType === id) {
       let group = superObj[i].stepGroup;
-      let stepOptionArray = superObj[i].stepOption;
-      console.log(stepOptionArray);
       if (group === "xproc.Atomic") {
-        let newCell = new joint.shapes.xproc.Atomic(superObj[i])
-          .prop('id', stepId)
-          .attr({'.word2': {text: stepIdNum}})
-          .translate(100, 100);
-        let newCellPosX = newCell.position().x;
-        let newCellPosY = newCell.position().y;
-        graph.addCell(newCell);
-        let stepOptionPosY = newCellPosY + 100;
-        for (let j = 0; j < stepOptionArray.length; j++) {
-          let stepOptionName = stepOptionArray[j].name;
-          let stepOptionId = stepOptionArray[j].id;
-          newStepOption = newStepOption.clone()
-            .prop('id', "" + stepId + "_opt_" + stepOptionName)
-            .position(newCellPosX, stepOptionPosY)
-            .attr({
-              ".label": {text: stepOptionName}, rect: {fill: '#c3b0ff'}
-            });
-          graph.addCell(newStepOption);
-          newCell.embed(newStepOption);
-          stepOptionPosY = stepOptionPosY + 20;
-        }
+       loadAtomicStep(i, stepIdNum, stepId, placeX, placeY);
       }
       if (group === "xproc.Compound") {
-        let newCell = new joint.shapes.xproc.Compound(superObj[i])
-          .prop('id', '' + id + '_' + stepIdNum)
-          .attr({'.word2': {text: stepIdNum}})
-          .translate(100, 100);
-        let newCellPosX = newCell.position().x;
-        let newCellPosY = newCell.position().y;
-        graph.addCell(newCell);
-        let stepOptionPosY = newCellPosY + 100;
-        for (let j = 0; j < stepOptionArray.length; j++) {
-          let stepOptionName = stepOptionArray[j].name;
-          let stepOptionId = stepOptionArray[j].id;
-          newStepOption = newStepOption.clone()
-            .prop('id', "" + stepId + "_opt_" + stepOptionName)
-            .position(newCellPosX, stepOptionPosY)
-            .attr({
-              ".label": {text: stepOptionName}, rect: {fill: '#a1c9ff'}
-            });
-          graph.addCell(newStepOption);
-          newCell.embed(newStepOption);
-          stepOptionPosY = stepOptionPosY + 20;
-        }
+        loadCompoundStep(i, stepIdNum, stepId, placeX, placeY);
       }
     }
   }
 }
+function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY){
+  let stepOptionArray = superObj[i].stepOption;
+  let newCell = new joint.shapes.xproc.Atomic(superObj[i])
+    .prop('id', stepId)
+    .attr({'.word2': {text: stepIdNum}})
+    .position(placeX, placeY);
+  graph.addCell(newCell);
+  let stepOptionPosY = placeY + 100;
+  for (let j = 0; j < stepOptionArray.length; j++) {
+    let stepOptionName = stepOptionArray[j].name;
+    newStepOption = newStepOption.clone()
+      .prop('id', "" + stepId + "_opt_" + stepOptionName)
+      .position(placeX, stepOptionPosY)
+      .attr({
+        ".label": {text: stepOptionName}, rect: {fill: '#c3b0ff'}
+      });
+    graph.addCell(newStepOption);
+    newCell.embed(newStepOption);
+    stepOptionPosY = stepOptionPosY + 20;
+  }
+}
+function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY){
+  let stepOptionArray = superObj[i].stepOption;
+  let newCell = new joint.shapes.xproc.Compound(superObj[i])
+    .prop('id', stepId)
+    .attr({'.word2': {text: stepIdNum}})
+    .position(placeX, placeY);
+  graph.addCell(newCell);
+  let stepOptionPosY = placeY + 100;
+  for (let j = 0; j < stepOptionArray.length; j++) {
+    let stepOptionName = stepOptionArray[j].name;
+    newStepOption = newStepOption.clone()
+      .prop('id', "" + stepId + "_opt_" + stepOptionName)
+      .position(placeX, stepOptionPosY)
+      .attr({
+        ".label": {text: stepOptionName}, rect: {fill: '#a1c9ff'}
+      });
+    graph.addCell(newStepOption);
+    newCell.embed(newStepOption);
+    stepOptionPosY = stepOptionPosY + 20;
+  }
+}
+//DRAG 'N DROP --> FLY-FUNCTION
+// function dragStart(elem){
+//   // getId();
+//
+//   // let id = elem.id;
+//   // let stepIdNum = newId;
+//   // let stepId = "" + id + "_" + stepIdNum;
+//   // document.getElementById("atomicUL").appendChild(elemClone);
+// }
 
 paper.on('element:mouseenter element:mouseleave', function (cellView) {
 if(cellView.model.attributes.type !== "xproc.Option"){
@@ -100,10 +106,6 @@ if(cellView.model.attributes.type !== "xproc.Option"){
   $('#' + modelId + " .port-label").fadeToggle('fast');
 }
 });
-
-// paper.on('cell:pointerup', function(cellView){
-//   console.log(cellView.model);
-// });
 
   // let stepPrimary = [];
   // let stepPrimaryPortGroup = [];
@@ -148,6 +150,7 @@ if(cellView.model.attributes.type !== "xproc.Option"){
 // });
 
 //Fly - Function
+
 // let blaFunc = function (cellView, e, x, y) {
 //   $('body').append('<div id="flyPaper" style="position:fixed;z-index:100;opacity:1;pointer-event:none;background-color:transparent;"></div>');
 //   let flyGraph = new joint.dia.Graph,

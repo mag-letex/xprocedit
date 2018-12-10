@@ -304,6 +304,10 @@ align-self: center;
   text-anchor: middle;
 }
 
+.joint-type-xproc-option .label{
+  font-size: 1em;
+}
+
 /*Model-Effekte*/
 .element-tools {
   display: none;
@@ -328,9 +332,6 @@ align-self: center;
 }
 .element-tool-meta {
   transform: translate(100px, 60px);
-}
-.element-tool-options {
-  transform: translate(15px, 86px);
 }
 .element-tool-boeppel {
   transform: translate(30px, 78px);

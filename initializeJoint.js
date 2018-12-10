@@ -8,6 +8,14 @@ window.addEventListener("load", function(){
 window.addEventListener("unload", function(){
   saveLastGraphState();
 });
+window.addEventListener("dragover",function(e){
+  e = e || event;
+  e.preventDefault();
+},false);
+window.addEventListener("drop",function(e){
+  e = e || event;
+  e.preventDefault();
+},false);
 
 //BUTTON-INITIALIZATION
 let btnFile = document.getElementById('drpdwn_file');
@@ -37,23 +45,46 @@ xhr.onload = function (e) {
   }
   for (let i = 0; i < obj.atomicSteps.length; i++) {
     document.querySelector("#atomicUL").innerHTML +=
-      "<li id='" + obj.atomicSteps[i].stepType + "' class='step atomicStep'>"
+      "<li id='" + obj.atomicSteps[i].stepType + "' class='step atomicStep' draggable='true'>"
       + obj.atomicSteps[i].attrs[".label"].text + "</li>";
     superObj.push(obj.atomicSteps[i]);
   }
   for (let j = 0; j < obj.compoundSteps.length; j++) {
     document.querySelector("#compoundUL").innerHTML +=
-      "<li id='" + obj.compoundSteps[j].stepType + "' class='step compoundStep'><a>"
-      + obj.compoundSteps[j].attrs[".label"].text + "</a></li>";
+      "<li id='" + obj.compoundSteps[j].stepType + "' class='step compoundStep' draggable='true'>"
+      + obj.compoundSteps[j].attrs[".label"].text + "</li>";
     superObj.push(obj.compoundSteps[j]);
   }
   let stepsHtml = document.querySelectorAll('.step');
   stepsHtml.forEach(function (elem) {
-    elem.addEventListener("dblclick", function() {
-      stepLoad(elem);
+    elem.addEventListener('dragstart', function(e){
+      e.dataTransfer.setData('text', e.target.id);
+    });
+    elem.addEventListener('dblclick', function() {
+      let drop = false;
+      let placeX = 100;
+      let placeY = 100;
+      stepLoad(elem, placeX, placeY);
     });
   });
-  console.log(superObj);
+    let paperHtml = document.querySelector('#paper1');
+    // paperHtml.addEventListener('dragover', function(e){
+    //   console.log(e);
+    //   dropX = e.layerX;
+    // });
+    paperHtml.addEventListener('drop', function(e){
+      let data = e.dataTransfer.getData('text');
+      let dropElem = document.querySelector('#' + data);
+      console.log(e);
+      let placeX = e.layerX - 80;
+      let placeY = e.layerY - 20;
+      console.log(placeX);
+      console.log(placeY);
+      e.target.appendChild(document.getElementById(data));
+      stepLoad(dropElem, placeX, placeY);
+    });
+
+
 };
 
 // let browserHeight = window.innerHeight;
@@ -150,7 +181,7 @@ let graph = new joint.dia.Graph,
     validateConnection: function (sourceView, sourceMagnet, targetView, targetMagnet) {
       let sourceGroup = sourceMagnet.getAttribute('port-group');
       let targetGroup = targetMagnet.parentElement.getAttribute('port-group'); //JavaScript Befehl
-      if (sourceGroup != targetGroup) {
+      if (sourceGroup !== targetGroup) {
         return true;
       }
     }
@@ -215,7 +246,7 @@ function switchPaper(evt, paperId) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(paperId).style.display = "block";
   evt.currentTarget.className += " active";
-  paperI = paperId;
+  let paperI = paperId;
 
   switch (paperI) {
     case "paper1":
@@ -270,8 +301,9 @@ joint.shapes.xproc.toolElementAtomic = joint.shapes.devs.Atomic.extend({
     // '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">M</text>',
     // '<title>Open Meta-Information</title>',
     // '</g>',
-    '<g class="element-tool-options"><circle fill="#7642B2" r="10"/>',
-    '<text text-anchor="middle" stroke="#fff" stroke-width="1px" dy=".3em">O</text>',
+    '<g class="element-tool-options">',
+    '<image x="5" y="75" width="25" height="25" href="img/btn-options-show.svg" />',
+    '<image style="display: none" x="5" y="75" width="25" height="25" href="img/btn-options-hide.svg" />',
     '<title>Open Options</title>',
     '</g>',
     // '<g class="element-tool-boeppel">',
@@ -296,11 +328,8 @@ xRel = 100;
 yRel = 100;
 
 joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
-
   markup: '<g class="rotatable"><g class="scalable"><rect/><title class="tooltip"/></g><text class="label"/><text class="word2"></text></g>',
-
   defaults: joint.util.deepSupplement({
-
     type: 'xproc.Atomic',
     attrs: {
       rect: {
@@ -409,8 +438,9 @@ joint.shapes.xproc.toolElementCompound = joint.shapes.devs.Coupled.extend({
     // '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">E</text>',
     // '<title>Get Embedded Cells</title>',
     // '</g>',
-    '<g class="element-tool-options"><circle fill="#7642B2" r="10"/>',
-    '<text text-anchor="middle" stroke="#fff" stroke-width="1px" dy=".3em">O</text>',
+    '<g class="element-tool-options">',
+    '<image x="5" y="75" width="25" height="25" href="img/btn-options-show.svg" />',
+    '<image style="display: none" x="5" y="75" width="25" height="25" href="img/btn-options-hide.svg" />',
     '<title>Open Options</title>',
     '</g>',
     // '<g class="element-tool-boeppel">',
@@ -581,25 +611,24 @@ joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
       //     // let embed = this.model.getEmbeddedCells();
       //     return;
       //     break;
-      case 'element-tool-boeppelClick':
-        let optionName = "unset";
-        let boeppelId = "" + this.model.id + "_boep";
-        makeBoeppl(this, boeppelId, optionName);
-        return;
-        break;
+      // case 'element-tool-boeppelClick':
+      //   let optionName = "unset";
+      //   let boeppelId = "" + this.model.id + "_boep";
+      //   makeBoeppl(this, boeppelId, optionName);
+      //   return;
+      //   break;
       case 'element-tool-options':
+        let parentId = this.id;
+        let btn = document.querySelector('#' + parentId + ' .element-tool-options');
+        let btnSelect1 = btn.childNodes[0];
+        let btnSelect2 = btn.childNodes[1];
         let thisCells = this.model.get('embeds');
-        let thisCellsLength = thisCells.length;
-        for (i = 0; i < thisCellsLength; i++) {
-          let currentCell = graphX.getCell(thisCells[i]);
-          let currentDisplay = currentCell.attr('./display');
-          if (currentDisplay == null || currentDisplay == 'block') {
-            currentCell.attr('./display', 'none');
-          }
-          if (currentDisplay == 'none') {
-            currentCell.attr('./display', 'block');
-          }
-        }
+        thisCells.forEach(function(elem){
+          let htmlElem = document.querySelector('[model-id="' + elem + '"]');
+          $('#'+htmlElem.id).fadeToggle('fast');
+        });
+        $(btnSelect1).fadeToggle('fast');
+        $(btnSelect2).fadeToggle('fast');
         return;
         break;
       default:
@@ -785,7 +814,6 @@ let newStepOption = new joint.shapes.xproc.Option({
 });
 
 let inPort = {
-  // id: 'abc', // generated if `id` value is not present
   group: 'in',
   args: {}, // extra arguments for the port layout function, see `layout.Port` section
   label: {
@@ -800,7 +828,6 @@ let inPort = {
 };
 
 let outPort = {
-  // id: 'abc', // generated if `id` value is not present
   group: 'out',
   args: {}, // extra arguments for the port layout function, see `layout.Port` section
   label: {

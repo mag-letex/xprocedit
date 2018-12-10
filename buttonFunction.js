@@ -62,6 +62,7 @@ $('#btnShowOptions').on('click', function(){
   $('.joint-type-xproc-option').fadeOut('fast');
   $('#btnShowOptions').hide();
   $('#btnHideOptions').show();
+
 });
 $('#btnHideOptions').on('click', function(){
   $('.joint-type-xproc-option').fadeIn('fast');
@@ -76,7 +77,6 @@ paper.on('element:pointerup', function(){
 });
 
 function filemenu(handler, object){
-  // let list = document.getElementById("drp_file");
   let hndlr = document.getElementById(handler);
   let obj = document.getElementById(object);
   obj.style.display = "block";
@@ -323,7 +323,9 @@ function metaActive(cellView) {
 // CONSOLE-FUNCTION
 paper.on('cell:pointerdblclick', function (cellView, evt, x, y) {
   console.log(cellView.model.id);
+  console.log(cellView.model);
   console.log(cellView.model.toJSON());
+  console.log(graphX.getConnectedLinks(cellView.model));
 });
 
 paper.on('cell:highlight', function () {

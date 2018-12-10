@@ -603,7 +603,7 @@
       ]
     },
     {
-      "stepType": "xproc.Compound",
+      "stepGroup": "xproc.Compound",
       "stepType": "pTryCatch",
       "inPorts": [
         "source"

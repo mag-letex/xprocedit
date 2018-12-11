@@ -28,6 +28,7 @@ let btnBack = document.getElementById('btnBack');
 let btnForward = document.getElementById('btnForward');
 let btnInPortAdd = document.getElementById('btnInPortAdd');
 let btnOutPortAdd = document.getElementById('btnOutPortAdd');
+let btnPaperNew = document.getElementById('btnPaperNew');
 
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
@@ -57,7 +58,7 @@ xhr.onload = function (e) {
   }
   let stepsHtml = document.querySelectorAll('.step');
   stepsHtml.forEach(function (elem) {
-    elem.addEventListener('dragstart', function(e){
+     elem.addEventListener('dragstart', function(e){
       e.dataTransfer.setData('text', e.target.id);
     });
     elem.addEventListener('dblclick', function() {
@@ -67,21 +68,23 @@ xhr.onload = function (e) {
       stepLoad(elem, placeX, placeY);
     });
   });
+
     let paperHtml = document.querySelector('#paper1');
     // paperHtml.addEventListener('dragover', function(e){
-    //   console.log(e);
-    //   dropX = e.layerX;
+      // let elemClone = elem.cloneNode(true);
+      // elem.parentNode.insertBefore(elemClone, elem);
+      // dropX = e.layerX;
     // });
     paperHtml.addEventListener('drop', function(e){
       let data = e.dataTransfer.getData('text');
       let dropElem = document.querySelector('#' + data);
-      console.log(e);
+      let dropElemSibl = dropElem.nextSibling;
+      console.log(dropElem.nextSibling);
       let placeX = e.layerX - 80;
       let placeY = e.layerY - 20;
-      console.log(placeX);
-      console.log(placeY);
       e.target.appendChild(document.getElementById(data));
       stepLoad(dropElem, placeX, placeY);
+      dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
     });
 
 
@@ -184,53 +187,169 @@ let graph = new joint.dia.Graph,
       if (sourceGroup !== targetGroup) {
         return true;
       }
+    },
+    interactive: function (cellView){
+      if (cellView.model.attributes.type !== "xproc.Option"){
+        return true;
+      }
     }
   });
-let graph2 = new joint.dia.Graph,
-  paper2 = new joint.dia.Paper({
-    el: $('#paper2'),
-    model: graph2,
-    snapLinks: true,
-    linkPinning: false,
-    embeddingMode: true,
-    // width: 938,
-    // height: 854
-    width: canvas.offsetWidth,
-    height: canvas.offsetHeight
-  });
-let graph3 = new joint.dia.Graph,
-  paper3 = new joint.dia.Paper({
-    el: $('#paper3'),
-    model: graph3,
-    snapLinks: true,
-    linkPinning: false,
-    embeddingMode: true,
-    width: 938,
-    height: 854
-  });
-let graph4 = new joint.dia.Graph,
-  paper4 = new joint.dia.Paper({
-    el: $('#paper4'),
-    model: graph4,
-    snapLinks: true,
-    linkPinning: false,
-    embeddingMode: true,
-    width: 938,
-    height: 854
-  });
-let graph5 = new joint.dia.Graph,
-  paper5 = new joint.dia.Paper({
-    el: $('#paper5'),
-    model: graph5,
-    snapLinks: true,
-    linkPinning: false,
-    embeddingMode: true,
-    width: 938,
-    height: 854
-  });
+// let graph2 = new joint.dia.Graph,
+//   paper2 = new joint.dia.Paper({
+//     el: $('#paper2'),
+//     model: graph2,
+//     snapLinks: true,
+//     linkPinning: false,
+//     embeddingMode: true,
+//     // width: 938,
+//     // height: 854
+//     width: canvas.offsetWidth,
+//     height: canvas.offsetHeight
+//   });
+// let graph3 = new joint.dia.Graph,
+//   paper3 = new joint.dia.Paper({
+//     el: $('#paper3'),
+//     model: graph3,
+//     snapLinks: true,
+//     linkPinning: false,
+//     embeddingMode: true,
+//     width: 938,
+//     height: 854
+//   });
+// let graph4 = new joint.dia.Graph,
+//   paper4 = new joint.dia.Paper({
+//     el: $('#paper4'),
+//     model: graph4,
+//     snapLinks: true,
+//     linkPinning: false,
+//     embeddingMode: true,
+//     width: 938,
+//     height: 854
+//   });
+// let graph5 = new joint.dia.Graph,
+//   paper5 = new joint.dia.Paper({
+//     el: $('#paper5'),
+//     model: graph5,
+//     snapLinks: true,
+//     linkPinning: false,
+//     embeddingMode: true,
+//     width: 938,
+//     height: 854
+//   });
 
 // Paper-Switch-Event
-function switchPaper(evt, paperId) {
+
+btnPaperNew.addEventListener('click', function(evt){
+  // let newBtn = '<button class="tablink">New Pipeline</button>';
+  getId();
+  let btnText = "New Pipeline" + "_"+ newId;
+  createPaperBtn(btnText, evt);
+});
+
+function createPaperBtn(modelId, evt, cellView){
+  //CREATE BUTTON
+  let newBtn = document.createElement('button');
+  newBtn.appendChild(document.createTextNode(modelId));
+  newBtn.classList.add('tablink');
+  let btnAll = document.querySelector('.tab').children;
+  let checkArr = [];
+  //CREATE PAPER
+  let paperCont = document.querySelector('#papers');
+  let newPaper = document.createElement('div');
+  let paperId = 'paper-' + modelId;
+  newPaper.classList.add('paperContent');
+  newPaper.setAttribute('id', paperId);
+  for (let i=0; i<btnAll.length;i++){
+    checkArr.push(btnAll[i].innerText);
+  }
+  let check = checkArr.includes(modelId);
+  if (check === false){
+    btnPaperNew.parentNode.insertBefore(newBtn, btnPaperNew);
+    newBtn.addEventListener('click', function(){
+      switchPaper(evt, paperId)
+    });
+    paperCont.appendChild(newPaper);
+    let graphNew = new joint.dia.Graph,
+      paperNew = new joint.dia.Paper({
+        el: $('#' + paperId),
+        model: graphNew,
+        // width: 938,
+        // height: 854,
+        width: canvas.offsetWidth,
+        height: canvas.offsetHeight,
+        // defaultLink: function (elementView, magnet) {
+        defaultLink: function () {
+          if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
+          else return devsStandLink.clone();
+        },
+        snapLinks: true,
+        linkPinning: false,
+        gridSize: 15,
+        drawGrid: {
+          name: 'mesh',
+          args: [
+            {color: 'black', thickness: 1} // settings for the primary mesh
+            // { color: 'green', scaleFactor: 5, thickness: 5 } //settings for the secondary mesh
+          ]
+        },
+        // drawGrid:true,
+        embeddingMode: true,
+        highlighting: {
+          'default': {
+            name: 'stroke',
+            options: {
+              padding: 6
+            }
+          },
+          'embedding': {
+            name: 'addClass',
+            options: {
+              className: 'highlighted-parent'
+            }
+          }
+        },
+        validateEmbedding: function (childView, parentView) {
+          return parentView.model instanceof joint.shapes.xproc.Compound;
+        },
+        validateConnection: function (sourceView, sourceMagnet, targetView, targetMagnet) {
+          let sourceGroup = sourceMagnet.getAttribute('port-group');
+          let targetGroup = targetMagnet.parentElement.getAttribute('port-group'); //JavaScript Befehl
+          if (sourceGroup !== targetGroup) {
+            return true;
+          }
+        },
+        interactive: function (cellView){
+          if (cellView.model.attributes.type !== "xproc.Option"){
+            return true;
+          }
+        }
+      });
+    paperNew.on('cell:pointerdblclick', function(cellView, evt){
+      cellPointerDblClick(cellView, evt);
+    });
+    // let newPipeline = xplD.clone();
+    // let newStep = localStorage.getItem(btnText);
+    // newStep = JSON.parse(newStep);
+    console.log(cellView.model);
+    let stepPipeWidth = canvas.offsetWidth - (canvas.offsetWidth * 10 / 100);
+    let stepPipeHeight = canvas.offsetHeight - (canvas.offsetHeight * 10 / 100);
+    graphNew.addCell(cellView.model.clone()
+      .resize(stepPipeWidth, stepPipeHeight)
+      .prop('stepId', modelId)
+      .position(50, 30)
+      .attr({
+        ".word2": {y: 60, x: stepPipeWidth/2}
+      })
+    );
+    switchPaper(evt, paperId, paperNew, graphNew);
+  }
+  else if (check === true){
+    // jump to created paper / btn
+  }
+
+}
+
+function switchPaper(evt, paperId, paperNew, graphNew) {
   // Declare all variables
   let i, paperContent, tablink;
   // Get all elements with class="paperContent" and hide them
@@ -248,33 +367,47 @@ function switchPaper(evt, paperId) {
   evt.currentTarget.className += " active";
   let paperI = paperId;
 
-  switch (paperI) {
-    case "paper1":
-      paperX = paper;
-      graphX = graph;
-      // paperToGo = "#paper1";
-      break;
-    case "paper2":
-      paperX = paper2;
-      graphX = graph2;
-      // paperToGo = "#paper2";
-      break;
-    case "paper3":
-      paperX = paper3;
-      graphX = graph3;
-      // paperToGo = "#paper3";
-      break;
-    case "paper4":
-      paperX = paper4;
-      graphX = graph4;
-      // paperToGo = "#paper4";
-      break;
-    case "paper5":
-      paperX = paper5;
-      graphX = graph5;
-      // paperToGo = "#paper5";
-      break;
+  if (paperId === "paper1"){
+    paperX = paper;
+    graphX = graph;
   }
+  else {
+    paperX = paperNew;
+    graphX = graphNew;
+  }
+
+  // switch (paperI) {
+  //   // case "paper1":
+  //   //   paperX = paper;
+  //   //   graphX = graph;
+  //   //   // paperToGo = "#paper1";
+  //   //   break;
+  //     case paperI:
+  //     paperX = paper;
+  //     graphX = graph;
+  //     // paperToGo = "#paper1";
+  //     break;
+    // case "paper2":
+    //   paperX = paper2;
+    //   graphX = graph2;
+    //   // paperToGo = "#paper2";
+    //   break;
+    // case "paper3":
+    //   paperX = paper3;
+    //   graphX = graph3;
+    //   // paperToGo = "#paper3";
+    //   break;
+    // case "paper4":
+    //   paperX = paper4;
+    //   graphX = graph4;
+    //   // paperToGo = "#paper4";
+    //   break;
+    // case "paper5":
+    //   paperX = paper5;
+    //   graphX = graph5;
+    //   // paperToGo = "#paper5";
+    //   break;
+  // }
 }
 
 document.getElementById("defaultOpen").click();
@@ -395,6 +528,7 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
     },
     stepGroup: "xproc.Atomic",
     stepType: "unset",
+    stepId: "unset",
     portData: [
       {
         portId: "unset",
@@ -535,6 +669,7 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
     },
     stepGroup: "xproc.Compound",
     stepType: "unset",
+    stepId: "unset",
     portData: [
       {
         portId: "unset",

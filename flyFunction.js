@@ -50,9 +50,10 @@ function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY){
   let stepOptionArray = superObj[i].stepOption;
   let newCell = new joint.shapes.xproc.Atomic(superObj[i])
     .prop('id', stepId)
+    .prop('stepId', stepId)
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
-  graph.addCell(newCell);
+  graphX.addCell(newCell);
   let stepOptionPosY = placeY + 100;
   for (let j = 0; j < stepOptionArray.length; j++) {
     let stepOptionName = stepOptionArray[j].name;
@@ -62,7 +63,7 @@ function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY){
       .attr({
         ".label": {text: stepOptionName}, rect: {fill: '#c3b0ff'}
       });
-    graph.addCell(newStepOption);
+    graphX.addCell(newStepOption);
     newCell.embed(newStepOption);
     stepOptionPosY = stepOptionPosY + 20;
   }
@@ -71,9 +72,10 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY){
   let stepOptionArray = superObj[i].stepOption;
   let newCell = new joint.shapes.xproc.Compound(superObj[i])
     .prop('id', stepId)
+    .prop('stepId', stepId)
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
-  graph.addCell(newCell);
+  graphX.addCell(newCell);
   let stepOptionPosY = placeY + 100;
   for (let j = 0; j < stepOptionArray.length; j++) {
     let stepOptionName = stepOptionArray[j].name;
@@ -83,7 +85,7 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY){
       .attr({
         ".label": {text: stepOptionName}, rect: {fill: '#a1c9ff'}
       });
-    graph.addCell(newStepOption);
+    graphX.addCell(newStepOption);
     newCell.embed(newStepOption);
     stepOptionPosY = stepOptionPosY + 20;
   }
@@ -98,6 +100,7 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY){
 //   // document.getElementById("atomicUL").appendChild(elemClone);
 // }
 
+// PAPER - FUNCITONS
 paper.on('element:mouseenter element:mouseleave', function (cellView) {
 if(cellView.model.attributes.type !== "xproc.Option"){
   let stepId = cellView.model.id;
@@ -106,6 +109,24 @@ if(cellView.model.attributes.type !== "xproc.Option"){
   $('#' + modelId + " .port-label").fadeToggle('fast');
 }
 });
+paper.on('cell:pointerdblclick', function (cellView, evt) {
+  cellPointerDblClick(cellView, evt);
+});
+
+function cellPointerDblClick (cellView, evt){
+  let modelType = cellView.model.attributes.type;
+  let modelId = cellView.model.attributes.stepId;
+  let modelString = JSON.stringify(cellView.model);
+  console.log(cellView.model.id);
+  console.log(cellView.model);
+  console.log(cellView.model.toJSON());
+  // console.log(modelString);
+  // console.log(graphX.getConnectedLinks(cellView.model));
+  if (modelType === "xproc.Compound"){
+    createPaperBtn(modelId, evt, cellView);
+    // localStorage.setItem(modelId, modelString);
+  }
+}
 
   // let stepPrimary = [];
   // let stepPrimaryPortGroup = [];

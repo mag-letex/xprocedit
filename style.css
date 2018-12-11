@@ -12,7 +12,7 @@
   grid-row: 3 / 13;
   grid-column: 2 / 3;
 }
-#paper1, #paper2, #paper3, #paper4, #paper5 {
+#paper1{
   grid-row: 3 / 13;
   grid-column: 2 / 3;
 }
@@ -44,6 +44,9 @@
 }
 .tab button.active {
   background-color: #ccc;
+}
+.tab button ::after{
+  content: "x"
 }
 
 /* HIDDEN XPROC-DIV */
@@ -422,40 +425,40 @@ align-self: center;
   color: #fff;
   left: 0.3em;
 }
-.toggle li {
-  padding: 0.4em;
-}
-.ui-state-default {
-  background: #0889a1;
-  color: #fff;
-  font-weight: bold;
-}
-.ui-accordion .ui-accordion-content {
-  padding: 0.5em 0.2em;
-}
-.toggleClick {
-  background-color: #0e6dcd;
-  height: 0.6em;
-  padding: 0.3em 0 0.8em 0.6em;
-  cursor: pointer;
-  margin: 0 0 0.5em 0;
-}
-.toggleClose::before {
-  content: "";
-  display: inline-block;
-  background-size: 14px 14px;
-  background: url("img/btn-meta-close.svg") no-repeat;
-  width: 18px;
-  height: 14px;
-}
-.toggleOpen::before {
-  content: "";
-  display: inline-block;
-  background-size: 14px 14px;
-  background: url("img/btn-meta-open.svg") no-repeat;
-  width: 18px;
-  height: 14px;
-}
-.toggleView {
-  display: none;
-}
+/*.toggle li {*/
+  /*padding: 0.4em;*/
+/*}*/
+/*.ui-state-default {*/
+  /*background: #0889a1;*/
+  /*color: #fff;*/
+  /*font-weight: bold;*/
+/*}*/
+/*.ui-accordion .ui-accordion-content {*/
+  /*padding: 0.5em 0.2em;*/
+/*}*/
+/*.toggleClick {*/
+  /*background-color: #0e6dcd;*/
+  /*height: 0.6em;*/
+  /*padding: 0.3em 0 0.8em 0.6em;*/
+  /*cursor: pointer;*/
+  /*margin: 0 0 0.5em 0;*/
+/*}*/
+/*.toggleClose::before {*/
+  /*content: "";*/
+  /*display: inline-block;*/
+  /*background-size: 14px 14px;*/
+  /*background: url("img/btn-meta-close.svg") no-repeat;*/
+  /*width: 18px;*/
+  /*height: 14px;*/
+/*}*/
+/*.toggleOpen::before {*/
+  /*content: "";*/
+  /*display: inline-block;*/
+  /*background-size: 14px 14px;*/
+  /*background: url("img/btn-meta-open.svg") no-repeat;*/
+  /*width: 18px;*/
+  /*height: 14px;*/
+/*}*/
+/*.toggleView {*/
+  /*display: none;*/
+/*}*/

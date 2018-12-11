@@ -320,14 +320,7 @@ function metaActive(cellView) {
   });
 }
 
-// CONSOLE-FUNCTION
-paper.on('cell:pointerdblclick', function (cellView, evt, x, y) {
-  console.log(cellView.model.id);
-  console.log(cellView.model);
-  console.log(cellView.model.toJSON());
-  console.log(graphX.getConnectedLinks(cellView.model));
-});
-
+// HIGHLIGHT-FUNCTION
 paper.on('cell:highlight', function () {
   $(document).bind('keyup', function (e) {
     if (e.keyCode == 46) {

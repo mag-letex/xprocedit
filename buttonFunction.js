@@ -39,11 +39,16 @@ btnLSGet.addEventListener('click', function(){
     console.log(localStorage.key(i));
   }
 });
-btnClearGraph.addEventListener('click', function(){
-  graph.clear();
-  graph.addCell(xplD);
+btnClearPipeline.addEventListener('click', function(){
+  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  let embeds = currentPipeline.getEmbeddedCells();
+  graphX.removeCells(embeds);
 });
-// let clicks = 0;
+btnGetEmbeds.addEventListener('click', function(){
+  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  let embeds = currentPipeline.getEmbeddedCells();
+  console.log(embeds);
+});
 btnBack.addEventListener('click', function(){
   getLastGraphState();
 });
@@ -51,12 +56,12 @@ btnForward.addEventListener('click', function(){
   getNextGraphState();
 });
 btnInPortAdd.addEventListener('click', function(){
-  let pipe = graph.getCell('XProc-Pipeline');
-  pipe.addPort(inPort);
+  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  currentPipeline.addPort(inPort);
 });
 btnOutPortAdd.addEventListener('click', function(){
-  let pipe = graph.getCell('XProc-Pipeline');
-  pipe.addPort(outPort);
+  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  currentPipeline.addPort(outPort);
 });
 $('#btnShowOptions').on('click', function(){
   $('.joint-type-xproc-option').fadeOut('fast');

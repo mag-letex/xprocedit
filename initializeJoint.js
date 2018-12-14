@@ -1,21 +1,21 @@
-window.addEventListener("load", function(){
-  let lastGraphState = localStorage.getItem('lastGraphState');
-  lastGraphState = JSON.parse(lastGraphState);
-  if (lastGraphState !== undefined){
-    graph.fromJSON(lastGraphState);
-  }
-});
-window.addEventListener("unload", function(){
-  saveLastGraphState();
-});
-window.addEventListener("dragover",function(e){
+// window.addEventListener("load", function () {
+//   let lastGraphState = localStorage.getItem('lastGraphState');
+//   lastGraphState = JSON.parse(lastGraphState);
+//   if (lastGraphState !== undefined) {
+//     graph.fromJSON(lastGraphState);
+//   }
+// });
+// window.addEventListener("unload", function () {
+//   saveLastGraphState();
+// });
+window.addEventListener("dragover", function (e) {
   e = e || event;
   e.preventDefault();
-},false);
-window.addEventListener("drop",function(e){
+}, false);
+window.addEventListener("drop", function (e) {
   e = e || event;
   e.preventDefault();
-},false);
+}, false);
 
 //BUTTON-INITIALIZATION
 let btnFile = document.getElementById('drpdwn_file');
@@ -23,7 +23,8 @@ let btnJSON = document.getElementById('btn_json');
 let btnLSClear = document.getElementById('btnLSClear');
 let btnLSGet = document.getElementById('btnLSGet');
 let btnLink = document.getElementById('btn_link');
-let btnClearGraph = document.getElementById('btnClearGraph');
+let btnClearPipeline = document.getElementById('btnClearPipeline');
+let btnGetEmbeds = document.getElementById('btnGetEmbeds');
 let btnBack = document.getElementById('btnBack');
 let btnForward = document.getElementById('btnForward');
 let btnInPortAdd = document.getElementById('btnInPortAdd');
@@ -58,47 +59,53 @@ xhr.onload = function (e) {
   }
   let stepsHtml = document.querySelectorAll('.step');
   stepsHtml.forEach(function (elem) {
-     elem.addEventListener('dragstart', function(e){
+    elem.addEventListener('dragstart', function (e) {
       e.dataTransfer.setData('text', e.target.id);
     });
-    elem.addEventListener('dblclick', function() {
-      let drop = false;
+    elem.addEventListener('dblclick', function () {
       let placeX = 100;
       let placeY = 100;
       stepLoad(elem, placeX, placeY);
     });
   });
 
-    let paperHtml = document.querySelector('#paper1');
-    // paperHtml.addEventListener('dragover', function(e){
-      // let elemClone = elem.cloneNode(true);
-      // elem.parentNode.insertBefore(elemClone, elem);
-      // dropX = e.layerX;
-    // });
-    paperHtml.addEventListener('drop', function(e){
-      let data = e.dataTransfer.getData('text');
-      let dropElem = document.querySelector('#' + data);
-      let dropElemSibl = dropElem.nextSibling;
-      console.log(dropElem.nextSibling);
-      let placeX = e.layerX - 80;
-      let placeY = e.layerY - 20;
-      e.target.appendChild(document.getElementById(data));
-      stepLoad(dropElem, placeX, placeY);
-      dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
-    });
-
-
+  // let paperHtml = document.querySelector('#' + paperIdGlobal);
+  // paperHtml.addEventListener('drop', function (e) {
+  //   let data = e.dataTransfer.getData('text');
+  //   let dropElem = document.querySelector('#' + data);
+  //   let dropElemSibl = dropElem.nextSibling;
+  //   console.log(dropElem.nextSibling);
+  //   let placeX = e.layerX - 80;
+  //   let placeY = e.layerY - 20;
+  //   e.target.appendChild(document.getElementById(data));
+  //   stepLoad(dropElem, placeX, placeY);
+  //   dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
+  // });
 };
 
-// let browserHeight = window.innerHeight;
-// document.querySelector("#container").style["max-height"] = browserHeight - 50 + "px";
-// document.querySelector("#container").style["min-height"] = browserHeight - 50 + "px";
-
-// $(document).on("mousemove", function (event) {
-//     pageX = event.pageX;
-//     pageY = event.pageY;
-//     $("#log").text("pageX: " + event.pageX + ", pageY: " + event.pageY);
-// });
+window.onload = function () {
+  let defaultBtn = document.getElementById("btnDefaultOpen");
+  console.log(defaultBtn.id);
+    defaultBtn.click();
+    document.getElementById('paper1')
+      .addEventListener('drop', function (e) {
+    let data = e.dataTransfer.getData('text');
+    let dropElem = document.querySelector('#' + data);
+    let dropElemSibl = dropElem.nextSibling;
+    console.log(dropElem.nextSibling);
+    let placeX = e.layerX - 80;
+    let placeY = e.layerY - 20;
+    e.target.appendChild(document.getElementById(data));
+    stepLoad(dropElem, placeX, placeY);
+    dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
+  });
+  loadPipeline();
+  defaultBtn.id = pipelineIdGlobal;
+  defaultBtn.innerHTML = pipelineIdGlobal;
+  // let currentPipeline = graphX.getCells(pipelineIdGlobal);
+  console.log(defaultBtn);
+  console.log("Hello");
+};
 
 // Step Panel Function
 let stepInput = document.querySelectorAll('[id^="input"]');
@@ -111,8 +118,7 @@ stepInput.forEach(function (elem) {
     for (i = 0; i < li.length; i++) {
       if (li[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
         li[i].style.display = "";
-      }
-      else {
+      } else {
         li[i].style.display = "none";
       }
     }
@@ -120,14 +126,17 @@ stepInput.forEach(function (elem) {
 });
 
 let devsLink = joint.dia.Link.define('devs.StandLink', {});
+
 let devsStandLink = new devsLink({
   router: {name: 'manhattan'},
   connector: {name: 'rounded'},
   attrs: {
     '.connection': {fill: '#fff7ec', stroke: '#FFF7EC', 'stroke-width': 3},
-    '.marker-target': {fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z'}
+    '.marker-target': {fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z'},
   }
 });
+devsStandLink.set('z', 1);
+
 let devsMainLink = new devsLink({
   router: {name: 'manhattan'},
   connector: {name: 'rounded'},
@@ -136,6 +145,7 @@ let devsMainLink = new devsLink({
     '.marker-target': {fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z'}
   }
 });
+devsMainLink.set('z', 1);
 
 // Canvas Initialization
 let canvas = document.querySelector('#papers');
@@ -188,93 +198,66 @@ let graph = new joint.dia.Graph,
         return true;
       }
     },
-    interactive: function (cellView){
-      if (cellView.model.attributes.type !== "xproc.Option"){
+    interactive: function (cellView) {
+      if (cellView.model.attributes.type !== "xproc.Option") {
         return true;
       }
     }
   });
-// let graph2 = new joint.dia.Graph,
-//   paper2 = new joint.dia.Paper({
-//     el: $('#paper2'),
-//     model: graph2,
-//     snapLinks: true,
-//     linkPinning: false,
-//     embeddingMode: true,
-//     // width: 938,
-//     // height: 854
-//     width: canvas.offsetWidth,
-//     height: canvas.offsetHeight
-//   });
-// let graph3 = new joint.dia.Graph,
-//   paper3 = new joint.dia.Paper({
-//     el: $('#paper3'),
-//     model: graph3,
-//     snapLinks: true,
-//     linkPinning: false,
-//     embeddingMode: true,
-//     width: 938,
-//     height: 854
-//   });
-// let graph4 = new joint.dia.Graph,
-//   paper4 = new joint.dia.Paper({
-//     el: $('#paper4'),
-//     model: graph4,
-//     snapLinks: true,
-//     linkPinning: false,
-//     embeddingMode: true,
-//     width: 938,
-//     height: 854
-//   });
-// let graph5 = new joint.dia.Graph,
-//   paper5 = new joint.dia.Paper({
-//     el: $('#paper5'),
-//     model: graph5,
-//     snapLinks: true,
-//     linkPinning: false,
-//     embeddingMode: true,
-//     width: 938,
-//     height: 854
-//   });
 
 // Paper-Switch-Event
-
-btnPaperNew.addEventListener('click', function(evt){
-  // let newBtn = '<button class="tablink">New Pipeline</button>';
+btnPaperNew.addEventListener('click', function (evt) {
   getId();
-  let btnText = "New Pipeline" + "_"+ newId;
-  createPaperBtn(btnText, evt);
+  let oldPipeline = graphX.getCell(pipelineIdGlobal);
+  let newCellView = paperX.findViewByModel(oldPipeline);
+  let newPipelineId = "newPipeline" + "_" + newId;
+  createPaperBtn(newPipelineId, evt, newCellView);
+  pipelineIdGlobal = newPipelineId;
 });
+let paperIdGlobal;
 
-function createPaperBtn(modelId, evt, cellView){
+function createPaperBtn(modelId, evt, cellView) {
   //CREATE BUTTON
   let newBtn = document.createElement('button');
+  let btnId = 'btn-' + modelId;
   newBtn.appendChild(document.createTextNode(modelId));
-  newBtn.classList.add('tablink');
+  newBtn.classList.add('tablink', 'active');
+  newBtn.setAttribute('id', btnId);
   let btnAll = document.querySelector('.tab').children;
   let checkArr = [];
   //CREATE PAPER
   let paperCont = document.querySelector('#papers');
   let newPaper = document.createElement('div');
   let paperId = 'paper-' + modelId;
+  paperIdGlobal = paperId;
   newPaper.classList.add('paperContent');
   newPaper.setAttribute('id', paperId);
-  for (let i=0; i<btnAll.length;i++){
+  // let paperHtml = document.querySelector('#' + paperIdGlobal);
+  //DROP-EVENT
+  newPaper.addEventListener('drop', function (e) {
+    let data = e.dataTransfer.getData('text');
+    let dropElem = document.querySelector('#' + data);
+    let dropElemSibl = dropElem.nextSibling;
+    let placeX = e.layerX - 80;
+    let placeY = e.layerY - 20;
+    e.target.appendChild(document.getElementById(data));
+    stepLoad(dropElem, placeX, placeY);
+    dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
+  });
+  for (let i = 0; i < btnAll.length; i++) {
     checkArr.push(btnAll[i].innerText);
   }
   let check = checkArr.includes(modelId);
-  if (check === false){
+  if (check === false) {
     btnPaperNew.parentNode.insertBefore(newBtn, btnPaperNew);
-    newBtn.addEventListener('click', function(){
-      switchPaper(evt, paperId)
+    newBtn.addEventListener('click', function () {
+      switchPaper(evt, paperId, btnId, paperNew, graphNew)
     });
     paperCont.appendChild(newPaper);
     let graphNew = new joint.dia.Graph,
       paperNew = new joint.dia.Paper({
         el: $('#' + paperId),
         model: graphNew,
-        // width: 938,
-        // height: 854,
         width: canvas.offsetWidth,
         height: canvas.offsetHeight,
         // defaultLink: function (elementView, magnet) {
@@ -318,38 +301,38 @@ function createPaperBtn(modelId, evt, cellView){
             return true;
           }
         },
-        interactive: function (cellView){
-          if (cellView.model.attributes.type !== "xproc.Option"){
+        interactive: function (cellView) {
+          if (cellView.model.attributes.type !== "xproc.Option") {
             return true;
           }
         }
       });
-    paperNew.on('cell:pointerdblclick', function(cellView, evt){
+    paperNew.on('cell:pointerdblclick', function (cellView, evt) {
       cellPointerDblClick(cellView, evt);
     });
-    // let newPipeline = xplD.clone();
-    // let newStep = localStorage.getItem(btnText);
-    // newStep = JSON.parse(newStep);
-    console.log(cellView.model);
+    // console.log(cellView.model);
     let stepPipeWidth = canvas.offsetWidth - (canvas.offsetWidth * 10 / 100);
     let stepPipeHeight = canvas.offsetHeight - (canvas.offsetHeight * 10 / 100);
     graphNew.addCell(cellView.model.clone()
       .resize(stepPipeWidth, stepPipeHeight)
       .prop('stepId', modelId)
+      .prop('id', modelId)
       .position(50, 30)
       .attr({
-        ".word2": {y: 60, x: stepPipeWidth/2}
+        ".word2": {y: 60, x: stepPipeWidth / 2}
       })
     );
-    switchPaper(evt, paperId, paperNew, graphNew);
-  }
-  else if (check === true){
+    switchPaper(evt, paperId, btnId, paperNew, graphNew);
+  } else if (check === true) {
     // jump to created paper / btn
+    switchPaper(evt, paperId, btnId);
   }
-
 }
 
-function switchPaper(evt, paperId, paperNew, graphNew) {
+let paperX;
+let graphX;
+
+function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   // Declare all variables
   let i, paperContent, tablink;
   // Get all elements with class="paperContent" and hide them
@@ -364,53 +347,18 @@ function switchPaper(evt, paperId, paperNew, graphNew) {
   }
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(paperId).style.display = "block";
-  evt.currentTarget.className += " active";
-  let paperI = paperId;
-
-  if (paperId === "paper1"){
+  let btn = document.getElementById(btnId);
+  btn.classList.add("active");
+  paperIdGlobal = paperId;
+  if (paperIdGlobal === "paper1") {
     paperX = paper;
     graphX = graph;
-  }
-  else {
+  } else {
     paperX = paperNew;
     graphX = graphNew;
   }
-
-  // switch (paperI) {
-  //   // case "paper1":
-  //   //   paperX = paper;
-  //   //   graphX = graph;
-  //   //   // paperToGo = "#paper1";
-  //   //   break;
-  //     case paperI:
-  //     paperX = paper;
-  //     graphX = graph;
-  //     // paperToGo = "#paper1";
-  //     break;
-    // case "paper2":
-    //   paperX = paper2;
-    //   graphX = graph2;
-    //   // paperToGo = "#paper2";
-    //   break;
-    // case "paper3":
-    //   paperX = paper3;
-    //   graphX = graph3;
-    //   // paperToGo = "#paper3";
-    //   break;
-    // case "paper4":
-    //   paperX = paper4;
-    //   graphX = graph4;
-    //   // paperToGo = "#paper4";
-    //   break;
-    // case "paper5":
-    //   paperX = paper5;
-    //   graphX = graph5;
-    //   // paperToGo = "#paper5";
-    //   break;
-  // }
+  pipelineIdGlobal = btn.innerText;
 }
-
-document.getElementById("defaultOpen").click();
 
 // MARKUP - MANIPULATION
 joint.shapes.xproc = {};
@@ -758,9 +706,9 @@ joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
         let btnSelect1 = btn.childNodes[0];
         let btnSelect2 = btn.childNodes[1];
         let thisCells = this.model.get('embeds');
-        thisCells.forEach(function(elem){
+        thisCells.forEach(function (elem) {
           let htmlElem = document.querySelector('[model-id="' + elem + '"]');
-          $('#'+htmlElem.id).fadeToggle('fast');
+          $('#' + htmlElem.id).fadeToggle('fast');
         });
         $(btnSelect1).fadeToggle('fast');
         $(btnSelect2).fadeToggle('fast');
@@ -774,15 +722,9 @@ joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
 joint.shapes.xproc.AtomicView = joint.shapes.xproc.ToolElementView;
 joint.shapes.xproc.CompoundView = joint.shapes.xproc.ToolElementView;
 
-let xplD = new joint.shapes.xproc.Compound({
-  position: {
-    x: 50,
-    y: 30
-  },
-  size: {
-    width: canvas.offsetWidth - (canvas.offsetWidth * 10 / 100),
-    height: canvas.offsetHeight - (canvas.offsetHeight * 10 / 100)
-  },
+let stepPipeWidth = canvas.offsetWidth - (canvas.offsetWidth * 10 / 100);
+joint.shapes.xproc.Compound.define('xproc.Pipeline', {
+  type: "xproc.Compound",
   stepType: "pipeline",
   attrs: {
     rect: {
@@ -790,12 +732,17 @@ let xplD = new joint.shapes.xproc.Compound({
       stroke: 'black',
       'stroke-width': 1,
       'follow-scale': true,
-      width: 160,
-      height: 80,
+      // width: 160,
+      // height: 80,
       'rx': 6,
       'ry': 6
     },
-    '.label': {text: "Xproc-Pipeline", fill: "#FFF7EC", 'font-size': '1.4em'}
+    '.label': {
+      text: "XProc-Pipeline",
+      fill: "#FFF7EC",
+      'font-size': '1.4em'
+    },
+    '.word2': {y: 60, x: stepPipeWidth / 2}
   },
   inPorts: ["source"],
   outPorts: ["result"],
@@ -814,22 +761,29 @@ let xplD = new joint.shapes.xproc.Compound({
   ]
 });
 
-xplD.portProp('source', 'markup', '<g><circle class="port-body in-ports primary" r="10"/><text fill="#000" y="5" text-anchor="middle" font-weight="bold">P</text></g>');
-xplD.portProp('result', 'markup', '<g><circle class="port-body out-ports primary" r="10"/><text fill="#000" y="5" text-anchor="middle" font-weight="bold">P</text></g>');
-xplD.portProp('source', 'attrs/g/port-group', 'pipe-in');
-xplD.portProp('result', 'attrs/g/port-group', 'pipe-out');
-xplD.prop('id', 'XProc-Pipeline');
-graph.addCell(xplD);
-V(paper.findViewByModel(xplD).el).addClass('xplEl');
+let pipelineIdGlobal;
 
-window.addEventListener("resize", function () {
-  let canvasWidth = canvas.offsetWidth;
-  let canvasHeight = canvas.offsetHeight;
-  paper.setDimensions(canvasWidth, canvasHeight);
-  let xplWidth = canvasWidth * 0.8 + (canvas.offsetWidth * 10 / 100);
-  let xplHeight = canvasWidth * 0.6;
-  xplD.resize(xplWidth, xplHeight);
-});
+function loadPipeline() {
+  getId();
+  graphX.clear();
+  let newPipeline = new joint.shapes.xproc.Pipeline({
+    position: {
+      x: 50,
+      y: 30
+    },
+    size: {
+      width: canvas.offsetWidth - (canvas.offsetWidth * 10 / 100),
+      height: canvas.offsetHeight - (canvas.offsetHeight * 10 / 100)
+    }
+  });
+  let pipelineId = 'newPipeline' + '_' + newId;
+  pipelineIdGlobal = pipelineId;
+  newPipeline.prop('id', pipelineId)
+    .prop('stepId', pipelineId);
+  graphX.addCell(newPipeline);
+  console.log("Pipeline loaded");
+}
+
 
 //Definition of a custom Model object
 joint.shapes.devs.Model.define('xproc.Option', {
@@ -847,7 +801,7 @@ joint.shapes.devs.Model.define('xproc.Option', {
     height: 20
   },
   attrs: {
-    ".label": {text: 'Böppel 1', fill: 'white', 'font-weight': 'bold', 'font-size': '0.9em', 'ref-y': 2},
+    ".label": {text: 'New Option', fill: 'white', 'font-weight': 'bold', 'font-size': '0.9em', 'ref-y': 2},
     rect: {fill: '#36d260', rx: '5', ry: '5', opacity: 0.8}
   },
 
@@ -954,11 +908,11 @@ let inPort = {
   label: {
     position: {
       name: 'right',
-      args: { y: 0, x: 25 } // extra arguments for the label layout function, see `layout.PortLabel` section
+      args: {y: 0, x: 25} // extra arguments for the label layout function, see `layout.PortLabel` section
     },
     markup: '<text class="label-text port-label" fill="blue"/>'
   },
-  attrs: { text: { text: 'in' } },
+  attrs: {text: {text: 'in'}},
   markup: '<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>'
 };
 
@@ -968,10 +922,19 @@ let outPort = {
   label: {
     position: {
       name: 'right',
-      args: { y: 0, x: -30 } // extra arguments for the label layout function, see `layout.PortLabel` section
+      args: {y: 0, x: -30} // extra arguments for the label layout function, see `layout.PortLabel` section
     },
     markup: '<text class="label-text port-label" fill="blue"/>'
   },
-  attrs: { text: { text: 'out' } },
+  attrs: {text: {text: 'out'}},
   markup: '<circle class="port-body out-ports" r="10" stroke="#000" fill="#fff"/>'
 };
+window.addEventListener("resize", function () {
+  let canvasWidth = canvas.offsetWidth;
+  let canvasHeight = canvas.offsetHeight;
+  paperX.setDimensions(canvasWidth, canvasHeight);
+  let xplWidth = canvasWidth * 0.8 + (canvas.offsetWidth * 10 / 100);
+  let xplHeight = canvasWidth * 0.6;
+  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  currentPipeline.resize(xplWidth, xplHeight);
+});

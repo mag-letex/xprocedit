@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" manifest="webstorage.appcache">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -76,7 +76,8 @@
       <button id="btn_json" class="btnStd btnSub">get JSON</button>
       <button id="btnLSClear" class="btnStd btnSub">Clear LS</button>
       <button id="btnLSGet" class="btnStd btnSub">Get LS</button>
-      <button id="btnClearGraph" class="btnStd btnSub">Clear Graph</button>
+      <button id="btnClearPipeline" class="btnStd btnSub">Clear Pipeline</button>
+      <button id="btnGetEmbeds" class="btnStd btnSub">Get Embedded Steps</button>
     </div>
     <div style="display: inline-flex;">
     <div id="pipeImport">
@@ -125,7 +126,7 @@
   </div>
   <div id="paperSwitch">
     <div class="tab">
-      <button id="defaultOpen" class="tablink" onclick="switchPaper(event, 'paper1')">XProc-Pipeline</button>
+      <button id="btnDefaultOpen" class="tablink" onclick="switchPaper(event, 'paper1', 'btnDefaultOpen')">XProc-Pipeline</button>
       <!--<button class="tablink" style="display: none;">New Pipeline</button>-->
       <button id="btnPaperNew" class="tablink">+</button>
     </div>

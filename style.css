@@ -122,12 +122,12 @@ align-self: center;
   color: gold;
   align-self: center;
 }
-#btn_pipe {
+.btnExp {
   background-color: #ba462e;
   color: gold;
   font-weight: bold;
 }
-#btn_pipe:hover {
+.btnExp:hover {
   background-color: #c61010;
   color: gold;
 }
@@ -217,7 +217,7 @@ align-self: center;
   grid-row: 1 / 4;
 }
 #stepPanelAtomic li {
-  background-color: #800080;
+  background-color: #f86f75;
 }
 #stepPanelCompound{
   grid-row: 4 / 7;
@@ -264,6 +264,7 @@ align-self: center;
   fill: white;
   font-weight: bold;
   text-anchor: middle;
+  display: block;
 }
 .port-body {
   fill: #fff;

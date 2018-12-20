@@ -40,15 +40,36 @@ btnLSGet.addEventListener('click', function(){
   }
 });
 btnClearPipeline.addEventListener('click', function(){
-  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  let currentPipeline = graphX.getCell(globalPipeline);
   let embeds = currentPipeline.getEmbeddedCells();
   graphX.removeCells(embeds);
 });
 btnGetEmbeds.addEventListener('click', function(){
-  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  let currentPipeline = graphX.getCell(globalPipeline);
   let embeds = currentPipeline.getEmbeddedCells();
   console.log(embeds);
 });
+let graphArray = [];
+btnExportTest.addEventListener('click', function(){
+  pipelineExport();
+});
+function pipelineExport(){
+  graphArray = [];
+  let i;
+  for (i=0;i<testBtnArray.length;i++){
+    let btnId = testBtnArray[i];
+    let btn = document.getElementById(btnId);
+    btn.click();
+    let graphJSON = graphX.toJSON();
+    let graphCells = graphJSON.cells;
+    graphArray.push(graphCells);
+    document.getElementById(testBtnArray[0]).click();
+  }
+  console.log(">>>>> GRAPH ARRAY");
+  console.log(graphArray);
+  console.log(JSON.stringify(graphArray));
+}
+
 btnBack.addEventListener('click', function(){
   getLastGraphState();
 });
@@ -56,11 +77,11 @@ btnForward.addEventListener('click', function(){
   getNextGraphState();
 });
 btnInPortAdd.addEventListener('click', function(){
-  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.addPort(inPort);
 });
 btnOutPortAdd.addEventListener('click', function(){
-  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.addPort(outPort);
 });
 $('#btnShowOptions').on('click', function(){

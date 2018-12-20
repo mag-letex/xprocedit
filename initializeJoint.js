@@ -25,11 +25,17 @@ let btnLSGet = document.getElementById('btnLSGet');
 let btnLink = document.getElementById('btn_link');
 let btnClearPipeline = document.getElementById('btnClearPipeline');
 let btnGetEmbeds = document.getElementById('btnGetEmbeds');
+let btnExportTest = document.getElementById('btnExportTest');
+
 let btnBack = document.getElementById('btnBack');
 let btnForward = document.getElementById('btnForward');
 let btnInPortAdd = document.getElementById('btnInPortAdd');
 let btnOutPortAdd = document.getElementById('btnOutPortAdd');
 let btnPaperNew = document.getElementById('btnPaperNew');
+
+let globalPipeline;
+let testGraph = [];
+let testBtnArray = [];
 
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
@@ -68,43 +74,56 @@ xhr.onload = function (e) {
       stepLoad(elem, placeX, placeY);
     });
   });
-
-  // let paperHtml = document.querySelector('#' + paperIdGlobal);
-  // paperHtml.addEventListener('drop', function (e) {
-  //   let data = e.dataTransfer.getData('text');
-  //   let dropElem = document.querySelector('#' + data);
-  //   let dropElemSibl = dropElem.nextSibling;
-  //   console.log(dropElem.nextSibling);
-  //   let placeX = e.layerX - 80;
-  //   let placeY = e.layerY - 20;
-  //   e.target.appendChild(document.getElementById(data));
-  //   stepLoad(dropElem, placeX, placeY);
-  //   dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
-  // });
 };
 
+// let paperHtml = document.querySelector('#' + paperIdGlobal);
+// paperHtml.addEventListener('drop', function (e) {
+//   let data = e.dataTransfer.getData('text');
+//   let dropElem = document.querySelector('#' + data);
+//   let dropElemSibl = dropElem.nextSibling;
+//   console.log(dropElem.nextSibling);
+//   let placeX = e.layerX - 80;
+//   let placeY = e.layerY - 20;
+//   e.target.appendChild(document.getElementById(data));
+//   stepLoad(dropElem, placeX, placeY);
+//   dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
+// });
 window.onload = function () {
+  getId();
+  let btnId = "btn-newPipeline_" + newId;
+  let pipelineId = "newPipeline_" + newId;
   let defaultBtn = document.getElementById("btnDefaultOpen");
-  console.log(defaultBtn.id);
-    defaultBtn.click();
-    document.getElementById('paper1')
-      .addEventListener('drop', function (e) {
-    let data = e.dataTransfer.getData('text');
-    let dropElem = document.querySelector('#' + data);
-    let dropElemSibl = dropElem.nextSibling;
-    console.log(dropElem.nextSibling);
-    let placeX = e.layerX - 80;
-    let placeY = e.layerY - 20;
-    e.target.appendChild(document.getElementById(data));
-    stepLoad(dropElem, placeX, placeY);
-    dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
+  testBtnArray.push(btnId);
+  defaultBtn.id = btnId;
+  defaultBtn.innerHTML = pipelineId;
+  defaultBtn = document.getElementById(btnId);
+  globalPipeline = pipelineId;
+  defaultBtn.addEventListener('click', function (event) {
+    switchPaper(event, 'paper1', btnId);
+    globalPipeline = pipelineId;
   });
-  loadPipeline();
-  defaultBtn.id = pipelineIdGlobal;
-  defaultBtn.innerHTML = pipelineIdGlobal;
-  // let currentPipeline = graphX.getCells(pipelineIdGlobal);
+  defaultBtn.click();
+  document.getElementById('paper1')
+    .addEventListener('drop', function (e) {
+      let data = e.dataTransfer.getData('text');
+      let dropElem = document.querySelector('#' + data);
+      let dropElemSibl = dropElem.nextSibling;
+      console.log(dropElem.nextSibling);
+      let placeX = e.layerX - 80;
+      let placeY = e.layerY - 20;
+      e.target.appendChild(document.getElementById(data));
+      stepLoad(dropElem, placeX, placeY);
+      dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
+    });
+  loadPipeline(pipelineId);
+
+  console.log(globalPipeline);
+  // let globalPipeline = graphX.getCells(globalPipeline);
   console.log(defaultBtn);
-  console.log("Hello");
+  SaxonJS.transform({
+    sourceLocation: "xsl/xproceditor.sef",
+    stylesheetLocation: "xsl/xproceditor.sef"
+  });
 };
 
 // Step Panel Function
@@ -147,6 +166,16 @@ let devsMainLink = new devsLink({
 });
 devsMainLink.set('z', 1);
 
+let devsOptionLink = new devsLink({
+  router: {name: 'manhattan'},
+  connector: {name: 'rounded'},
+  attrs: {
+    '.connection': {fill: '#30dde3', stroke: '#30dde3', 'stroke-width': 5},
+    '.marker-target': {fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z'}
+  }
+});
+devsOptionLink.set('z', 1);
+
 // Canvas Initialization
 let canvas = document.querySelector('#papers');
 let graph = new joint.dia.Graph,
@@ -158,8 +187,12 @@ let graph = new joint.dia.Graph,
     width: canvas.offsetWidth,
     height: canvas.offsetHeight,
     // defaultLink: function (elementView, magnet) {
-    defaultLink: function () {
-      if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
+    defaultLink: function (cellView) {
+        console.log(cellView.model.attributes.type);
+      if (cellView.model.attributes.type === "xproc.Option"){
+        return devsOptionLink.clone();
+      }
+      else if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
       else return devsStandLink.clone();
     },
     snapLinks: true,
@@ -199,20 +232,28 @@ let graph = new joint.dia.Graph,
       }
     },
     interactive: function (cellView) {
-      if (cellView.model.attributes.type !== "xproc.Option") {
-        return true;
+      if (cellView.model.attributes.type === "xproc.Option") {
+        // if (cellView.model.get('disableLinkInteractions')) {
+          console.log("Here!");
+          return {
+            linkMove: true,
+            labelMove: true,
+            elementMove: false,
+            addLinkFromMagnet: true
+          };
       }
+      else return true;
     }
   });
 
 // Paper-Switch-Event
 btnPaperNew.addEventListener('click', function (evt) {
   getId();
-  let oldPipeline = graphX.getCell(pipelineIdGlobal);
+  let oldPipeline = graphX.getCell(globalPipeline);
   let newCellView = paperX.findViewByModel(oldPipeline);
   let newPipelineId = "newPipeline" + "_" + newId;
   createPaperBtn(newPipelineId, evt, newCellView);
-  pipelineIdGlobal = newPipelineId;
+  globalPipeline = newPipelineId;
 });
 let paperIdGlobal;
 
@@ -250,8 +291,10 @@ function createPaperBtn(modelId, evt, cellView) {
   let check = checkArr.includes(modelId);
   if (check === false) {
     btnPaperNew.parentNode.insertBefore(newBtn, btnPaperNew);
+    testBtnArray.push(btnId);
     newBtn.addEventListener('click', function () {
-      switchPaper(evt, paperId, btnId, paperNew, graphNew)
+      switchPaper(evt, paperId, btnId, paperNew, graphNew);
+      globalPipeline = modelId;
     });
     paperCont.appendChild(newPaper);
     let graphNew = new joint.dia.Graph,
@@ -310,15 +353,24 @@ function createPaperBtn(modelId, evt, cellView) {
     paperNew.on('cell:pointerdblclick', function (cellView, evt) {
       cellPointerDblClick(cellView, evt);
     });
-    // console.log(cellView.model);
     let stepPipeWidth = canvas.offsetWidth - (canvas.offsetWidth * 10 / 100);
     let stepPipeHeight = canvas.offsetHeight - (canvas.offsetHeight * 10 / 100);
+    let stepColor;
+    let stepType = cellView.model.toJSON().type;
+    if (stepType === "xproc.Compound") {
+      stepColor = '#85dfff';
+    } else {
+      stepColor = '#58ada4';
+    }
     graphNew.addCell(cellView.model.clone()
       .resize(stepPipeWidth, stepPipeHeight)
       .prop('stepId', modelId)
       .prop('id', modelId)
       .position(50, 30)
       .attr({
+        rect: {
+          fill: stepColor
+        },
         ".word2": {y: 60, x: stepPipeWidth / 2}
       })
     );
@@ -357,7 +409,7 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
     paperX = paperNew;
     graphX = graphNew;
   }
-  pipelineIdGlobal = btn.innerText;
+  // globalPipeline = btn.innerText;
 }
 
 // MARKUP - MANIPULATION
@@ -414,7 +466,7 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
     type: 'xproc.Atomic',
     attrs: {
       rect: {
-        fill: '#A876FF',
+        fill: '#ff6d5c',
         stroke: 'black',
         'stroke-width': 1,
         'follow-scale': true,
@@ -728,7 +780,7 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
   stepType: "pipeline",
   attrs: {
     rect: {
-      fill: '#647664',
+      fill: '#58ada4',
       stroke: 'black',
       'stroke-width': 1,
       'follow-scale': true,
@@ -761,9 +813,8 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
   ]
 });
 
-let pipelineIdGlobal;
 
-function loadPipeline() {
+function loadPipeline(pipelineId) {
   getId();
   graphX.clear();
   let newPipeline = new joint.shapes.xproc.Pipeline({
@@ -776,12 +827,12 @@ function loadPipeline() {
       height: canvas.offsetHeight - (canvas.offsetHeight * 10 / 100)
     }
   });
-  let pipelineId = 'newPipeline' + '_' + newId;
-  pipelineIdGlobal = pipelineId;
+  // let pipelineId = 'newPipeline' + '_' + newId;
+  globalPipeline = pipelineId;
+  // testGraph.push(pipelineId);
   newPipeline.prop('id', pipelineId)
     .prop('stepId', pipelineId);
   graphX.addCell(newPipeline);
-  console.log("Pipeline loaded");
 }
 
 
@@ -935,6 +986,6 @@ window.addEventListener("resize", function () {
   paperX.setDimensions(canvasWidth, canvasHeight);
   let xplWidth = canvasWidth * 0.8 + (canvas.offsetWidth * 10 / 100);
   let xplHeight = canvasWidth * 0.6;
-  let currentPipeline = graphX.getCell(pipelineIdGlobal);
+  let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.resize(xplWidth, xplHeight);
 });

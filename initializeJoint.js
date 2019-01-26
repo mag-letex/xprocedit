@@ -116,10 +116,6 @@ window.onload = function () {
       dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
     });
   loadPipeline(pipelineId);
-
-  console.log(globalPipeline);
-  // let globalPipeline = graphX.getCells(globalPipeline);
-  console.log(defaultBtn);
   SaxonJS.transform({
     sourceLocation: "xsl/xproceditor.sef",
     stylesheetLocation: "xsl/xproceditor.sef"
@@ -233,8 +229,6 @@ let graph = new joint.dia.Graph,
     },
     interactive: function (cellView) {
       if (cellView.model.attributes.type === "xproc.Option") {
-        // if (cellView.model.get('disableLinkInteractions')) {
-          console.log("Here!");
           return {
             linkMove: true,
             labelMove: true,
@@ -556,14 +550,14 @@ joint.shapes.xproc.toolElementCompound = joint.shapes.devs.Coupled.extend({
     '<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
     '<title>Remove this element from the model</title>',
     '</g>',
-    '<g class="element-tool-big"><circle fill="blue" r="11"/>',
-    '<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
-    '<title>maximize</title>',
-    '</g>',
-    '<g class="element-tool-small"><circle fill="pink" r="11"/>',
-    '<path transform="matrix(0.8,0,0,0.8,-12.8,-12.8)" d="m 24.777,10.415 -2.828,-2.83 c 0,0 0.257243,-0.2562432 -13.833,13.834 l 2.83,2.829 z"/>',
-    '<title>Minimize</title>',
-    '</g>',
+    // '<g class="element-tool-big"><circle fill="blue" r="11"/>',
+    // '<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
+    // '<title>maximize</title>',
+    // '</g>',
+    // '<g class="element-tool-small"><circle fill="pink" r="11"/>',
+    // '<path transform="matrix(0.8,0,0,0.8,-12.8,-12.8)" d="m 24.777,10.415 -2.828,-2.83 c 0,0 0.257243,-0.2562432 -13.833,13.834 l 2.83,2.829 z"/>',
+    // '<title>Minimize</title>',
+    // '</g>',
     // '<g class="element-tool-meta"><circle fill="grey" r="20"/>',
     // '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">M</text>',
     // '<title>Open Meta-Information</title>',
@@ -670,6 +664,8 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
     stepGroup: "xproc.Compound",
     stepType: "unset",
     stepId: "unset",
+    stepPrefix: "unset",
+    stepName: "unset",
     portData: [
       {
         portId: "unset",
@@ -724,24 +720,24 @@ joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
         this.model.remove();
         return;
         break;
-      case 'element-tool-big':
-        this.model.resize(400, 400);
-        $('.element-tool-big').css('display', 'none');
-        $('.element-tool-meta').css('transform', 'translate(200px,200px)');
-        $('.element-tool-boeppel').css('transform', 'translate(0,400px)');
-        $('.element-tool-options').css('transform', 'translate(15px,386px)');
-        $('.element-tool-small').css({
-          "display": "block",
-          "transform": "translate(400px,0) rotate(45deg)"
-        });
-        return;
-        break;
-      case 'element-tool-small':
-        this.model.resize(200, 100);
-        $('.element-tool-small').css('display', 'none');
-        $('.element-tool-big').css('display', 'block');
-        return;
-        break;
+      // case 'element-tool-big':
+      //   this.model.resize(400, 400);
+      //   $('.element-tool-big').css('display', 'none');
+      //   $('.element-tool-meta').css('transform', 'translate(200px,200px)');
+      //   $('.element-tool-boeppel').css('transform', 'translate(0,400px)');
+      //   $('.element-tool-options').css('transform', 'translate(15px,386px)');
+      //   $('.element-tool-small').css({
+      //     "display": "block",
+      //     "transform": "translate(400px,0) rotate(45deg)"
+      //   });
+      //   return;
+      //   break;
+      // case 'element-tool-small':
+      //   this.model.resize(200, 100);
+      //   $('.element-tool-small').css('display', 'none');
+      //   $('.element-tool-big').css('display', 'block');
+      //   return;
+      //   break;
       // case 'element-tool-embed':
       //     // let embed = this.model.getEmbeddedCells();
       //     return;

@@ -1,3 +1,7 @@
+label{
+  display: block;
+}
+
 #container {
   display: grid;
   width: 95vw;
@@ -247,6 +251,15 @@ align-self: center;
 #metaPanel h1 {
   text-align: center;
   color: #4ea7bb;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+.metaArea{
+  text-align: center;
+  display: none;
+}
+.metaArea h2{
+  width: 100%;
+  background-color: floralwhite;
   font-family: 'Source Sans Pro', sans-serif;
 }
 /*.modelString {*/

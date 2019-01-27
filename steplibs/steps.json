@@ -350,13 +350,11 @@
       "portData": [
         {
           "portId": "source",
-          "portGroup": "in",
-          "portPrimary": true
+          "portGroup": "in"
         },
         {
           "portId": "result",
           "portGroup": "out",
-          "portPrimary": true,
           "portSequence": true
         }
       ],

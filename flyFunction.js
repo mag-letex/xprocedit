@@ -46,7 +46,6 @@ function stepLoad(elem, placeX, placeY) {
 }
 
 function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
-  let stepOptionArray = superObj[i].stepOption;
   let newCell = new joint.shapes.xproc.Atomic(superObj[i])
     .prop('id', stepId)
     .prop('stepId', stepId)
@@ -55,23 +54,25 @@ function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
   graphX.addCell(newCell);
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.embed(newCell);
-  let stepOptionPosY = placeY + 100;
-  for (let j = 0; j < stepOptionArray.length; j++) {
-    let stepOptionName = stepOptionArray[j].name;
-    newStepOption = newStepOption.clone()
-      .prop('id', "" + stepId + "_opt_" + stepOptionName)
-      .position(placeX, stepOptionPosY)
-      .attr({
-        ".label": {text: stepOptionName}, rect: {fill: '#ff6d5c'}
-      });
-    graphX.addCell(newStepOption);
-    newCell.embed(newStepOption);
-    stepOptionPosY = stepOptionPosY + 20;
+  if (superObj[i].stepOption !== undefined) {
+    let stepOptionArray = superObj[i].stepOption;
+    let stepOptionPosY = placeY + 100;
+    for (let j = 0; j < stepOptionArray.length; j++) {
+      let stepOptionName = stepOptionArray[j].name;
+      newStepOption = newStepOption.clone()
+        .prop('id', "" + stepId + "_opt_" + stepOptionName)
+        .position(placeX, stepOptionPosY)
+        .attr({
+          ".label": {text: stepOptionName}, rect: {fill: '#ff6d5c'}
+        });
+      graphX.addCell(newStepOption);
+      newCell.embed(newStepOption);
+      stepOptionPosY = stepOptionPosY + 20;
+    }
   }
 }
 
 function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
-  let stepOptionArray = superObj[i].stepOption;
   testGraph.push(stepId);
   let newCell = new joint.shapes.xproc.Compound(superObj[i])
     .prop('id', stepId)
@@ -81,53 +82,62 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
   graphX.addCell(newCell);
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.embed(newCell);
-  let stepOptionPosY = placeY + 100;
-  for (let j = 0; j < stepOptionArray.length; j++) {
-    let stepOptionName = stepOptionArray[j].name;
-    newStepOption = newStepOption.clone()
-      .prop('id', "" + stepId + "_opt_" + stepOptionName)
-      .position(placeX, stepOptionPosY)
-      .attr({
-        ".label": {text: stepOptionName}, rect: {fill: '#a1c9ff'}
-      });
-    graphX.addCell(newStepOption);
-    newCell.embed(newStepOption);
-    stepOptionPosY = stepOptionPosY + 20;
+  if (superObj[i].stepOption !== undefined) {
+    let stepOptionArray = superObj[i].stepOption;
+    let stepOptionPosY = placeY + 100;
+    for (let j = 0; j < stepOptionArray.length; j++) {
+      let stepOptionName = stepOptionArray[j].name;
+      newStepOption = newStepOption.clone()
+        .prop('id', "" + stepId + "_opt_" + stepOptionName)
+        .position(placeX, stepOptionPosY)
+        .attr({
+          ".label": {text: stepOptionName}, rect: {fill: '#a1c9ff'}
+        });
+      graphX.addCell(newStepOption);
+      newCell.embed(newStepOption);
+      stepOptionPosY = stepOptionPosY + 20;
+    }
   }
 }
 
 // PAPER - FUNCITONS
-paper.on('element:mouseover', function (cellView) {
-  let stepId;
-  let model;
-  let modelId;
-  if (cellView.model.attributes.type !== "xproc.Option") {
-    stepId = cellView.model.id;
-    model = document.querySelector('[model-id="' + stepId + '"]').firstChild;
-    modelId = model.id;
-  }
-  // else if (cellView.model.attributes.type === "xproc.Option") {
-  //   stepId = cellView.model.changed.parent;
-  // }
-  $('#' + modelId + " .port-label").fadeIn('fast');
-});
-paper.on('element:mouseout', function (cellView) {
-  let stepId;
-  let model;
-  let modelId;
-  if (cellView.model.attributes.type !== "xproc.Option") {
-    stepId = cellView.model.id;
-    model = document.querySelector('[model-id="' + stepId + '"]').firstChild;
-    modelId = model.id;
-  }
-  // else if (cellView.model.attributes.type === "xproc.Option") {
-  //   stepId = cellView.model.changed.parent;
-  // }
-  $('#' + modelId + " .port-label").fadeOut('fast');
-});
+// paper.on('element:mouseover', function (cellView) {
+//   let stepId;
+//   let model;
+//   let modelId;
+//   if (cellView.model.attributes.type !== "xproc.Option") {
+//     stepId = cellView.model.id;
+//     model = document.querySelector('[model-id="' + stepId + '"]').firstChild;
+//     modelId = model.id;
+//   }
+//   // else if (cellView.model.attributes.type === "xproc.Option") {
+//   //   stepId = cellView.model.changed.parent;
+//   // }
+//   $('#' + modelId + " .port-label").fadeIn('fast');
+// });
+// paper.on('element:mouseout', function (cellView) {
+//   let stepId;
+//   let model;
+//   let modelId;
+//   if (cellView.model.attributes.type !== "xproc.Option") {
+//     stepId = cellView.model.id;
+//     model = document.querySelector('[model-id="' + stepId + '"]').firstChild;
+//     modelId = model.id;
+//   }
+//   // else if (cellView.model.attributes.type === "xproc.Option") {
+//   //   stepId = cellView.model.changed.parent;
+//   // }
+//   $('#' + modelId + " .port-label").fadeOut('fast');
+// });
 let prefix = "unset";
 let name = "unset";
 paper.on('cell:pointerclick', function (cellView, evt) {
+  //Panel-Areas
+  let metaPanel = document.querySelector('#metaContent');
+  let metaArea = document.querySelectorAll('.metaArea');
+  let metaInfo = document.querySelector('#metaInfo');
+  let metaPorts = document.querySelector('#metaPorts');
+  let metaOptions = document.querySelector('#metaOptions');
   console.log(cellView.model.attributes);
   //Step-Information
   let step = cellView.model.toJSON();
@@ -135,17 +145,21 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   let stepType = step.stepType;
   let stepPrefix = cellView.model.attributes.stepPrefix;
   let stepName = cellView.model.attributes.stepName;
-  let ports = cellView.model.attributes.portData;
-  //Panel-Areas
-  let metaPanel = document.querySelector('#metaContent');
-  let metaArea = document.querySelectorAll('.metaArea');
-  let metaInfo = document.querySelector('#metaInfo');
-  let metaPorts = document.querySelector('#metaPorts');
-  let metaOptions = document.querySelector('#metaOptions');
+  let portData = cellView.model.attributes.portData;
+  let inputPorts = [];
+  let outputPorts = [];
+  for (let i = 0; i < portData.length; i++) {
+    if (portData[i].portGroup === "in") {
+      inputPorts.push(portData[i]);
+    } else if (portData[i].portGroup === "out") {
+      outputPorts.push(portData[i]);
+    }
+  }
+  let stepOptions = cellView.model.attributes.stepOption;
 
   $('.metaArea').css('display', 'block');
 
-  for (let i=0; i<metaArea.length; i++) {
+  for (let i = 0; i < metaArea.length; i++) {
     while (metaArea[i].childNodes.length > 2) {
       metaArea[i].removeChild(metaArea[i].lastChild);
     }
@@ -250,46 +264,85 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   });
 
   //PORTS-DIV
+  let optionUnset = option.cloneNode();
+  optionUnset.appendChild(document.createTextNode("unset"));
+  let optionTrue = option.cloneNode();
+  optionTrue.appendChild(document.createTextNode("true"));
+  let optionFalse = option.cloneNode();
+  optionFalse.appendChild(document.createTextNode("false"));
+  //Port-Primary Dummy
+  let portPrimary = label.cloneNode(true);
+  portPrimary.appendChild(document.createTextNode("primary"));
+  let selectPrimary = select.cloneNode(true);
+  selectPrimary.appendChild(optionUnset.cloneNode(true));
+  selectPrimary.appendChild(optionTrue.cloneNode(true));
+  selectPrimary.appendChild(optionFalse.cloneNode(true));
+
+  portPrimary.appendChild(selectPrimary);
+  //Port-Sequence Dummy
+  let portSequence = label.cloneNode(true);
+  portSequence.appendChild(document.createTextNode("sequence"));
+  let selectSequence = select.cloneNode(true);
+  selectSequence.appendChild(optionUnset.cloneNode(true));
+  selectSequence.appendChild(optionTrue.cloneNode(true));
+  selectSequence.appendChild(optionFalse.cloneNode(true));
+  portSequence.appendChild(selectSequence);
+
+  // INPUT-PORTS
   let h3PortsInput = h3.cloneNode();
   h3PortsInput.appendChild(document.createTextNode("Input-Ports"));
-  let h3PortsOutput = h3.cloneNode();
-  h3PortsOutput.appendChild(document.createTextNode("Output-Ports"));
   let formInput = form.cloneNode();
   let btnInputAdd = inputBtn.cloneNode();
   btnInputAdd.setAttribute('value', "add In-Port");
-  btnInputAdd.addEventListener('click', function(){
+  btnInputAdd.addEventListener('click', function () {
     cellView.model.addPort(inPort);
+    createInputContent();
+    let portObject = {
+      "portId": "unset",
+      "portGroup": "in",
+      "portPrimary": "unset",
+      "portSequence": "unset"
+    }
+    cellView.model.attributes.portData.push(portObject);
   });
-  formInput.appendChild(btnInputAdd);
   let fieldsetInput = fieldset.cloneNode();
-  formInput.appendChild(fieldsetInput);
+  fieldsetInput.classList.add("port-field");
   let legendInput = fieldsetInput.appendChild(legend.cloneNode());
   legendInput.appendChild(document.createTextNode("In-Port"));
+  // OUTPUT-PORTS
+  let h3PortsOutput = h3.cloneNode();
+  h3PortsOutput.appendChild(document.createTextNode("Output-Ports"));
   let formOutput = form.cloneNode();
   let btnOutputAdd = inputBtn.cloneNode();
   btnOutputAdd.setAttribute('value', "add Out-Port");
-  btnOutputAdd.addEventListener('click', function(){
+  btnOutputAdd.addEventListener('click', function () {
     cellView.model.addPort(outPort);
+    createOutputContent();
+    let portObject = {
+      "portId": "unset",
+      "portGroup": "out",
+      "portPrimary": "unset",
+      "portSequence": "unset"
+    }
+    cellView.model.attributes.portData.push(portObject);
   });
-  formOutput.appendChild(btnOutputAdd);
   let fieldsetOutput = fieldset.cloneNode();
-  formOutput.appendChild(fieldsetOutput);
+  fieldsetOutput.classList.add("port-field");
   let legendOutput = fieldsetOutput.appendChild(legend.cloneNode());
   legendOutput.appendChild(document.createTextNode("Out-Port"));
+
 
   //OPTIONS-DIV
   let formOptions = form.cloneNode();
   let btnOptionAdd = inputBtn.cloneNode();
   btnOptionAdd.setAttribute('value', "add Option");
-  btnOptionAdd.addEventListener('click', function(){
-    // cellView.model.addPort(inPort);
-    console.log("Here comes an Option!");
+  btnOptionAdd.addEventListener('click', function () {
+
   });
-  formOptions.appendChild(btnOptionAdd);
   let fieldsetOption = fieldset.cloneNode();
-  formOptions.appendChild(fieldsetOption);
   let legendOption = fieldsetOption.appendChild(legend.cloneNode());
   legendOption.appendChild(document.createTextNode("Option"));
+
   //PUSH ELEMENTS
   if (step.type === "xproc.Pipeline") {
     //MetaInfo - push Elements
@@ -298,8 +351,14 @@ paper.on('cell:pointerclick', function (cellView, evt) {
     fieldsetName.appendChild(labelPrefix);
     fieldsetName.appendChild(labelName);
     fieldsetName.appendChild(btnName);
+  } else if (step.type === "xproc.Option") {
+    let optionName = cellView.model.attributes.optionName;
+    let optionValue = cellView.model.attributes.optionValue;
+    let h3Option = h3.cloneNode(true);
+    h3Option.appendChild(document.createTextNode(optionName));
+    metaInfo.appendChild(h3Option);
+
   } else {
-    //MetaInfo - push Elements
     let type = document.createElement('h3');
     let id = document.createElement('p');
     let idNum = cellView.model.attributes.attrs[".word2"].text;
@@ -308,16 +367,126 @@ paper.on('cell:pointerclick', function (cellView, evt) {
     metaInfo.appendChild(type);
     metaInfo.appendChild(id);
   }
+
   //Push Ports-Elements
-  metaPorts.appendChild(h3PortsInput);
-  metaPorts.appendChild(formInput);
+  function createInputContent() {
+    for (let i = 0; i < inputPorts.length; i++) {
+      let primary = inputPorts[i].portPrimary;
+      let sequence = inputPorts[i].portSequence;
+      let field = formInput.appendChild(fieldsetInput.cloneNode(true));
+      let name = label.cloneNode(true);
+      field.appendChild(name);
+      name.classList.add("port-name");
+      name.appendChild(document.createTextNode(inputPorts[i].portId));
+      let fieldPrimary = field.appendChild(portPrimary.cloneNode(true));
+      let primarySelect = fieldPrimary.childNodes[1];
+      primarySelect.addEventListener('change', function () {
+        let ports = cellView.model.attributes.portData;
+        for (let j = 0; j < ports.length; j++) {
+          if (inputPorts[i].portId === ports[i].portId) {
+            let val = Boolean(this.value);
+            cellView.model.attributes.portData[j].portPrimary = this.value;
+          }
+        }
+      });
+      if (step.type !== "xproc.Pipeline") {
+        primarySelect.setAttribute('disabled', "disabled");
+      }
+      for (let j = 0; j < primarySelect.length; j++) {
+        if (primary !== undefined && primary.toString() === primarySelect[j].value) {
+          primarySelect[j].setAttribute('selected', "selected");
+        }
+      }
+      let fieldSequence = field.appendChild(portSequence.cloneNode(true));
+      let sequenceSelect = fieldSequence.childNodes[1];
+      sequenceSelect.addEventListener('change', function () {
+        let ports = cellView.model.attributes.portData;
+        for (let j = 0; j < ports.length; j++) {
+          if (inputPorts[i].portId === ports[i].portId) {
+            cellView.model.attributes.portData[j].portSequence = this.value;
+          }
+        }
+      });
+      if (step.type !== "xproc.Pipeline") {
+        sequenceSelect.setAttribute('disabled', "disabled");
+      }
+      for (let j = 0; j < sequenceSelect.length; j++) {
+        if (sequence !== undefined && sequence.toString() === sequenceSelect[j].value) {
+          sequenceSelect[j].setAttribute('selected', "selected");
+        }
+      }
+    }
+  }
 
-  metaPorts.appendChild(h3PortsOutput);
-  metaPorts.appendChild(formOutput);
+  function createOutputContent() {
+    for (let i = 0; i < outputPorts.length; i++) {
+      let primary = outputPorts[i].portPrimary;
+      let sequence = outputPorts[i].portSequence;
+      let field = formOutput.appendChild(fieldsetOutput.cloneNode(true));
+      let name = label.cloneNode(true);
+      field.appendChild(name);
+      name.classList.add("port-name");
+      name.appendChild(document.createTextNode(outputPorts[i].portId));
+      let fieldPrimary = field.appendChild(portPrimary.cloneNode(true));
+      let primarySelect = fieldPrimary.childNodes[1];
+      if (step.type !== "xproc.Pipeline") {
+        primarySelect.setAttribute('disabled', "disabled");
+      }
+      for (let j = 0; j < primarySelect.length; j++) {
+        if (primary !== undefined && primary.toString() === primarySelect[j].value) {
+          primarySelect[j].setAttribute('selected', "selected");
+        }
+      }
+      let fieldSequence = field.appendChild(portSequence.cloneNode(true));
+      let sequenceSelect = fieldSequence.childNodes[1];
+      if (step.type !== "xproc.Pipeline") {
+        sequenceSelect.setAttribute('disabled', "disabled");
+      }
+      for (let j = 0; j < sequenceSelect.length; j++) {
+        if (sequence !== undefined && sequence.toString() === sequenceSelect[j].value) {
+          sequenceSelect[j].setAttribute('selected', "selected");
+        }
+      }
+    }
+  }
 
+  if (step.type === "xproc.Pipeline") {
+    metaPorts.appendChild(h3PortsInput);
+    metaPorts.appendChild(formInput);
+    formInput.appendChild(btnInputAdd);
+    createInputContent();
+    metaPorts.appendChild(h3PortsOutput);
+    metaPorts.appendChild(formOutput);
+    formOutput.appendChild(btnOutputAdd);
+    createOutputContent();
+  } else {
+    metaPorts.appendChild(h3PortsInput);
+    metaPorts.appendChild(formInput);
+    createInputContent();
+    metaPorts.appendChild(h3PortsOutput);
+    metaPorts.appendChild(formOutput);
+    createOutputContent();
+  }
 
   //Push Option-Elements
-  metaOptions.appendChild(formOptions);
+  function createOptions() {
+    for (let i = 0; i < stepOptions.length; i++) {
+      let field = formOptions.appendChild(fieldsetOption.cloneNode(true));
+      let name = label.cloneNode(true);
+      name.appendChild(document.createTextNode(stepOptions[i].name));
+      field.appendChild(name);
+
+    }
+  }
+
+  if (step.type === "xproc.Pipeline") {
+    metaOptions.appendChild(formOptions);
+    formOptions.appendChild(btnOptionAdd);
+    createOptions();
+  } else {
+    metaOptions.appendChild(formOptions);
+    createOptions();
+  }
 
 
 });

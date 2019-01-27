@@ -802,7 +802,7 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
     },
     {
       portId: "result",
-      portGroup: "pipe-out",
+      portGroup: "out",
       portPrimary: true,
       portSequence: true
     }
@@ -911,13 +911,8 @@ joint.shapes.devs.Model.define('xproc.Option', {
     }
 
   ],
-  stepOption: [
-    {
-      name: "unset",
-      required: "unset"
-    }
-  ]
-
+  optionName: "unset",
+  optionValue: "unset"
 });
 
 let newStepOption = new joint.shapes.xproc.Option({

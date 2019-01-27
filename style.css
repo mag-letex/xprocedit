@@ -247,6 +247,7 @@ align-self: center;
   grid-row: 1 / 14;
   grid-column: 3 /4;
   background-color: #c1ebf0;
+  overflow: auto;
 }
 #metaPanel h1 {
   text-align: center;
@@ -261,6 +262,10 @@ align-self: center;
   width: 100%;
   background-color: floralwhite;
   font-family: 'Source Sans Pro', sans-serif;
+}
+.port-name{
+  font-size: 1.2em;
+  font-weight: bold;
 }
 /*.modelString {*/
 /*position: absolute;*/
@@ -297,7 +302,7 @@ align-self: center;
   fill: yellow;
 }
 .port-label {
-  display: none;
+  /*display: none;*/
 }
 .joint-cell{
   display: block;

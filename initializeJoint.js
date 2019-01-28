@@ -792,8 +792,57 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
     },
     '.word2': {y: 60, x: stepPipeWidth / 2}
   },
-  inPorts: ["source"],
-  outPorts: ["result"],
+  ports: {
+    groups: {
+      'in': {
+        position: 'left',
+        label: {
+          position: {
+            name: 'manual',
+            args: {
+              y: 5,
+              x: 50,
+              attrs: {'.': {'text-anchor': 'left'}}
+            }
+          }
+        },
+        attrs: {
+          '.port-body': {
+            r: 12,
+            fill: '#fff'
+            // magnet: 'passive'
+          }
+          // 'circle': {fill: 'red'}
+        },
+        markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>",
+        // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
+      },
+      'out': {
+        position: 'right',
+        label: {
+          position: {
+            name: 'manual',
+            args: {
+              y: 5,
+              x: -40,
+              attrs: {'.': {'text-anchor': 'right'}}
+            }
+          }
+        },
+        attrs: {
+          '.port-body': {
+            fill: '#fff',
+            r: 12,
+            // magnet: 'passive'
+          }
+          // 'circle': {fill: 'red'}
+        },
+        markup: "<circle class=\"port-body out-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>"
+      }
+    }
+  },
+  // inPorts: ["source"],
+  // outPorts: ["result"],
   portData: [
     {
       portId: "source",
@@ -828,6 +877,9 @@ function loadPipeline(pipelineId) {
   // testGraph.push(pipelineId);
   newPipeline.prop('id', pipelineId)
     .prop('stepId', pipelineId);
+  newPipeline.addInPort("source");
+  newPipeline.addOutPort("result");
+  // newPipeline.addPort(inPort);
   graphX.addCell(newPipeline);
 }
 
@@ -944,33 +996,33 @@ let newStepOption = new joint.shapes.xproc.Option({
   ]
 });
 
-let inPort = {
-  group: 'in',
-  args: {}, // extra arguments for the port layout function, see `layout.Port` section
-  label: {
-    position: {
-      name: 'right',
-      args: {y: 0, x: 25} // extra arguments for the label layout function, see `layout.PortLabel` section
-    },
-    markup: '<text class="label-text port-label" fill="blue"/>'
-  },
-  attrs: {text: {text: 'in'}},
-  markup: '<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>'
-};
-
-let outPort = {
-  group: 'out',
-  args: {}, // extra arguments for the port layout function, see `layout.Port` section
-  label: {
-    position: {
-      name: 'right',
-      args: {y: 0, x: -30} // extra arguments for the label layout function, see `layout.PortLabel` section
-    },
-    markup: '<text class="label-text port-label" fill="blue"/>'
-  },
-  attrs: {text: {text: 'out'}},
-  markup: '<circle class="port-body out-ports" r="10" stroke="#000" fill="#fff"/>'
-};
+// let inPort = {
+//   group: 'in',
+//   args: {}, // extra arguments for the port layout function, see `layout.Port` section
+//   label: {
+//     position: {
+//       name: 'right',
+//       args: {y: 0, x: 25} // extra arguments for the label layout function, see `layout.PortLabel` section
+//     },
+//     markup: '<text class="label-text port-label" fill="blue"/>'
+//   },
+//   attrs: {text: {text: 'in'}},
+//   markup: '<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>'
+// };
+//
+// let outPort = {
+//   group: 'out',
+//   args: {}, // extra arguments for the port layout function, see `layout.Port` section
+//   label: {
+//     position: {
+//       name: 'right',
+//       args: {y: 0, x: -30} // extra arguments for the label layout function, see `layout.PortLabel` section
+//     },
+//     markup: '<text class="label-text port-label" fill="blue"/>'
+//   },
+//   attrs: {text: {text: 'out'}},
+//   markup: '<circle class="port-body out-ports" r="10" stroke="#000" fill="#fff"/>'
+// };
 window.addEventListener("resize", function () {
   let canvasWidth = canvas.offsetWidth;
   let canvasHeight = canvas.offsetHeight;

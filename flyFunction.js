@@ -295,10 +295,12 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   let btnInputAdd = inputBtn.cloneNode();
   btnInputAdd.setAttribute('value', "add In-Port");
   btnInputAdd.addEventListener('click', function () {
-    cellView.model.addPort(inPort);
-    createInputContent();
+    getId();
+    let portId = "inPort-" + newId;
+    cellView.model.addInPort(portId);
+    createInputContent(portId, true);
     let portObject = {
-      "portId": "unset",
+      "portId": portId,
       "portGroup": "in",
       "portPrimary": "unset",
       "portSequence": "unset"
@@ -316,10 +318,12 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   let btnOutputAdd = inputBtn.cloneNode();
   btnOutputAdd.setAttribute('value', "add Out-Port");
   btnOutputAdd.addEventListener('click', function () {
-    cellView.model.addPort(outPort);
-    createOutputContent();
+    getId();
+    let portId = "outPort-" + newId;
+    cellView.model.addOutPort(portId);
+    createOutputContent(portId, true);
     let portObject = {
-      "portId": "unset",
+      "portId": portId,
       "portGroup": "out",
       "portPrimary": "unset",
       "portSequence": "unset"
@@ -369,7 +373,7 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   }
 
   //Push Ports-Elements
-  function createInputContent() {
+  function createInputContent(portId, button) {
     for (let i = 0; i < inputPorts.length; i++) {
       let primary = inputPorts[i].portPrimary;
       let sequence = inputPorts[i].portSequence;
@@ -377,7 +381,11 @@ paper.on('cell:pointerclick', function (cellView, evt) {
       let name = label.cloneNode(true);
       field.appendChild(name);
       name.classList.add("port-name");
-      name.appendChild(document.createTextNode(inputPorts[i].portId));
+      if(button === true){
+        name.appendChild(document.createTextNode(portId));
+      }else{
+        name.appendChild(document.createTextNode(inputPorts[i].portId));
+      }
       let fieldPrimary = field.appendChild(portPrimary.cloneNode(true));
       let primarySelect = fieldPrimary.childNodes[1];
       primarySelect.addEventListener('change', function () {
@@ -418,7 +426,7 @@ paper.on('cell:pointerclick', function (cellView, evt) {
     }
   }
 
-  function createOutputContent() {
+  function createOutputContent(portId, button) {
     for (let i = 0; i < outputPorts.length; i++) {
       let primary = outputPorts[i].portPrimary;
       let sequence = outputPorts[i].portSequence;
@@ -426,7 +434,11 @@ paper.on('cell:pointerclick', function (cellView, evt) {
       let name = label.cloneNode(true);
       field.appendChild(name);
       name.classList.add("port-name");
+      if(button === true){
+      name.appendChild(document.createTextNode(portId));
+      }else{
       name.appendChild(document.createTextNode(outputPorts[i].portId));
+      }
       let fieldPrimary = field.appendChild(portPrimary.cloneNode(true));
       let primarySelect = fieldPrimary.childNodes[1];
       if (step.type !== "xproc.Pipeline") {

@@ -129,23 +129,22 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
 //   // }
 //   $('#' + modelId + " .port-label").fadeOut('fast');
 // });
+//Panel-Areas
+let metaArea = document.querySelectorAll('.metaArea');
+let metaInfo = document.querySelector('#metaInfo');
+let metaPorts = document.querySelector('#metaPorts');
+let metaOptions = document.querySelector('#metaOptions');
+// let metaPanel = document.querySelector('#metaContent');
 let prefix = "unset";
 let name = "unset";
-paper.on('cell:pointerclick', function (cellView, evt) {
-  //Panel-Areas
-  let metaPanel = document.querySelector('#metaContent');
-  let metaArea = document.querySelectorAll('.metaArea');
-  let metaInfo = document.querySelector('#metaInfo');
-  let metaPorts = document.querySelector('#metaPorts');
-  let metaOptions = document.querySelector('#metaOptions');
-  console.log(cellView.model.attributes);
+paper.on('cell:pointerclick', function (cellView) {
   //Step-Information
   let step = cellView.model.toJSON();
-  let stepId = step.id;
   let stepType = step.stepType;
   let stepPrefix = cellView.model.attributes.stepPrefix;
   let stepName = cellView.model.attributes.stepName;
   let portData = cellView.model.attributes.portData;
+  let stepOptions = cellView.model.attributes.stepOption;
   let inputPorts = [];
   let outputPorts = [];
   for (let i = 0; i < portData.length; i++) {
@@ -155,15 +154,18 @@ paper.on('cell:pointerclick', function (cellView, evt) {
       outputPorts.push(portData[i]);
     }
   }
-  let stepOptions = cellView.model.attributes.stepOption;
-
+  console.log(inputPorts);
+  //Console and Panel Action
+  console.log(cellView.model.attributes);
   $('.metaArea').css('display', 'block');
-
+  //Empty Panel Content
   for (let i = 0; i < metaArea.length; i++) {
+    console.log("emptied");
     while (metaArea[i].childNodes.length > 2) {
       metaArea[i].removeChild(metaArea[i].lastChild);
     }
   }
+
   //Form Elements
   let form = document.createElement('form');
   form.setAttribute('onSubmit', "return false;");
@@ -222,8 +224,7 @@ paper.on('cell:pointerclick', function (cellView, evt) {
       prefixOptions[i].setAttribute('selected', "selected");
     }
   }
-  selectPrefix.addEventListener('change', function (target) {
-    console.log(this.value);
+  selectPrefix.addEventListener('change', function () {
     prefix = this.value;
     cellView.model.attributes.stepPrefix = this.value;
     let type = "" + prefix + name;
@@ -233,7 +234,6 @@ paper.on('cell:pointerclick', function (cellView, evt) {
     graphX.resetCells(currentCells);
   });
   inputName.addEventListener('change', function () {
-    console.log(this.value);
     name = this.value;
     cellView.model.attributes.stepName = this.value;
     let type = "" + prefix + name;
@@ -253,7 +253,6 @@ paper.on('cell:pointerclick', function (cellView, evt) {
     }
   });
   btnName.addEventListener('click', function () {
-    console.log("" + prefix + name)
     let type = "" + prefix + name;
     cellView.model.attributes.attrs[".label"].text = type;
     cellView.model.attributes.stepType = type;
@@ -262,6 +261,29 @@ paper.on('cell:pointerclick', function (cellView, evt) {
     let currentCells = graphX.getCells();
     graphX.resetCells(currentCells);
   });
+  //PUSH INFO-ELEMENTS
+  if (step.type === "xproc.Pipeline") {
+    metaInfo.appendChild(formInfo);
+    formInfo.appendChild(fieldsetName);
+    fieldsetName.appendChild(labelPrefix);
+    fieldsetName.appendChild(labelName);
+    fieldsetName.appendChild(btnName);
+  } else if (step.type === "xproc.Option") {
+    let optionName = cellView.model.attributes.optionName;
+    // let optionValue = cellView.model.attributes.optionValue;
+    let h3Option = h3.cloneNode(true);
+    h3Option.appendChild(document.createTextNode(optionName));
+    metaInfo.appendChild(h3Option);
+
+  } else {
+    let type = document.createElement('h3');
+    let id = document.createElement('p');
+    let idNum = cellView.model.attributes.attrs[".word2"].text;
+    id.appendChild(document.createTextNode(idNum));
+    type.appendChild(document.createTextNode(stepType));
+    metaInfo.appendChild(type);
+    metaInfo.appendChild(id);
+  }
 
   //PORTS-DIV
   let optionUnset = option.cloneNode();
@@ -277,7 +299,6 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   selectPrimary.appendChild(optionUnset.cloneNode(true));
   selectPrimary.appendChild(optionTrue.cloneNode(true));
   selectPrimary.appendChild(optionFalse.cloneNode(true));
-
   portPrimary.appendChild(selectPrimary);
   //Port-Sequence Dummy
   let portSequence = label.cloneNode(true);
@@ -287,7 +308,6 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   selectSequence.appendChild(optionTrue.cloneNode(true));
   selectSequence.appendChild(optionFalse.cloneNode(true));
   portSequence.appendChild(selectSequence);
-
   // INPUT-PORTS
   let h3PortsInput = h3.cloneNode();
   h3PortsInput.appendChild(document.createTextNode("Input-Ports"));
@@ -297,20 +317,20 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   btnInputAdd.addEventListener('click', function () {
     getId();
     let portId = "inPort-" + newId;
-    cellView.model.addInPort(portId);
-    createInputContent(portId, true);
     let portObject = {
       "portId": portId,
       "portGroup": "in",
       "portPrimary": "unset",
       "portSequence": "unset"
-    }
+    };
+    cellView.model.addInPort(portId);
+    createPortContent(portId, true, inputPorts, formInput, "in");
     cellView.model.attributes.portData.push(portObject);
   });
-  let fieldsetInput = fieldset.cloneNode();
-  fieldsetInput.classList.add("port-field");
-  let legendInput = fieldsetInput.appendChild(legend.cloneNode());
-  legendInput.appendChild(document.createTextNode("In-Port"));
+  let fieldsetPort = fieldset.cloneNode();
+  fieldsetPort.classList.add("port-field");
+  let legendPort = fieldsetPort.appendChild(legend.cloneNode());
+  legendPort.appendChild(document.createTextNode("Port"));
   // OUTPUT-PORTS
   let h3PortsOutput = h3.cloneNode();
   h3PortsOutput.appendChild(document.createTextNode("Output-Ports"));
@@ -320,14 +340,14 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   btnOutputAdd.addEventListener('click', function () {
     getId();
     let portId = "outPort-" + newId;
-    cellView.model.addOutPort(portId);
-    createOutputContent(portId, true);
     let portObject = {
       "portId": portId,
       "portGroup": "out",
       "portPrimary": "unset",
       "portSequence": "unset"
-    }
+    };
+    cellView.model.addOutPort(portId);
+    createPortContent(portId, true, outputPorts, formOutput, "out");
     cellView.model.attributes.portData.push(portObject);
   });
   let fieldsetOutput = fieldset.cloneNode();
@@ -335,150 +355,174 @@ paper.on('cell:pointerclick', function (cellView, evt) {
   let legendOutput = fieldsetOutput.appendChild(legend.cloneNode());
   legendOutput.appendChild(document.createTextNode("Out-Port"));
 
-
-  //OPTIONS-DIV
-  let formOptions = form.cloneNode();
-  let btnOptionAdd = inputBtn.cloneNode();
-  btnOptionAdd.setAttribute('value', "add Option");
-  btnOptionAdd.addEventListener('click', function () {
-
-  });
-  let fieldsetOption = fieldset.cloneNode();
-  let legendOption = fieldsetOption.appendChild(legend.cloneNode());
-  legendOption.appendChild(document.createTextNode("Option"));
-
-  //PUSH ELEMENTS
-  if (step.type === "xproc.Pipeline") {
-    //MetaInfo - push Elements
-    metaInfo.appendChild(formInfo);
-    formInfo.appendChild(fieldsetName);
-    fieldsetName.appendChild(labelPrefix);
-    fieldsetName.appendChild(labelName);
-    fieldsetName.appendChild(btnName);
-  } else if (step.type === "xproc.Option") {
-    let optionName = cellView.model.attributes.optionName;
-    let optionValue = cellView.model.attributes.optionValue;
-    let h3Option = h3.cloneNode(true);
-    h3Option.appendChild(document.createTextNode(optionName));
-    metaInfo.appendChild(h3Option);
-
-  } else {
-    let type = document.createElement('h3');
-    let id = document.createElement('p');
-    let idNum = cellView.model.attributes.attrs[".word2"].text;
-    id.appendChild(document.createTextNode(idNum));
-    type.appendChild(document.createTextNode(stepType));
-    metaInfo.appendChild(type);
-    metaInfo.appendChild(id);
-  }
-
   //Push Ports-Elements
-  function createInputContent(portId, button) {
-    for (let i = 0; i < inputPorts.length; i++) {
-      let primary = inputPorts[i].portPrimary;
-      let sequence = inputPorts[i].portSequence;
-      let field = formInput.appendChild(fieldsetInput.cloneNode(true));
-      let name = label.cloneNode(true);
-      field.appendChild(name);
-      name.classList.add("port-name");
-      if(button === true){
-        name.appendChild(document.createTextNode(portId));
-      }else{
-        name.appendChild(document.createTextNode(inputPorts[i].portId));
+  function createPortContent(portId, btn, ports, formPorts, inout) {
+    console.log(ports);
+    //Basic Elements
+    let field = fieldsetPort.cloneNode(true);
+    let name = label.cloneNode(true);
+    name.classList.add("port-name");
+    //Delete-Button
+    let btnDelete = inputBtn.cloneNode();
+    btnDelete.setAttribute('value', "X");
+
+    //Primary Select
+    let fieldPrimary = portPrimary.cloneNode(true);
+    let primarySelect = fieldPrimary.childNodes[1];
+    primarySelect.addEventListener('change', function () {
+      let ports = cellView.model.attributes.portData;
+      for (let i = 0; i < ports.length; i++) {
+        if (ports[i].portId === portId) {
+          console.log("Primary Check");
+          cellView.model.attributes.portData[i].portPrimary = this.value;
+        }
       }
-      let fieldPrimary = field.appendChild(portPrimary.cloneNode(true));
-      let primarySelect = fieldPrimary.childNodes[1];
-      primarySelect.addEventListener('change', function () {
-        let ports = cellView.model.attributes.portData;
-        for (let j = 0; j < ports.length; j++) {
-          if (inputPorts[i].portId === ports[i].portId) {
-            let val = Boolean(this.value);
-            cellView.model.attributes.portData[j].portPrimary = this.value;
+    });
+    //Sequence Select
+    let fieldSequence = portSequence.cloneNode(true);
+    let sequenceSelect = fieldSequence.childNodes[1];
+    sequenceSelect.addEventListener('change', function () {
+      let ports = cellView.model.attributes.portData;
+      for (let i = 0; i < ports.length; i++) {
+        if (ports[i].portId === portId) {
+          console.log("Sequence Check");
+          cellView.model.attributes.portData[i].portSequence = this.value;
+        }
+      }
+    });
+    // for (let j = 0; j < primarySelect.length; j++) {
+    //   if (primary !== undefined && primary.toString() === primarySelect[j].value) {
+    //     primarySelect[j].setAttribute('selected', "selected");
+    //   }
+    // }
+    // for (let j = 0; j < sequenceSelect.length; j++) {
+    //   if (sequence !== undefined && sequence.toString() === sequenceSelect[j].value) {
+    //     sequenceSelect[j].setAttribute('selected', "selected");
+    //   }
+    // }
+
+    //Load when clicking Step
+    if (btn === false) {
+      console.log("Ports inside Load");
+      console.log(ports);
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i].portId;
+        let primary = ports[i].portPrimary;
+        let sequence = ports[i].portSequence;
+        let thisField = field.cloneNode(true);
+        let thisName = name.cloneNode(true);
+        let nameInput = thisName.appendChild(input.cloneNode(true));
+        nameInput.setAttribute('placeholder', port);
+        let thisFieldPrimary = fieldPrimary.cloneNode(true);
+        let thisFieldSequence = fieldSequence.cloneNode(true);
+        let thisBtnDelete = btnDelete.cloneNode(true);
+        thisBtnDelete.setAttribute('portid', port);
+        thisBtnDelete.addEventListener('click', function (e) {
+          console.log(e.target.attributes.portid.nodeValue);
+          let thisId = e.target.attributes.portid.nodeValue;
+          if (inout === "in") {
+            cellView.model.removeInPort(thisId);
+          } else if (inout === "out") {
+            cellView.model.removeOutPort(thisId);
+          }
+          let portData = cellView.model.attributes.portData;
+          for (let i = 0; i < portData.length; i++) {
+            if (portData[i].portId === thisId) {
+              cellView.model.attributes.portData.splice(i, 1);
+            }
+          }
+          formPorts.removeChild(thisField);
+        });
+        formPorts.appendChild(thisField);
+        thisField.appendChild(thisName);
+        thisField.appendChild(thisFieldPrimary);
+        thisField.appendChild(thisFieldSequence);
+        thisField.appendChild(thisBtnDelete);
+        if (step.type !== "xproc.Pipeline") {
+          name.appendChild(document.createTextNode(ports[i].portId));
+          nameInput.setAttribute('placeholder', port);
+          primarySelect.setAttribute('disabled', "disabled");
+          sequenceSelect.setAttribute('disabled', "disabled");
+        }
+      }
+      //Load when Button is Clicked
+    } else if (btn === true) {
+      console.log("checko");
+      let thisField = field.cloneNode(true);
+      let thisName = name.cloneNode(true);
+      let nameInput = thisName.appendChild(input.cloneNode(true));
+      nameInput.setAttribute('placeholder', portId);
+      nameInput.addEventListener('change', function () {
+        // let ports = cellView.model.attributes.portData;
+        // for (let i = 0; i < ports.length; i++) {
+        //   if (ports[i].portId === portId) {
+        //     ports[i].portId = this.value;
+        //   }
+        // }
+        // nameInput.setAttribute('value', this.value);
+        // let currentCells = graphX.getCells();
+        // graphX.resetCells(currentCells);
+        console.log("name-Change!");
+      });
+      let thisFieldPrimary = fieldPrimary.cloneNode(true);
+      let thisFieldSequence = fieldSequence.cloneNode(true);
+      let thisBtnDelete = btnDelete.cloneNode(true);
+      thisBtnDelete.setAttribute('portid', portId);
+      thisBtnDelete.addEventListener('click', function (e) {
+        console.log(e.target.attributes.portid.nodeValue);
+        let thisId = e.target.attributes.portid.nodeValue;
+        if (inout === "in") {
+          cellView.model.removeInPort(thisId);
+        } else if (inout === "out") {
+          cellView.model.removeOutPort(thisId);
+        }
+        let portData = cellView.model.attributes.portData;
+        for (let i = 0; i < portData.length; i++) {
+          if (portData[i].portId === thisId) {
+            cellView.model.attributes.portData.splice(i, 1);
           }
         }
+        formPorts.removeChild(thisField);
       });
-      if (step.type !== "xproc.Pipeline") {
-        primarySelect.setAttribute('disabled', "disabled");
-      }
-      for (let j = 0; j < primarySelect.length; j++) {
-        if (primary !== undefined && primary.toString() === primarySelect[j].value) {
-          primarySelect[j].setAttribute('selected', "selected");
-        }
-      }
-      let fieldSequence = field.appendChild(portSequence.cloneNode(true));
-      let sequenceSelect = fieldSequence.childNodes[1];
-      sequenceSelect.addEventListener('change', function () {
-        let ports = cellView.model.attributes.portData;
-        for (let j = 0; j < ports.length; j++) {
-          if (inputPorts[i].portId === ports[i].portId) {
-            cellView.model.attributes.portData[j].portSequence = this.value;
-          }
-        }
-      });
-      if (step.type !== "xproc.Pipeline") {
-        sequenceSelect.setAttribute('disabled', "disabled");
-      }
-      for (let j = 0; j < sequenceSelect.length; j++) {
-        if (sequence !== undefined && sequence.toString() === sequenceSelect[j].value) {
-          sequenceSelect[j].setAttribute('selected', "selected");
-        }
-      }
+      formPorts.appendChild(thisField);
+      thisField.appendChild(thisName);
+      thisField.appendChild(thisFieldPrimary);
+      thisField.appendChild(thisFieldSequence);
+      thisField.appendChild(thisBtnDelete);
     }
   }
 
-  function createOutputContent(portId, button) {
-    for (let i = 0; i < outputPorts.length; i++) {
-      let primary = outputPorts[i].portPrimary;
-      let sequence = outputPorts[i].portSequence;
-      let field = formOutput.appendChild(fieldsetOutput.cloneNode(true));
-      let name = label.cloneNode(true);
-      field.appendChild(name);
-      name.classList.add("port-name");
-      if(button === true){
-      name.appendChild(document.createTextNode(portId));
-      }else{
-      name.appendChild(document.createTextNode(outputPorts[i].portId));
-      }
-      let fieldPrimary = field.appendChild(portPrimary.cloneNode(true));
-      let primarySelect = fieldPrimary.childNodes[1];
-      if (step.type !== "xproc.Pipeline") {
-        primarySelect.setAttribute('disabled', "disabled");
-      }
-      for (let j = 0; j < primarySelect.length; j++) {
-        if (primary !== undefined && primary.toString() === primarySelect[j].value) {
-          primarySelect[j].setAttribute('selected', "selected");
-        }
-      }
-      let fieldSequence = field.appendChild(portSequence.cloneNode(true));
-      let sequenceSelect = fieldSequence.childNodes[1];
-      if (step.type !== "xproc.Pipeline") {
-        sequenceSelect.setAttribute('disabled', "disabled");
-      }
-      for (let j = 0; j < sequenceSelect.length; j++) {
-        if (sequence !== undefined && sequence.toString() === sequenceSelect[j].value) {
-          sequenceSelect[j].setAttribute('selected', "selected");
-        }
-      }
-    }
-  }
 
   if (step.type === "xproc.Pipeline") {
     metaPorts.appendChild(h3PortsInput);
     metaPorts.appendChild(formInput);
     formInput.appendChild(btnInputAdd);
-    createInputContent();
+    let foo;
+    createPortContent(foo, false, inputPorts, formInput, "in");
     metaPorts.appendChild(h3PortsOutput);
     metaPorts.appendChild(formOutput);
     formOutput.appendChild(btnOutputAdd);
-    createOutputContent();
+    createPortContent(foo, false, outputPorts, formOutput, "out");
   } else {
     metaPorts.appendChild(h3PortsInput);
     metaPorts.appendChild(formInput);
-    createInputContent();
+    let foo;
+    createPortContent(foo, false, inputPorts, formInput, "in");
     metaPorts.appendChild(h3PortsOutput);
     metaPorts.appendChild(formOutput);
-    createOutputContent();
+    createPortContent(foo, false, outputPorts, formOutput, "out");
   }
+
+  //OPTIONS-DIV
+  let formOptions = form.cloneNode(true);
+  let btnOptionAdd = inputBtn.cloneNode(true);
+  btnOptionAdd.setAttribute('value', "add Option");
+  let fieldsetOption = fieldset.cloneNode();
+  let legendOption = fieldsetOption.appendChild(legend.cloneNode());
+  legendOption.appendChild(document.createTextNode("Option"));
+  btnOptionAdd.addEventListener('click', function () {
+    formOptions.appendChild(fieldsetOption);
+  });
 
   //Push Option-Elements
   function createOptions() {
@@ -511,10 +555,8 @@ function cellPointerDblClick(cellView, evt) {
   let modelId = cellView.model.attributes.stepId;
   console.log(cellView.model.id);
   console.log(cellView.model.toJSON());
-  // console.log(cellView);
   if (modelType === "xproc.Compound") {
     createPaperBtn(modelId, evt, cellView);
     globalPipeline = modelId;
-    // localStorage.setItem(modelId, modelString);
   }
 }

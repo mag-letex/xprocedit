@@ -43,6 +43,8 @@ function stepLoad(elem, placeX, placeY) {
       }
     }
   }
+  let cell = paperX.findViewByModel(stepId);
+  metaPanel(cell);
 }
 
 function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
@@ -137,13 +139,18 @@ let metaOptions = document.querySelector('#metaOptions');
 // let metaPanel = document.querySelector('#metaContent');
 let prefix = "unset";
 let name = "unset";
-paper.on('cell:pointerclick', function (cellView) {
+
+function metaPanel(cellView) {
   //Step-Information
   let step = cellView.model.toJSON();
+  console.log(cellView);
+  console.log(step);
   let stepType = step.stepType;
   let stepPrefix = cellView.model.attributes.stepPrefix;
   let stepName = cellView.model.attributes.stepName;
   let portData = cellView.model.attributes.portData;
+  let inPorts = cellView.model.attributes.inPorts;
+  let outPorts = cellView.model.attributes.outPorts;
   let stepOptions = cellView.model.attributes.stepOption;
   let inputPorts = [];
   let outputPorts = [];
@@ -154,13 +161,10 @@ paper.on('cell:pointerclick', function (cellView) {
       outputPorts.push(portData[i]);
     }
   }
-  console.log(inputPorts);
   //Console and Panel Action
-  console.log(cellView.model.attributes);
   $('.metaArea').css('display', 'block');
   //Empty Panel Content
   for (let i = 0; i < metaArea.length; i++) {
-    console.log("emptied");
     while (metaArea[i].childNodes.length > 2) {
       metaArea[i].removeChild(metaArea[i].lastChild);
     }
@@ -357,7 +361,6 @@ paper.on('cell:pointerclick', function (cellView) {
 
   //Push Ports-Elements
   function createPortContent(portId, btn, ports, formPorts, inout) {
-    console.log(ports);
     //Basic Elements
     let field = fieldsetPort.cloneNode(true);
     let name = label.cloneNode(true);
@@ -366,124 +369,158 @@ paper.on('cell:pointerclick', function (cellView) {
     let btnDelete = inputBtn.cloneNode();
     btnDelete.setAttribute('value', "X");
 
-    //Primary Select
-    let fieldPrimary = portPrimary.cloneNode(true);
-    let primarySelect = fieldPrimary.childNodes[1];
-    primarySelect.addEventListener('change', function () {
-      let ports = cellView.model.attributes.portData;
-      for (let i = 0; i < ports.length; i++) {
-        if (ports[i].portId === portId) {
-          console.log("Primary Check");
-          cellView.model.attributes.portData[i].portPrimary = this.value;
-        }
-      }
-    });
-    //Sequence Select
-    let fieldSequence = portSequence.cloneNode(true);
-    let sequenceSelect = fieldSequence.childNodes[1];
-    sequenceSelect.addEventListener('change', function () {
-      let ports = cellView.model.attributes.portData;
-      for (let i = 0; i < ports.length; i++) {
-        if (ports[i].portId === portId) {
-          console.log("Sequence Check");
-          cellView.model.attributes.portData[i].portSequence = this.value;
-        }
-      }
-    });
-    // for (let j = 0; j < primarySelect.length; j++) {
-    //   if (primary !== undefined && primary.toString() === primarySelect[j].value) {
-    //     primarySelect[j].setAttribute('selected', "selected");
-    //   }
-    // }
-    // for (let j = 0; j < sequenceSelect.length; j++) {
-    //   if (sequence !== undefined && sequence.toString() === sequenceSelect[j].value) {
-    //     sequenceSelect[j].setAttribute('selected', "selected");
-    //   }
-    // }
-
-    //Load when clicking Step
-    if (btn === false) {
-      console.log("Ports inside Load");
-      console.log(ports);
-      for (let i = 0; i < ports.length; i++) {
-        let port = ports[i].portId;
-        let primary = ports[i].portPrimary;
-        let sequence = ports[i].portSequence;
-        let thisField = field.cloneNode(true);
-        let thisName = name.cloneNode(true);
-        let nameInput = thisName.appendChild(input.cloneNode(true));
-        nameInput.setAttribute('placeholder', port);
-        let thisFieldPrimary = fieldPrimary.cloneNode(true);
-        let thisFieldSequence = fieldSequence.cloneNode(true);
-        let thisBtnDelete = btnDelete.cloneNode(true);
-        thisBtnDelete.setAttribute('portid', port);
-        thisBtnDelete.addEventListener('click', function (e) {
-          console.log(e.target.attributes.portid.nodeValue);
-          let thisId = e.target.attributes.portid.nodeValue;
-          if (inout === "in") {
-            cellView.model.removeInPort(thisId);
-          } else if (inout === "out") {
-            cellView.model.removeOutPort(thisId);
-          }
-          let portData = cellView.model.attributes.portData;
-          for (let i = 0; i < portData.length; i++) {
-            if (portData[i].portId === thisId) {
-              cellView.model.attributes.portData.splice(i, 1);
-            }
-          }
-          formPorts.removeChild(thisField);
-        });
-        formPorts.appendChild(thisField);
-        thisField.appendChild(thisName);
-        thisField.appendChild(thisFieldPrimary);
-        thisField.appendChild(thisFieldSequence);
-        thisField.appendChild(thisBtnDelete);
-        if (step.type !== "xproc.Pipeline") {
-          name.appendChild(document.createTextNode(ports[i].portId));
-          nameInput.setAttribute('placeholder', port);
-          primarySelect.setAttribute('disabled', "disabled");
-          sequenceSelect.setAttribute('disabled', "disabled");
-        }
-      }
-      //Load when Button is Clicked
-    } else if (btn === true) {
-      console.log("checko");
-      let thisField = field.cloneNode(true);
-      let thisName = name.cloneNode(true);
-      let nameInput = thisName.appendChild(input.cloneNode(true));
-      nameInput.setAttribute('placeholder', portId);
-      nameInput.addEventListener('change', function () {
-        // let ports = cellView.model.attributes.portData;
-        // for (let i = 0; i < ports.length; i++) {
-        //   if (ports[i].portId === portId) {
-        //     ports[i].portId = this.value;
-        //   }
-        // }
-        // nameInput.setAttribute('value', this.value);
-        // let currentCells = graphX.getCells();
-        // graphX.resetCells(currentCells);
-        console.log("name-Change!");
-      });
-      let thisFieldPrimary = fieldPrimary.cloneNode(true);
-      let thisFieldSequence = fieldSequence.cloneNode(true);
-      let thisBtnDelete = btnDelete.cloneNode(true);
-      thisBtnDelete.setAttribute('portid', portId);
-      thisBtnDelete.addEventListener('click', function (e) {
-        console.log(e.target.attributes.portid.nodeValue);
+    function loadBtnDelete(btn, id, field) {
+      btn.setAttribute('portid', id);
+      btn.addEventListener('click', function (e) {
         let thisId = e.target.attributes.portid.nodeValue;
         if (inout === "in") {
           cellView.model.removeInPort(thisId);
         } else if (inout === "out") {
           cellView.model.removeOutPort(thisId);
         }
-        let portData = cellView.model.attributes.portData;
+        // let portData = cellView.model.attributes.portData;
         for (let i = 0; i < portData.length; i++) {
           if (portData[i].portId === thisId) {
             cellView.model.attributes.portData.splice(i, 1);
           }
         }
-        formPorts.removeChild(thisField);
+        formPorts.removeChild(field);
       });
+    }
+
+    //Primary Select
+    let fieldPrimary = portPrimary.cloneNode(true);
+    //Sequence Select
+    let fieldSequence = portSequence.cloneNode(true);
+
+    function selectLoad(dataId, dataType, select, type) {
+      console.log("primary Load");
+      for (let j = 0; j < select.length; j++) {
+        if (dataType !== undefined && dataType.toString() === select[j].value) {
+          select[j].setAttribute('selected', "selected");
+        }
+      }
+      select.addEventListener('change', function () {
+        for (let j = 0; j < portData.length; j++) {
+          if (portData[j].portId === dataId) {
+            if (type === "primary") {
+              portData[j].portPrimary = this.value;
+            } else if (type === "sequence") {
+              portData[j].portSequence = this.value;
+            }
+          }
+        }
+        metaPanel(cellView);
+      });
+    }
+
+    function nameInputLoad(dataId, input) {
+      console.log(dataId);
+      input.setAttribute('type', 'text');
+      input.setAttribute('port', dataId);
+      input.setAttribute('placeholder', dataId);
+      // if (stepName === "unset") {
+      //       //   input.setAttribute('value', "");
+      //       // } else {
+      //       //   input.setAttribute('value', name);
+      //       // }
+      input.addEventListener('change', function () {
+        // let ports = cellView.model.attributes.portData;
+        let idArray = [];
+        for (let h = 0; h < portData.length; h++) {
+          idArray.push(portData[h].portId);
+        }
+        if (idArray.includes(this.value)) {
+          console.log("fooools");
+          alert("You can't choose the same ID twice!");
+          input.value = "";
+        } else {
+          cellView.model.portProp(dataId, 'attrs/.port-label/text', this.value);
+          cellView.model.portProp(dataId, 'id', this.value);
+          for (let i = 0; i < portData.length; i++) {
+            if (portData[i].portId === dataId) {
+              portData[i].portId = this.value;
+            }
+          }
+          if (inout === "in") {
+            for (let i = 0; i < inPorts.length; i++) {
+              if (inPorts[i] === dataId) {
+                inPorts[i] = this.value;
+              }
+            }
+          } else if (inout === "out") {
+            for (let i = 0; i < outPorts.length; i++) {
+              if (outPorts[i] === dataId) {
+                outPorts[i] = this.value;
+              }
+            }
+          }
+          let currentCells = graphX.getCells();
+          graphX.resetCells(currentCells);
+          metaPanel(cellView);
+          console.log("name-Change!");
+        }
+      });
+    }
+
+    //Load when clicking Step
+    if (btn === false) {
+      // if(step.type === xProc)
+      for (let i = 0; i < ports.length; i++) {
+        let port = ports[i].portId;
+        let primary = ports[i].portPrimary;
+        let sequence = ports[i].portSequence;
+        let thisField = field.cloneNode(true);
+        let thisName = name.cloneNode(true);
+        let noInputName = name.cloneNode(true);
+        let nameInput = thisName.appendChild(input.cloneNode(true));
+        nameInputLoad(port, nameInput);
+        //Primary Select Settings
+        let thisFieldPrimary = fieldPrimary.cloneNode(true);
+        let primarySelect = thisFieldPrimary.childNodes[1];
+        selectLoad(port, primary, primarySelect, "primary");
+        //Sequence Select Settings
+        let thisFieldSequence = fieldSequence.cloneNode(true);
+        let sequenceSelect = thisFieldSequence.childNodes[1];
+        selectLoad(port, sequence, sequenceSelect, "sequence");
+        //Delete Button
+        let thisBtnDelete = btnDelete.cloneNode(true);
+        loadBtnDelete(thisBtnDelete, port, thisField);
+
+        //Initialization
+
+        if (step.type === "xproc.Pipeline") {
+          formPorts.appendChild(thisField);
+          thisField.appendChild(thisName);
+          thisField.appendChild(thisFieldPrimary);
+          thisField.appendChild(thisFieldSequence);
+          thisField.appendChild(thisBtnDelete);
+        } else {
+          formPorts.appendChild(thisField);
+          thisField.appendChild(noInputName);
+          noInputName.appendChild(document.createTextNode(ports[i].portId));
+          thisField.appendChild(thisFieldPrimary);
+          thisField.appendChild(thisFieldSequence);
+          primarySelect.setAttribute('disabled', "disabled");
+          sequenceSelect.setAttribute('disabled', "disabled");
+        }
+      }
+      //Load when Button is Clicked
+    } else if (btn === true) {
+      let primary = "unset";
+      let sequence = "unset";
+      let thisField = field.cloneNode(true);
+      let thisName = name.cloneNode(true);
+      let nameInput = thisName.appendChild(input.cloneNode(true));
+      nameInputLoad(portId, nameInput);
+      let thisFieldPrimary = fieldPrimary.cloneNode(true);
+      let primarySelect = thisFieldPrimary.childNodes[1];
+      selectLoad(portId, primary, primarySelect, "primary");
+      let thisFieldSequence = fieldSequence.cloneNode(true);
+      let sequenceSelect = thisFieldSequence.childNodes[1];
+      selectLoad(portId, sequence, sequenceSelect, "sequence");
+      let thisBtnDelete = btnDelete.cloneNode(true);
+      loadBtnDelete(thisBtnDelete, portId, thisField);
       formPorts.appendChild(thisField);
       thisField.appendChild(thisName);
       thisField.appendChild(thisFieldPrimary);
@@ -531,7 +568,6 @@ paper.on('cell:pointerclick', function (cellView) {
       let name = label.cloneNode(true);
       name.appendChild(document.createTextNode(stepOptions[i].name));
       field.appendChild(name);
-
     }
   }
 
@@ -543,9 +579,12 @@ paper.on('cell:pointerclick', function (cellView) {
     metaOptions.appendChild(formOptions);
     createOptions();
   }
+}
 
-
+paper.on('cell:pointerdown', function (cellView) {
+  metaPanel(cellView);
 });
+
 paper.on('cell:pointerdblclick', function (cellView, evt) {
   cellPointerDblClick(cellView, evt);
 });

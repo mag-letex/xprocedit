@@ -66,9 +66,10 @@ xhr.onload = function (e) {
   let stepsHtml = document.querySelectorAll('.step');
   stepsHtml.forEach(function (elem) {
     elem.addEventListener('dragstart', function (e) {
-      e.dataTransfer.setData('text', e.target.id);
+      let id = e.target.id;
+      e.dataTransfer.setData('text', id);
     });
-    elem.addEventListener('dblclick', function () {
+    elem.addEventListener('dblclick', function (e) {
       let placeX = 100;
       let placeY = 100;
       stepLoad(elem, placeX, placeY);
@@ -379,6 +380,11 @@ let paperX;
 let graphX;
 
 function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
+  console.log(btnId);
+  let btnText = document.querySelector('#'+btnId);
+  let elem = btnText.innerText;
+  console.log(btnText);
+  console.log(elem);
   // Declare all variables
   let i, paperContent, tablink;
   // Get all elements with class="paperContent" and hide them
@@ -402,6 +408,12 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   } else {
     paperX = paperNew;
     graphX = graphNew;
+  }
+  let cell = paperX.findViewByModel(elem);
+  console.log(cell);
+  if (cell !== undefined){
+  metaPanel(cell);
+
   }
   // globalPipeline = btn.innerText;
 }
@@ -881,6 +893,8 @@ function loadPipeline(pipelineId) {
   newPipeline.addOutPort("result");
   // newPipeline.addPort(inPort);
   graphX.addCell(newPipeline);
+  let cell = paperX.findViewByModel(pipelineId);
+  metaPanel(cell);
 }
 
 

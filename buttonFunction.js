@@ -1,6 +1,6 @@
 // BUTTON FUNCTIONS
 btnFile.addEventListener('mousemove', function () {
-  filemenu(this.id, "drp_file");
+  fileMenue(this.id, "drp_file");
 });
 btnFile.addEventListener('mouseout', function () {
   leave(this.id, "drp_file");
@@ -77,14 +77,14 @@ btnBack.addEventListener('click', function () {
 btnForward.addEventListener('click', function () {
   getNextGraphState();
 });
-btnInPortAdd.addEventListener('click', function () {
-  let currentPipeline = graphX.getCell(globalPipeline);
-  currentPipeline.addPort(inPort);
-});
-btnOutPortAdd.addEventListener('click', function () {
-  let currentPipeline = graphX.getCell(globalPipeline);
-  currentPipeline.addPort(outPort);
-});
+// btnInPortAdd.addEventListener('click', function () {
+//   let currentPipeline = graphX.getCell(globalPipeline);
+//   currentPipeline.addPort(inPort);
+// });
+// btnOutPortAdd.addEventListener('click', function () {
+//   let currentPipeline = graphX.getCell(globalPipeline);
+//   currentPipeline.addPort(outPort);
+// });
 $('#btnShowOptions').on('click', function () {
   $('.joint-type-xproc-option').fadeOut('fast');
   $('#btnShowOptions').hide();
@@ -103,7 +103,7 @@ paper.on('element:pointerup', function () {
   saveNextGraphState();
 });
 
-function filemenu(handler, object) {
+function fileMenue(handler, object) {
   let hndlr = document.getElementById(handler);
   let obj = document.getElementById(object);
   obj.style.display = "block";

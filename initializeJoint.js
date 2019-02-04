@@ -18,23 +18,26 @@ window.addEventListener("drop", function (e) {
 }, false);
 
 //BUTTON-INITIALIZATION
-let btnFile = document.getElementById('drpdwn_file');
+// let btnFile = document.getElementById('drpdwn_file');
 let btnJSON = document.getElementById('btn_json');
 let btnLSClear = document.getElementById('btnLSClear');
 let btnLSGet = document.getElementById('btnLSGet');
-let btnLink = document.getElementById('btn_link');
+// let btnLink = document.getElementById('btn_link');
 let btnClearPipeline = document.getElementById('btnClearPipeline');
 let btnGetEmbeds = document.getElementById('btnGetEmbeds');
 let btnExportTest = document.getElementById('btnExportTest');
+let btnSavePipe = document.getElementById('btnSavePipe');
 
-let btnBack = document.getElementById('btnBack');
-let btnForward = document.getElementById('btnForward');
-let btnInPortAdd = document.getElementById('btnInPortAdd');
-let btnOutPortAdd = document.getElementById('btnOutPortAdd');
+// let btnBack = document.getElementById('btnBack');
+// let btnForward = document.getElementById('btnForward');
+// let btnInPortAdd = document.getElementById('btnInPortAdd');
+// let btnOutPortAdd = document.getElementById('btnOutPortAdd');
 let btnPaperNew = document.getElementById('btnPaperNew');
 
 let globalPipeline;
 let testGraph = [];
+
+
 let testBtnArray = [];
 
 //GET STEP-LIBRARIES
@@ -114,7 +117,12 @@ window.onload = function () {
       let placeY = e.layerY - 20;
       e.target.appendChild(document.getElementById(data));
       stepLoad(dropElem, placeX, placeY);
+      if (dropElemSibl !== null){
       dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
+      }
+      else{
+        document.querySelector("#customUL").appendChild(dropElem);
+      }
     });
   loadPipeline(pipelineId);
   SaxonJS.transform({
@@ -186,10 +194,11 @@ let graph = new joint.dia.Graph,
     // defaultLink: function (elementView, magnet) {
     defaultLink: function (cellView) {
         console.log(cellView.model.attributes.type);
+        // console.log(evt);
       if (cellView.model.attributes.type === "xproc.Option"){
         return devsOptionLink.clone();
       }
-      else if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
+      // else if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
       else return devsStandLink.clone();
     },
     snapLinks: true,
@@ -378,6 +387,7 @@ function createPaperBtn(modelId, evt, cellView) {
 
 let paperX;
 let graphX;
+let currentCell;
 
 function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   console.log(btnId);
@@ -413,8 +423,15 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   console.log(cell);
   if (cell !== undefined){
   metaPanel(cell);
-
   }
+  paperX.on('cell:pointerclick', function (cellView) {
+    metaPanel(cellView);
+    currentCell = cellView;
+  });
+  paperX.on('cell:pointerdblclick', function (cellView, evt) {
+    cellPointerDblClick(cellView, evt);
+  });
+
   // globalPipeline = btn.innerText;
 }
 
@@ -896,6 +913,97 @@ function loadPipeline(pipelineId) {
   let cell = paperX.findViewByModel(pipelineId);
   metaPanel(cell);
 }
+
+
+joint.shapes.xproc.Compound.define('xproc.Custom', {
+  type: 'xproc.Compound',
+  attrs: {
+    rect: {
+      fill: '#359b2b',
+      stroke: 'black',
+      'stroke-width': 1,
+      'follow-scale': true,
+      width: 160,
+      height: 80,
+      'rx': 6,
+      'ry': 6
+    },
+    text: {ref: 'rect'},
+    // '.word1': {'dx':0, 'dy': 20},
+    '.label': {ref: 'rect', 'font-weight': 'bold', 'font-size': 20},
+    '.word2': {y: 60, x: 100}
+  },
+  size: {width: 200, height: 100},
+  ports: {
+    groups: {
+      'in': {
+        position: 'left',
+        label: {
+          position: {
+            name: 'manual',
+            args: {
+              y: 5,
+              x: -40,
+              attrs: {'.': {'text-anchor': 'middle'}}
+            }
+          }
+        },
+        attrs: {
+          '.port-body': {
+            r: 12,
+            fill: '#fff'
+            // magnet: 'passive'
+          }
+          // 'circle': {fill: 'red'}
+        },
+        markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>",
+        // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
+      },
+      'out': {
+        position: 'right',
+        label: {
+          position: {
+            name: 'manual',
+            args: {
+              y: 5,
+              x: 40
+            }
+          }
+        },
+        attrs: {
+          '.port-body': {
+            fill: '#fff',
+            r: 12,
+            // magnet: 'passive'
+          }
+          // 'circle': {fill: 'red'}
+        },
+        markup: "<circle class=\"port-body out-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>"
+      }
+    }
+  },
+  stepGroup: "xproc.Custom",
+  stepType: "unset",
+  stepId: "unset",
+  stepPrefix: "unset",
+  stepName: "unset",
+  portData: [
+    {
+      portId: "unset",
+      portGroup: "unset",
+      portPrimary: "unset",
+      portSequence: "unset",
+      portContentTypes: "unset",
+      portSerialization: {indent: "unset"}
+    }
+  ],
+  stepOption: [
+    {
+      name: "unset",
+      required: "unset"
+    }
+  ]
+});
 
 
 //Definition of a custom Model object

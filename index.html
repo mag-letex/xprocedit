@@ -45,28 +45,21 @@
       <h2>User Steps</h2>
       <input type="text" id="inputCustomStep" placeholder="Search your Custom Step..." autocomplete="off"/>
         <ul id="customUL" class="stepGroup">
-          <li><a>p:add-attribute</a></li>
-          <li><a>p:add-xml-base</a></li>
-          <li><a>p:compare</a></li>
-          <li><a>p:count</a></li>
-          <li><a>p:delete</a></li>
-          <li><a>p:directory-list</a></li>
-          <li><a>p:error</a></li>
-          <li><a>p:escape-markup</a></li>
+          <!-- Content von JSON-Object -->
         </ul>
     </div>
   </div>
   <div id="topPanel">
-    <div id="btn_menu">
-      <button id="drpdwn_file" class="btn_menu">FILE</button>
-      <ul id="drp_file">
-        <li>New</li>
-        <li>Save</li>
-        <li>Export Pipeline</li>
-      </ul>
-    </div>
+    <!--<div id="btn_menu">-->
+      <!--<button id="drpdwn_file" class="btn_menu">FILE</button>-->
+      <!--<ul id="drp_file">-->
+        <!--<li>New</li>-->
+        <!--<li>Save</li>-->
+        <!--<li>Export Pipeline</li>-->
+      <!--</ul>-->
+    <!--</div>-->
     <div id="btnSub">
-      <button id="btn_link" class="btnStd btnSub" value="off">Main Link</button>
+      <!--<button id="btn_link" class="btnStd btnSub" value="off">Main Link</button>-->
       <button id="btn_json" class="btnStd btnSub">get JSON</button>
       <button id="btnLSClear" class="btnStd btnSub">Clear LS</button>
       <button id="btnLSGet" class="btnStd btnSub">Get LS</button>
@@ -75,7 +68,7 @@
     </div>
     <div style="display: inline-flex;">
     <div id="pipeImport">
-      <button id="btnImportPipe" class="btnStd">Import Pipeline</button>
+      <button id="btnSavePipe" class="btnStd">Save Pipeline</button>
     </div>
     <div id="pipeExport">
       <button id="btn_pipe" class="btnStd btnExp">Export Pipeline</button>
@@ -88,14 +81,14 @@
     </div>
   </div>
   <div id="toolBar">
-    <div id="backForwardBtns">
-    <button id="btnBack" class="btnToolBar">
-      <img src="img/back-arrow.svg"/>
-    </button>
-    <button id="btnForward" class="btnToolBar">
-      <img src="img/back-arrow.svg"/>
-    </button>
-    </div>
+    <!--<div id="backForwardBtns">-->
+    <!--<button id="btnBack" class="btnToolBar">-->
+      <!--<img src="img/back-arrow.svg"/>-->
+    <!--</button>-->
+    <!--<button id="btnForward" class="btnToolBar">-->
+      <!--<img src="img/back-arrow.svg"/>-->
+    <!--</button>-->
+    <!--</div>-->
     <!--<div id="portBtns">-->
       <!--<label>Add Ports</label>-->
     <!--<button id="btnInPortAdd" class="btnToolBar">-->
@@ -106,7 +99,7 @@
     <!--</button>-->
     <!--</div>-->
   <div id="optionBtns">
-    <label>Options</label>
+    <label>Hide/Show Options:</label>
     <button id="btnShowOptions" class="btnToolBar" style="width:2.6em; height:2.6em;">
       <img src="img/btn-options-show.svg" style="width: 2.6em; height: 2.6em;"/>
     </button>

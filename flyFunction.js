@@ -41,6 +41,9 @@ function stepLoad(elem, placeX, placeY) {
       if (group === "xproc.Compound") {
         loadCompoundStep(i, stepIdNum, stepId, placeX, placeY);
       }
+      if (group === "xproc.Custom"){
+        loadCustomStep(i, stepIdNum, stepId, placeX, placeY);
+      }
     }
   }
   let cell = paperX.findViewByModel(stepId);
@@ -102,6 +105,34 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
   }
 }
 
+function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
+  testGraph.push(stepId);
+  let newCell = new joint.shapes.xproc.Custom(superObj[i])
+    .prop('id', stepId)
+    .prop('stepId', stepId)
+    .attr({'.word2': {text: stepIdNum}})
+    .position(placeX, placeY);
+  graphX.addCell(newCell);
+  let currentPipeline = graphX.getCell(globalPipeline);
+  currentPipeline.embed(newCell);
+  if (superObj[i].stepOption !== undefined) {
+    let stepOptionArray = superObj[i].stepOption;
+    let stepOptionPosY = placeY + 100;
+    for (let j = 0; j < stepOptionArray.length; j++) {
+      let stepOptionName = stepOptionArray[j].name;
+      newStepOption = newStepOption.clone()
+        .prop('id', "" + stepId + "_opt_" + stepOptionName)
+        .position(placeX, stepOptionPosY)
+        .attr({
+          ".label": {text: stepOptionName}, rect: {fill: '#39af2f'}
+        });
+      graphX.addCell(newStepOption);
+      newCell.embed(newStepOption);
+      stepOptionPosY = stepOptionPosY + 20;
+    }
+  }
+}
+
 // PAPER - FUNCITONS
 // paper.on('element:mouseover', function (cellView) {
 //   let stepId;
@@ -142,8 +173,8 @@ let name = "unset";
 
 function metaPanel(cellView) {
   //Step-Information
+  currentCell = cellView;
   let step = cellView.model.toJSON();
-  console.log(cellView);
   console.log(step);
   let stepType = step.stepType;
   let stepPrefix = cellView.model.attributes.stepPrefix;
@@ -194,6 +225,7 @@ function metaPanel(cellView) {
   labelName.appendChild(document.createTextNode("Name/ Type"));
   let inputName = labelName.appendChild(input.cloneNode());
   inputName.setAttribute('type', 'text');
+  inputName.classList.add("inputNameInfo");
   if (stepName === "unset") {
     inputName.setAttribute('value', "");
   } else {
@@ -216,9 +248,9 @@ function metaPanel(cellView) {
 
   let prefixes = [
     createPrefix("unset"),
-    createPrefix("c:"),
-    createPrefix("d:"),
-    createPrefix("e:")
+    createPrefix("c"),
+    createPrefix("d"),
+    createPrefix("e")
   ];
   for (let i = 0; i < prefixes.length; i++) {
     selectPrefix.appendChild(prefixes[i]);
@@ -240,38 +272,42 @@ function metaPanel(cellView) {
   inputName.addEventListener('change', function () {
     name = this.value;
     cellView.model.attributes.stepName = this.value;
-    let type = "" + prefix + name;
+    let type = "" + prefix + "-" + name;
+    let label = "" + prefix + ":" + name;
     cellView.model.attributes.stepType = type;
-    cellView.model.attributes.attrs[".label"].text = type;
+    cellView.model.attributes.attrs[".label"].text = label;
     let currentCells = graphX.getCells();
     graphX.resetCells(currentCells);
   });
   inputName.addEventListener('keydown', function (e) {
     if (e.which === 13) {
       name = this.value;
-      let type = "" + prefix + name;
+      let type = "" + prefix + "-" + name;
+      let label = "" + prefix + ":" + name;
+      cellView.model.attributes.stepName = this.value;
       cellView.model.attributes.stepType = type;
-      cellView.model.attributes.attrs[".label"].text = type;
+      cellView.model.attributes.attrs[".label"].text = label;
       let currentCells = graphX.getCells();
       graphX.resetCells(currentCells);
     }
   });
-  btnName.addEventListener('click', function () {
-    let type = "" + prefix + name;
-    cellView.model.attributes.attrs[".label"].text = type;
-    cellView.model.attributes.stepType = type;
-    cellView.model.attributes.stepPrefix = prefix;
-    cellView.model.attributes.stepName = name;
-    let currentCells = graphX.getCells();
-    graphX.resetCells(currentCells);
-  });
+  // btnName.addEventListener('click', function () {
+  //   name = this.value;
+  //   let type = "" + prefix + "-" + name;
+  //   let label = "" + prefix + ":" + name;
+  //   cellView.model.attributes.stepName = this.value;
+  //   cellView.model.attributes.stepType = type;
+  //   cellView.model.attributes.attrs[".label"].text = label;
+  //   let currentCells = graphX.getCells();
+  //   graphX.resetCells(currentCells);
+  // });
   //PUSH INFO-ELEMENTS
   if (step.type === "xproc.Pipeline") {
     metaInfo.appendChild(formInfo);
     formInfo.appendChild(fieldsetName);
     fieldsetName.appendChild(labelPrefix);
     fieldsetName.appendChild(labelName);
-    fieldsetName.appendChild(btnName);
+    // fieldsetName.appendChild(btnName);
   } else if (step.type === "xproc.Option") {
     let optionName = cellView.model.attributes.optionName;
     // let optionValue = cellView.model.attributes.optionValue;
@@ -394,7 +430,6 @@ function metaPanel(cellView) {
     let fieldSequence = portSequence.cloneNode(true);
 
     function selectLoad(dataId, dataType, select, type) {
-      console.log("primary Load");
       for (let j = 0; j < select.length; j++) {
         if (dataType !== undefined && dataType.toString() === select[j].value) {
           select[j].setAttribute('selected', "selected");
@@ -415,7 +450,6 @@ function metaPanel(cellView) {
     }
 
     function nameInputLoad(dataId, input) {
-      console.log(dataId);
       input.setAttribute('type', 'text');
       input.setAttribute('port', dataId);
       input.setAttribute('placeholder', dataId);
@@ -431,7 +465,6 @@ function metaPanel(cellView) {
           idArray.push(portData[h].portId);
         }
         if (idArray.includes(this.value)) {
-          console.log("fooools");
           alert("You can't choose the same ID twice!");
           input.value = "";
         } else {
@@ -458,7 +491,6 @@ function metaPanel(cellView) {
           let currentCells = graphX.getCells();
           graphX.resetCells(currentCells);
           metaPanel(cellView);
-          console.log("name-Change!");
         }
       });
     }
@@ -581,19 +613,18 @@ function metaPanel(cellView) {
   }
 }
 
-paper.on('cell:pointerdown', function (cellView) {
-  metaPanel(cellView);
-});
+// paper.on('cell:pointerclick', function (cellView) {
+//   metaPanel(cellView);
+// });
 
-paper.on('cell:pointerdblclick', function (cellView, evt) {
-  cellPointerDblClick(cellView, evt);
-});
+// paper.on('cell:pointerdblclick', function (cellView, evt) {
+//   cellPointerDblClick(cellView, evt);
+// });
+
 
 function cellPointerDblClick(cellView, evt) {
   let modelType = cellView.model.attributes.type;
   let modelId = cellView.model.attributes.stepId;
-  console.log(cellView.model.id);
-  console.log(cellView.model.toJSON());
   if (modelType === "xproc.Compound") {
     createPaperBtn(modelId, evt, cellView);
     globalPipeline = modelId;

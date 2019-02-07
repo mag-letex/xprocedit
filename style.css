@@ -327,6 +327,10 @@ label {
   font-size: 1.2em;
   font-weight: bold;
 }
+.option-name{
+  font-size: 1.2em;
+  font-weight: bold;
+}
 
 /*.modelString {*/
 /*position: absolute;*/

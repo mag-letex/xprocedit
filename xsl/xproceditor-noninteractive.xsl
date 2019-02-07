@@ -128,14 +128,14 @@
   
   <!-- atomic steps -->
   
-  <xsl:template match="*:anonymous-map[*:type eq 'xproc.Atomic']" mode="xprocify-next">
+  <xsl:template match="*:anonymous-map[*:type = ('xproc.Atomic', 'xproc.Compound')]" mode="xprocify-next">
     <xsl:variable name="step-name" as="xs:string" 
                   select="lower-case(replace(replace(*:stepType, '([A-Z])', '-$1'), '^p-', 'p:'))"/>
     <xsl:variable name="step-id" select="*:stepId" as="xs:ID"/>
     <xsl:variable name="step-ports" select="*:portData" as="element()"/>
     <xsl:variable name="step-opts" select="key('options', $step-id)" as="element()*"/>
     <xsl:variable name="next-step-id" select="key('connect', $step-id)/*:target/*:id" as="element()"/>
-    <xsl:variable name="next-step" select="//*:anonymous-map[*:type eq 'xproc.Atomic'][*:stepId eq $next-step-id]"/>
+    <xsl:variable name="next-step" select="//*:anonymous-map[*:type = ('xproc.Atomic', 'xproc.Compound')][*:stepId eq $next-step-id]"/>
     <xsl:element name="{$step-name}">
       <xsl:attribute name="name" select="$step-id"/>
       <xsl:apply-templates select="$step-ports" mode="xprocify-ports"/>

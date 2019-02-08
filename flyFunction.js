@@ -160,7 +160,7 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
   currentPipeline.embed(newCell);
   if (superObj[i].stepOption !== undefined) {
     let stepOptionArray = superObj[i].stepOption;
-    let stepOptionPosY = placeY + 400;
+    let stepOptionPosY = placeY + 418;
     for (let j = 0; j < stepOptionArray.length; j++) {
       let stepOptionName = stepOptionArray[j].name;
       let stepOptionSelect = stepOptionArray[j].select;
@@ -168,7 +168,7 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
       let newOption = new joint.shapes.xproc.Option({
         id: "" + stepId + "_opt_" + stepOptionName,
         size:{
-          width: 350
+          width: 410
         },
         position:{
           x: placeX,

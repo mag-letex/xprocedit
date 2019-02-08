@@ -388,11 +388,8 @@ let graphX;
 let currentCell;
 
 function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
-  console.log(btnId);
   let btnText = document.querySelector('#' + btnId);
   let elem = btnText.innerText;
-  console.log(btnText);
-  console.log(elem);
   // Declare all variables
   let i, paperContent, tablink;
   // Get all elements with class="paperContent" and hide them
@@ -418,7 +415,6 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
     graphX = graphNew;
   }
   let cell = paperX.findViewByModel(elem);
-  console.log(cell);
   if (cell !== undefined) {
     metaPanel(cell);
   }
@@ -916,7 +912,13 @@ function loadPipeline(pipelineId) {
 
 joint.shapes.xproc.Compound.define('xproc.Custom', {
   type: 'xproc.Compound',
-  markup: '<defs><pattern id="dishwasher" patternUnits="userSpaceOnUse" width="350" height="400"><image xlink:href="img/pDishwasher-order.jpg" x="0" y="0" width="350" height="400"></image></pattern></defs><rect class="rectangle"></rect>',
+  markup: '<defs>' +
+    '<pattern id="dishwasher" patternUnits="userSpaceOnUse" width="410" height="418">' +
+    '<image xlink:href="img/pDishwasher-order-new.jpg" x="0" y="0" width="410" height="418">' +
+    '</image>' +
+    '</pattern>' +
+    '</defs>' +
+    '<g class="rotatable"><g class="scalable"><rect class="rectangle"></rect></g></g>',
   // <image href="img/pDishwasher-order.jpg" x="0" y="0" width="300" height="200"></image>
   attrs: {
     rect: {
@@ -926,8 +928,8 @@ joint.shapes.xproc.Compound.define('xproc.Custom', {
       // 'stroke-width': 1,
       // 'follow-scale': true,
       // width: 160,
-      width: 350,
-      height: 400,
+      width: 410,
+      height: 418,
       // height: 80,
       'rx': 6,
       'ry': 6
@@ -939,7 +941,7 @@ joint.shapes.xproc.Compound.define('xproc.Custom', {
     '.word2': {y: 60, x: 170}
   },
   // size: {width: 200, height: 100},
-  size: {width: 350, height: 400},
+  size: {width: 410, height: 418},
   ports: {
     groups: {
       'in': {

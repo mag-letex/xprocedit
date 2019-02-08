@@ -686,28 +686,32 @@ function metaPanel(cellView) {
     });
   }
 
-  function optionValueLoad(dataId, input) {
+  function optionValueLoad(dataId, input, cellView) {
     input.setAttribute('type', 'text');
     input.setAttribute('option', dataId);
     input.setAttribute('placeholder', dataId);
     input.addEventListener('change', function () {
-      let idArray = [];
-      for (let i = 0; i < stepOptions.length; i++) {
-        idArray.push(stepOptions[i].name);
-      }
-      if (idArray.includes(this.value)) {
-        alert("You can't choose the same Name twice!");
-        input.value = "";
-      } else {
-        for (let i = 0; i < stepOptions.length; i++) {
-          if (stepOptions[i].name === dataId) {
-            stepOptions[i].name = this.value;
-          }
-        }
-        let currentCells = graphX.getCells();
-        graphX.resetCells(currentCells);
-        metaPanel(cellView);
-      }
+      console.log("INPUT!");
+      console.log(input);
+      console.log(cellView.model);
+      // let idArray = [];
+      // for (let i = 0; i < stepOptions.length; i++) {
+      //   idArray.push(stepOptions[i].name);
+      // }
+      // if (idArray.includes(this.value)) {
+      //   alert("You can't choose the same Name twice!");
+      //   input.value = "";
+      // } else {
+      //   for (let i = 0; i < stepOptions.length; i++) {
+      //     if (stepOptions[i].name === dataId) {
+      //       stepOptions[i].name = this.value;
+      //     }
+      //   }
+      //   let currentCells = graphX.getCells();
+      //   graphX.resetCells(currentCells);
+      //   metaPanel(cellView);
+      // }
+      cellView.model.attributes.optionValue = this.value;
     });
   }
   function createOptionContent(optionId, btn) {
@@ -821,6 +825,10 @@ function metaPanel(cellView) {
     let optName = cellView.model.attributes.optionName;
     let optRequired = cellView.model.attributes.optionRequired;
     let optSelect = cellView.model.attributes.optionSelect;
+    let optValue = cellView.model.attributes.optionValue;
+    // name.addEventListener('change', function(){
+    //
+    // });
     let h3Option = h3.cloneNode(true);
     h3Option.appendChild(document.createTextNode(optName));
     metaInfo.appendChild(h3Option);
@@ -828,7 +836,7 @@ function metaPanel(cellView) {
     // formOptions.appendChild();
     let thisName = name.cloneNode(true);
     let nameInput = thisName.appendChild(input.cloneNode(true));
-    optionValueLoad(optSelect, nameInput);
+    optionValueLoad(optValue, nameInput, cellView);
     formOptions.appendChild(thisName);
     let fieldRequired = optionRequired.cloneNode(true);
     let thisFieldRequired = fieldRequired.cloneNode(true);
@@ -866,9 +874,6 @@ function metaPanel(cellView) {
 //   metaPanel(cellView);
 // });
 
-// paper.on('cell:pointerdblclick', function (cellView, evt) {
-//   cellPointerDblClick(cellView, evt);
-// });
 
 
 // function cellPointerDblClick(cellView, evt) {

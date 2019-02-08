@@ -118,9 +118,9 @@ function savePipeline(cellView) {
 
 
   let graphArray = [];
-  btnExportTest.addEventListener('click', function () {
-    pipelineExport();
-  });
+  // btnExportTest.addEventListener('click', function () {
+  //   pipelineExport();
+  // });
 
   function pipelineExport() {
     graphArray = [];

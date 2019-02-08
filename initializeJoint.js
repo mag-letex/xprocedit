@@ -25,7 +25,7 @@ let btnLSGet = document.getElementById('btnLSGet');
 // let btnLink = document.getElementById('btn_link');
 let btnClearPipeline = document.getElementById('btnClearPipeline');
 let btnGetEmbeds = document.getElementById('btnGetEmbeds');
-let btnExportTest = document.getElementById('btnExportTest');
+// let btnExportTest = document.getElementById('btnExportTest');
 let btnSavePipe = document.getElementById('btnSavePipe');
 
 // let btnBack = document.getElementById('btnBack');
@@ -1069,6 +1069,7 @@ joint.shapes.devs.Model.define('xproc.Option', {
     }
   ],
   optionName: "unset",
+  optionValue: "unset",
   optionRequired: "unset",
   optionSelect: "unset"
 });

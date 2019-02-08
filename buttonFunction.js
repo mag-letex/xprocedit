@@ -15,6 +15,17 @@
 //     btnLink.innerHTML = "Main Link";
 //   }
 // });
+// let h2Ports = document.getElementById('h2Ports');
+// let h2Options = document.getElementById('h2Options');
+
+// h2Ports.addEventListener('click', function(){
+//   let sibling = h2Ports.parentNode.childNodes;
+//   console.log(sibling);
+//   for (let i=2; i<sibling.length; i++){
+//     sibling[i].style.display = "none";
+//     }
+//   });
+
 btnJSON.addEventListener('click', function () {
   let graphJSON = graphX.toJSON();
   let graphJSONstring = JSON.stringify(graphJSON);
@@ -42,7 +53,10 @@ btnLSGet.addEventListener('click', function () {
 btnClearPipeline.addEventListener('click', function () {
   let currentPipeline = graphX.getCell(globalPipeline);
   let embeds = currentPipeline.getEmbeddedCells();
-  graphX.removeCells(embeds);
+  getId();
+  let id = "newPipeline_" +  newId;
+  graphX.removeCells(currentPipeline);
+  loadPipeline(id);
 });
 btnGetEmbeds.addEventListener('click', function () {
   let currentPipeline = graphX.getCell(globalPipeline);

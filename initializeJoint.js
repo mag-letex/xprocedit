@@ -117,10 +117,9 @@ window.onload = function () {
       let placeY = e.layerY - 20;
       e.target.appendChild(document.getElementById(data));
       stepLoad(dropElem, placeX, placeY);
-      if (dropElemSibl !== null){
-      dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
-      }
-      else{
+      if (dropElemSibl !== null) {
+        dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
+      } else {
         document.querySelector("#customUL").appendChild(dropElem);
       }
     });
@@ -193,9 +192,9 @@ let graph = new joint.dia.Graph,
     height: canvas.offsetHeight,
     // defaultLink: function (elementView, magnet) {
     defaultLink: function (cellView) {
-        console.log(cellView.model.attributes.type);
-        // console.log(evt);
-      if (cellView.model.attributes.type === "xproc.Option"){
+      console.log(cellView.model.attributes.type);
+      // console.log(evt);
+      if (cellView.model.attributes.type === "xproc.Option") {
         return devsOptionLink.clone();
       }
       // else if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
@@ -239,14 +238,13 @@ let graph = new joint.dia.Graph,
     },
     interactive: function (cellView) {
       if (cellView.model.attributes.type === "xproc.Option") {
-          return {
-            linkMove: true,
-            labelMove: true,
-            elementMove: false,
-            addLinkFromMagnet: true
-          };
-      }
-      else return true;
+        return {
+          linkMove: true,
+          labelMove: true,
+          elementMove: false,
+          addLinkFromMagnet: true
+        };
+      } else return true;
     }
   });
 
@@ -391,7 +389,7 @@ let currentCell;
 
 function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   console.log(btnId);
-  let btnText = document.querySelector('#'+btnId);
+  let btnText = document.querySelector('#' + btnId);
   let elem = btnText.innerText;
   console.log(btnText);
   console.log(elem);
@@ -421,8 +419,8 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   }
   let cell = paperX.findViewByModel(elem);
   console.log(cell);
-  if (cell !== undefined){
-  metaPanel(cell);
+  if (cell !== undefined) {
+    metaPanel(cell);
   }
   paperX.on('cell:pointerclick', function (cellView) {
     metaPanel(cellView);
@@ -917,23 +915,30 @@ function loadPipeline(pipelineId) {
 
 joint.shapes.xproc.Compound.define('xproc.Custom', {
   type: 'xproc.Compound',
+  markup: '<defs><pattern id="dishwasher" patternUnits="userSpaceOnUse" width="350" height="400"><image xlink:href="img/pDishwasher-order.jpg" x="0" y="0" width="350" height="400"></image></pattern></defs><rect class="rectangle"></rect>',
+  // <image href="img/pDishwasher-order.jpg" x="0" y="0" width="300" height="200"></image>
   attrs: {
     rect: {
-      fill: '#359b2b',
-      stroke: 'black',
-      'stroke-width': 1,
-      'follow-scale': true,
-      width: 160,
-      height: 80,
+      // fill: '#359b2b',
+      fill: 'url(#dishwasher)',
+      // stroke: 'black',
+      // 'stroke-width': 1,
+      // 'follow-scale': true,
+      // width: 160,
+      width: 350,
+      height: 400,
+      // height: 80,
       'rx': 6,
       'ry': 6
     },
     text: {ref: 'rect'},
     // '.word1': {'dx':0, 'dy': 20},
     '.label': {ref: 'rect', 'font-weight': 'bold', 'font-size': 20},
-    '.word2': {y: 60, x: 100}
+    // '.word2': {y: 60, x: 100}
+    '.word2': {y: 60, x: 170}
   },
-  size: {width: 200, height: 100},
+  // size: {width: 200, height: 100},
+  size: {width: 350, height: 400},
   ports: {
     groups: {
       'in': {
@@ -1064,27 +1069,8 @@ joint.shapes.devs.Model.define('xproc.Option', {
     }
   ],
   optionName: "unset",
-  optionValue: "unset"
-});
-
-let newStepOption = new joint.shapes.xproc.Option({
-  inPorts: ["in"],
-  portData: [
-    {
-      portId: "in",
-      portGroup: "in",
-      portPrimary: "unset",
-      portSequence: "unset",
-      portContentTypes: "unset",
-      portSerialization: {indent: "unset"}
-    },
-  ],
-  stepOption: [
-    {
-      name: "unset",
-      required: "unset"
-    }
-  ]
+  optionRequired: "unset",
+  optionSelect: "unset"
 });
 
 window.addEventListener("resize", function () {

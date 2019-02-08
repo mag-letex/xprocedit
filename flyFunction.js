@@ -64,14 +64,36 @@ function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
     let stepOptionPosY = placeY + 100;
     for (let j = 0; j < stepOptionArray.length; j++) {
       let stepOptionName = stepOptionArray[j].name;
-      newStepOption = newStepOption.clone()
-        .prop('id', "" + stepId + "_opt_" + stepOptionName)
-        .position(placeX, stepOptionPosY)
-        .attr({
-          ".label": {text: stepOptionName}, rect: {fill: '#ff6d5c'}
-        });
-      graphX.addCell(newStepOption);
-      newCell.embed(newStepOption);
+      let stepOptionSelect = stepOptionArray[j].select;
+      let stepOptionRequired = stepOptionArray[j].required;
+
+      let newOption = new joint.shapes.xproc.Option({
+        id: "" + stepId + "_opt_" + stepOptionName,
+        position:{
+          x: placeX,
+          y: stepOptionPosY
+        },
+        attrs:{
+          ".label": {text: stepOptionName},
+          rect: {fill: '#ff6d6c'}
+        },
+        inPorts:["in"],
+        portData:[
+          {
+            portId: "in",
+            portGroup: "in",
+            portPrimary: "unset",
+            portSequence: "unset",
+            portContentTypes: "unset",
+            portSerialization: {indent: "unset"}
+          }
+        ],
+        optionName: stepOptionName,
+        optionRequired: stepOptionRequired,
+        optionSelect: stepOptionSelect
+      });
+      graphX.addCell(newOption);
+      newCell.embed(newOption);
       stepOptionPosY = stepOptionPosY + 20;
     }
   }
@@ -92,14 +114,35 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
     let stepOptionPosY = placeY + 100;
     for (let j = 0; j < stepOptionArray.length; j++) {
       let stepOptionName = stepOptionArray[j].name;
-      newStepOption = newStepOption.clone()
-        .prop('id', "" + stepId + "_opt_" + stepOptionName)
-        .position(placeX, stepOptionPosY)
-        .attr({
-          ".label": {text: stepOptionName}, rect: {fill: '#a1c9ff'}
-        });
-      graphX.addCell(newStepOption);
-      newCell.embed(newStepOption);
+      let stepOptionSelect = stepOptionArray[j].select;
+      let stepOptionRequired = stepOptionArray[j].required;
+      let newOption = new joint.shapes.xproc.Option({
+        id: "" + stepId + "_opt_" + stepOptionName,
+        position:{
+          x: placeX,
+          y: stepOptionPosY
+        },
+        attrs:{
+          ".label": {text: stepOptionName},
+          rect: {fill: '#a1c9ff'}
+        },
+        inPorts:["in"],
+        portData:[
+          {
+            portId: "in",
+            portGroup: "in",
+            portPrimary: "unset",
+            portSequence: "unset",
+            portContentTypes: "unset",
+            portSerialization: {indent: "unset"}
+          }
+        ],
+        optionName: stepOptionName,
+        optionRequired: stepOptionRequired,
+        optionSelect: stepOptionSelect
+      });
+      graphX.addCell(newOption);
+      newCell.embed(newOption);
       stepOptionPosY = stepOptionPosY + 20;
     }
   }
@@ -117,17 +160,41 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
   currentPipeline.embed(newCell);
   if (superObj[i].stepOption !== undefined) {
     let stepOptionArray = superObj[i].stepOption;
-    let stepOptionPosY = placeY + 100;
+    let stepOptionPosY = placeY + 400;
     for (let j = 0; j < stepOptionArray.length; j++) {
       let stepOptionName = stepOptionArray[j].name;
-      newStepOption = newStepOption.clone()
-        .prop('id', "" + stepId + "_opt_" + stepOptionName)
-        .position(placeX, stepOptionPosY)
-        .attr({
-          ".label": {text: stepOptionName}, rect: {fill: '#39af2f'}
-        });
-      graphX.addCell(newStepOption);
-      newCell.embed(newStepOption);
+      let stepOptionSelect = stepOptionArray[j].select;
+      let stepOptionRequired = stepOptionArray[j].required;
+      let newOption = new joint.shapes.xproc.Option({
+        id: "" + stepId + "_opt_" + stepOptionName,
+        size:{
+          width: 350
+        },
+        position:{
+          x: placeX,
+          y: stepOptionPosY
+        },
+        attrs:{
+          ".label": {text: stepOptionName},
+          rect: {fill: '#39af2f'}
+        },
+        inPorts:["in"],
+        portData:[
+          {
+            portId: "in",
+            portGroup: "in",
+            portPrimary: "unset",
+            portSequence: "unset",
+            portContentTypes: "unset",
+            portSerialization: {indent: "unset"}
+          }
+        ],
+        optionName: stepOptionName,
+        optionRequired: stepOptionRequired,
+        optionSelect: stepOptionSelect
+      });
+      graphX.addCell(newOption);
+      newCell.embed(newOption);
       stepOptionPosY = stepOptionPosY + 20;
     }
   }
@@ -210,6 +277,7 @@ function metaPanel(cellView) {
   let input = document.createElement('input');
   let inputBtn = input.cloneNode();
   inputBtn.setAttribute('type', "button");
+  inputBtn.classList.add('btnInput');
   let select = document.createElement('select');
   let option = document.createElement('option');
   let optionUnset = option.cloneNode();
@@ -219,6 +287,7 @@ function metaPanel(cellView) {
   let optionFalse = option.cloneNode();
   optionFalse.appendChild(document.createTextNode("false"));
   let h3 = document.createElement('h3');
+  let div = document.createElement('div');
 
   //Info-DIV
   let formInfo = form.cloneNode();
@@ -239,7 +308,7 @@ function metaPanel(cellView) {
   }
   inputName.setAttribute('placeholder', stepType);
   let labelPrefix = label.cloneNode();
-  labelPrefix.appendChild(document.createTextNode("Choose a Prefix: "));
+  labelPrefix.appendChild(document.createTextNode("Prefix: "));
   let selectPrefix = labelPrefix.appendChild(select.cloneNode());
   selectPrefix.setAttribute('name', 'prefixes');
   let prefixOptions = [];
@@ -256,7 +325,8 @@ function metaPanel(cellView) {
     createPrefix("unset"),
     createPrefix("c"),
     createPrefix("d"),
-    createPrefix("e")
+    createPrefix("e"),
+    createPrefix("p")
   ];
   for (let i = 0; i < prefixes.length; i++) {
     selectPrefix.appendChild(prefixes[i]);
@@ -299,6 +369,10 @@ function metaPanel(cellView) {
   });
 
   //PORTS-DIV
+  // let targetInput = document.getElementById('divInput');
+  // let targetOutput = document.getElementById('divOutput');
+  let divPortsHead = div.cloneNode();
+  divPortsHead.setAttribute('id', "divPortsHead");
   //Port-Primary Dummy
   let portPrimary = label.cloneNode(true);
   portPrimary.appendChild(document.createTextNode("primary"));
@@ -316,8 +390,20 @@ function metaPanel(cellView) {
   selectSequence.appendChild(optionFalse.cloneNode(true));
   portSequence.appendChild(selectSequence);
   // INPUT-PORTS
+  let divInput = div.cloneNode();
+  divInput.classList.add('divPorts');
+  divInput.setAttribute('id', "divInput");
+  divInput.style.display = "block";
   let h3PortsInput = h3.cloneNode();
-  h3PortsInput.appendChild(document.createTextNode("Input-Ports"));
+  h3PortsInput.classList.add('h3Input', 'h3Port');
+  h3PortsInput.appendChild(document.createTextNode("Inputs"));
+  h3PortsInput.addEventListener('click', function(){
+    let visibility = divInput.style.display;
+    if(visibility === "none"){
+      divInput.style.display = "block";
+      divOutput.style.display = "none";
+    }
+  });
   let formInput = form.cloneNode();
   let btnInputAdd = inputBtn.cloneNode();
   btnInputAdd.setAttribute('value', "add In-Port");
@@ -339,8 +425,20 @@ function metaPanel(cellView) {
   let legendPort = fieldsetPort.appendChild(legend.cloneNode());
   legendPort.appendChild(document.createTextNode("Port"));
   // OUTPUT-PORTS
+  let divOutput = div.cloneNode();
+  divOutput.classList.add('divPorts');
+  divOutput.setAttribute('id', "divOutput");
+  divOutput.style.display = "none";
   let h3PortsOutput = h3.cloneNode();
-  h3PortsOutput.appendChild(document.createTextNode("Output-Ports"));
+  h3PortsOutput.appendChild(document.createTextNode("Outputs"));
+  h3PortsOutput.classList.add('h3Output', 'h3Port');
+  h3PortsOutput.addEventListener('click', function(){
+    let visibility = divOutput.style.display;
+    if(visibility === "none"){
+      divOutput.style.display = "block";
+      divInput.style.display = "none";
+    }
+  });
   let formOutput = form.cloneNode();
   let btnOutputAdd = inputBtn.cloneNode();
   btnOutputAdd.setAttribute('value', "add Out-Port");
@@ -522,6 +620,9 @@ function metaPanel(cellView) {
 
   //OPTIONS-DIV
   let formOptions = form.cloneNode(true);
+  let divOption = div.cloneNode();
+  // divOption.classList.add('divPorts');
+  divOption.setAttribute('id', "divOption");
   let fieldsetOption = fieldset.cloneNode();
   let legendOption = fieldsetOption.appendChild(legend.cloneNode());
   legendOption.appendChild(document.createTextNode("Option"));
@@ -545,28 +646,6 @@ function metaPanel(cellView) {
     cellView.model.attributes.stepOption.push(optionObject);
   });
 
-  function createOptionContent(optionId, btn) {
-    // Basic Elements
-    let field = fieldsetPort.cloneNode(true);
-    let name = label.cloneNode(true);
-    name.classList.add("option-name");
-    // Delete Button
-    let btnDelete = inputBtn.cloneNode();
-    btnDelete.setAttribute('value', "X");
-
-    function loadBtnDelete(btn, id, field) {
-      btn.setAttribute('optionid', id);
-      btn.addEventListener('click', function (e) {
-        let thisId = e.target.attributes.optionid.nodeValue;
-        for (let i=0; i < stepOptions.length; i++){
-          if (stepOptions[i].name === thisId){
-            console.log("true");
-            stepOptions.splice(i, 1);
-          }
-        }
-        formOptions.removeChild(field);
-      });
-    }
     function optionInputLoad(dataId, input) {
       input.setAttribute('type', 'text');
       input.setAttribute('option', dataId);
@@ -591,24 +670,69 @@ function metaPanel(cellView) {
         }
       });
     }
-
-    let fieldRequired = optionRequired.cloneNode(true);
-    function selectLoad(dataId, dataType, select) {
-      for (let i = 0; i < select.length; i++) {
-        if (dataType !== undefined && dataType.toString() === select[i].value) {
-          select[i].setAttribute('selected', "selected");
+  function selectOptionLoad(dataId, dataType, select) {
+    for (let i = 0; i < select.length; i++) {
+      if (dataType !== undefined && dataType.toString() === select[i].value) {
+        select[i].setAttribute('selected', "selected");
+      }
+    }
+    select.addEventListener('change', function () {
+      for (let i = 0; i < stepOptions.length; i++) {
+        if (stepOptions[i].name === dataId) {
+          stepOptions[i].required = this.value;
         }
       }
-      select.addEventListener('change', function () {
+      metaPanel(cellView);
+    });
+  }
+
+  function optionValueLoad(dataId, input) {
+    input.setAttribute('type', 'text');
+    input.setAttribute('option', dataId);
+    input.setAttribute('placeholder', dataId);
+    input.addEventListener('change', function () {
+      let idArray = [];
+      for (let i = 0; i < stepOptions.length; i++) {
+        idArray.push(stepOptions[i].name);
+      }
+      if (idArray.includes(this.value)) {
+        alert("You can't choose the same Name twice!");
+        input.value = "";
+      } else {
         for (let i = 0; i < stepOptions.length; i++) {
           if (stepOptions[i].name === dataId) {
-            stepOptions[i].required = this.value;
+            stepOptions[i].name = this.value;
           }
         }
+        let currentCells = graphX.getCells();
+        graphX.resetCells(currentCells);
         metaPanel(cellView);
+      }
+    });
+  }
+  function createOptionContent(optionId, btn) {
+    // Basic Elements
+    let name = label.cloneNode(true);
+    name.classList.add("option-name");
+    // Delete Button
+    let btnDelete = inputBtn.cloneNode();
+    btnDelete.setAttribute('value', "X");
+
+    function loadBtnDelete(btn, id, field) {
+      btn.setAttribute('optionid', id);
+      btn.addEventListener('click', function (e) {
+        let thisId = e.target.attributes.optionid.nodeValue;
+        for (let i=0; i < stepOptions.length; i++){
+          if (stepOptions[i].name === thisId){
+            console.log("true");
+            stepOptions.splice(i, 1);
+          }
+        }
+        formOptions.removeChild(field);
       });
     }
 
+    let fieldRequired = optionRequired.cloneNode(true);
 
     if (btn === false) {
       // if(step.type === xProc)
@@ -625,7 +749,7 @@ function metaPanel(cellView) {
         //Required Select Settings
         let thisFieldRequired = fieldRequired.cloneNode(true);
         let requiredSelect = thisFieldRequired.childNodes[1];
-        selectLoad(optName, optRequired, requiredSelect);
+        selectOptionLoad(optName, optRequired, requiredSelect);
         //Delete Button
         let thisBtnDelete = btnDelete.cloneNode(true);
         loadBtnDelete(thisBtnDelete, optName, thisField);
@@ -653,7 +777,7 @@ function metaPanel(cellView) {
       optionInputLoad(optionId, nameInput);
       let thisFieldRequired = fieldRequired.cloneNode(true);
       let requiredSelect = thisFieldRequired.childNodes[1];
-      selectLoad(optionId, required, requiredSelect);
+      selectOptionLoad(optionId, required, requiredSelect);
       let thisBtnDelete = btnDelete.cloneNode(true);
       loadBtnDelete(thisBtnDelete, optionId, thisField);
       formOptions.appendChild(thisField);
@@ -672,20 +796,47 @@ function metaPanel(cellView) {
     fieldsetName.appendChild(labelPrefix);
     fieldsetName.appendChild(labelName);
     // PORTS
-    metaPorts.appendChild(h3PortsInput);
-    metaPorts.appendChild(formInput);
+      metaPorts.appendChild(divPortsHead);
+    divPortsHead.appendChild(h3PortsInput);
+    divPortsHead.appendChild(h3PortsOutput);
+    metaPorts.appendChild(divInput);
+    divInput.appendChild(formInput);
     formInput.appendChild(btnInputAdd);
     let foo;
     createPortContent(foo, false, inputPorts, formInput, "in");
-    metaPorts.appendChild(h3PortsOutput);
-    metaPorts.appendChild(formOutput);
+    metaPorts.appendChild(divOutput);
+    divOutput.appendChild(formOutput);
     formOutput.appendChild(btnOutputAdd);
     createPortContent(foo, false, outputPorts, formOutput, "out");
     // OPTIONS
-    metaOptions.appendChild(formOptions);
+    metaOptions.appendChild(divOption);
+    divOption.appendChild(formOptions);
     formOptions.appendChild(btnOptionAdd);
     createOptionContent(foo, false);
-  } else {
+  }
+  else if (step.type === "xproc.Option") {
+    let name = label.cloneNode(true);
+    name.classList.add("option-value");
+    name.appendChild(document.createTextNode("Value: "));
+    let optName = cellView.model.attributes.optionName;
+    let optRequired = cellView.model.attributes.optionRequired;
+    let optSelect = cellView.model.attributes.optionSelect;
+    let h3Option = h3.cloneNode(true);
+    h3Option.appendChild(document.createTextNode(optName));
+    metaInfo.appendChild(h3Option);
+    metaInfo.appendChild(formOptions);
+    // formOptions.appendChild();
+    let thisName = name.cloneNode(true);
+    let nameInput = thisName.appendChild(input.cloneNode(true));
+    optionValueLoad(optSelect, nameInput);
+    formOptions.appendChild(thisName);
+    let fieldRequired = optionRequired.cloneNode(true);
+    let thisFieldRequired = fieldRequired.cloneNode(true);
+    let requiredSelect = thisFieldRequired.childNodes[1];
+    selectOptionLoad(optName, optRequired, requiredSelect);
+    formOptions.appendChild(fieldRequired);
+  }
+  else {
     // INFO
     let type = document.createElement('h3');
     let id = document.createElement('p');
@@ -695,22 +846,19 @@ function metaPanel(cellView) {
     metaInfo.appendChild(type);
     metaInfo.appendChild(id);
     // PORTS
-    metaPorts.appendChild(h3PortsInput);
-    metaPorts.appendChild(formInput);
     let foo;
+    metaPorts.appendChild(divPortsHead);
+    divPortsHead.appendChild(h3PortsInput);
+    divPortsHead.appendChild(h3PortsOutput);
+    metaPorts.appendChild(divInput);
+    divInput.appendChild(formInput);
     createPortContent(foo, false, inputPorts, formInput, "in");
-    metaPorts.appendChild(h3PortsOutput);
-    metaPorts.appendChild(formOutput);
+    metaPorts.appendChild(divOutput);
+    divOutput.appendChild(formOutput);
     createPortContent(foo, false, outputPorts, formOutput, "out");
     // OPTIONS
     metaOptions.appendChild(formOptions);
     createOptionContent(foo, false);
-  }
-  if (step.type === "xproc.Option") {
-    let optionName = cellView.model.attributes.optionName;
-    let h3Option = h3.cloneNode(true);
-    h3Option.appendChild(document.createTextNode(optionName));
-    metaInfo.appendChild(h3Option);
   }
 }
 

@@ -875,12 +875,13 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
       portId: "source",
       portGroup: "in",
       portPrimary: true,
+      portSequence: false
     },
     {
       portId: "result",
       portGroup: "out",
       portPrimary: true,
-      portSequence: true
+      portSequence: false
     }
   ]
 });

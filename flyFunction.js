@@ -548,7 +548,7 @@ function metaPanel(cellView) {
           }
           let currentCells = graphX.getCells();
           graphX.resetCells(currentCells);
-          metaPanel(cellView);
+          // metaPanel(cellView);
         }
       });
     }

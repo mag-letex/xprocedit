@@ -134,11 +134,15 @@
     <xsl:variable name="step-id" select="*:stepId" as="xs:ID"/>
     <xsl:variable name="step-ports" select="*:portData" as="element()"/>
     <xsl:variable name="step-opts" select="key('options', $step-id)" as="element()*"/>
+    <xsl:variable name="prev-step-id" select="key('connect', $step-id)/*:source/*:id" as="element()"/>
     <xsl:variable name="next-step-id" select="key('connect', $step-id)/*:target/*:id" as="element()"/>
     <xsl:variable name="next-step" select="//*:anonymous-map[*:type = ('xproc.Atomic', 'xproc.Compound')][*:stepId eq $next-step-id]"/>
+    
     <xsl:element name="{$step-name}">
       <xsl:attribute name="name" select="$step-id"/>
-      <xsl:apply-templates select="$step-ports" mode="xprocify-ports"/>
+      <!--<xsl:apply-templates select="$step-ports" mode="xprocify-ports">
+        <xsl:with-param name="pipe-step-name" select="$prev-step-id" as="xs:string?" tunnel="yes"/>
+      </xsl:apply-templates>-->
       <xsl:apply-templates select="$step-opts" mode="xprocify-opts"/>
     </xsl:element>
     <xsl:apply-templates select="$next-step" mode="xprocify-next"/>
@@ -146,7 +150,8 @@
   
   <!-- input and output ports -->
   
-  <xsl:template match="*:portData/*:anonymous-map" mode="xprocify-ports">
+  <xsl:template match="*:anonymous-map[*:type eq 'xproc.Pipeline']/*:portData/*:anonymous-map" mode="xprocify-ports">
+    <xsl:param name="pipe-step-name" as="xs:string?" tunnel="yes"/>
     <xsl:variable name="port-type" select="*:portGroup" as="xs:string"/>
     <xsl:variable name="port-name" select="*:portId"/>
     <xsl:variable name="port-primary" select="*:portPrimary" as="xs:string?"/>
@@ -159,6 +164,9 @@
       <xsl:if test="$port-sequence">
         <xsl:attribute name="sequence" select="$port-sequence"/>  
       </xsl:if>
+      <xsl:if test="$pipe-step-name">
+        <p:pipe step="{$pipe-step-name}" port="result"/>
+      </xsl:if>
     </xsl:element>
   </xsl:template>
   
@@ -166,9 +174,16 @@
   
   <xsl:template match="*:anonymous-map[*:type eq 'xproc.Option']" mode="xprocify-opts">
     <xsl:param name="global" select="false()" as="xs:boolean"/>
-    <xsl:element name="{if($global) then 'p:option' else 'p:with-option'}">
-      <xsl:attribute name="{*:optionName}" select="*:optionValue"/>
-    </xsl:element>
+    <xsl:if test="not(*:optionValue eq 'unset')">
+      <xsl:choose>
+        <xsl:when test="$global">
+          <p:option name="{*:optionName}" value="{*:optionValue}"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="{*:optionName}" select="*:optionValue"/>
+        </xsl:otherwise>
+      </xsl:choose>  
+    </xsl:if>
   </xsl:template>
   
   <xsl:template match="@*|*" mode="xprocify" priority="-10">

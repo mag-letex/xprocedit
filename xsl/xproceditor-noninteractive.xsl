@@ -22,13 +22,13 @@
       </xsl:apply-templates>  
     </xsl:variable>
     
-    <xsl:result-document href="file:/C:/cygwin64/home/kraetke/xprocedit/debug.json-graph.xml">
+    <!--<xsl:result-document href="file:/C:/cygwin64/home/kraetke/xprocedit/debug.json-graph.xml">
       <xsl:sequence select="$graph"/>
     </xsl:result-document>
     
     <xsl:result-document href="file:/C:/cygwin64/home/kraetke/xprocedit/debug.simplified-rep.xml">
       <xsl:sequence select="$simplify-json-representation"/>
-    </xsl:result-document>
+    </xsl:result-document>-->
     
     <xsl:variable name="xprocify">
       <xsl:apply-templates select="$simplify-json-representation" mode="xprocify"/>  
@@ -134,16 +134,16 @@
     <xsl:variable name="step-id" select="*:stepId" as="xs:ID"/>
     <xsl:variable name="step-ports" select="*:portData" as="element()"/>
     <xsl:variable name="step-opts" select="key('options', $step-id)" as="element()*"/>
-    <xsl:variable name="prev-step-id" select="key('connect', $step-id)/*:source/*:id" as="element()"/>
+    <xsl:variable name="prev-step-id" select="key('connect', $step-id)/*:source/*:id" as="xs:string"/>
     <xsl:variable name="next-step-id" select="key('connect', $step-id)/*:target/*:id" as="element()"/>
     <xsl:variable name="next-step" select="//*:anonymous-map[*:type = ('xproc.Atomic', 'xproc.Compound')][*:stepId eq $next-step-id]"/>
     
     <xsl:element name="{$step-name}">
       <xsl:attribute name="name" select="$step-id"/>
-      <!--<xsl:apply-templates select="$step-ports" mode="xprocify-ports">
-        <xsl:with-param name="pipe-step-name" select="$prev-step-id" as="xs:string?" tunnel="yes"/>
-      </xsl:apply-templates>-->
       <xsl:apply-templates select="$step-opts" mode="xprocify-opts"/>
+      <xsl:apply-templates select="$step-ports" mode="xprocify-ports">
+        <xsl:with-param name="pipe-step-name" select="$prev-step-id" as="xs:string" tunnel="yes"/>
+      </xsl:apply-templates>
     </xsl:element>
     <xsl:apply-templates select="$next-step" mode="xprocify-next"/>
   </xsl:template>
@@ -151,7 +151,8 @@
   <!-- input and output ports -->
   
   <xsl:template match="*:anonymous-map[*:type eq 'xproc.Pipeline']/*:portData/*:anonymous-map" mode="xprocify-ports">
-    <xsl:param name="pipe-step-name" as="xs:string?" tunnel="yes"/>
+    <xsl:param name="pipe-step-name" as="xs:string" tunnel="yes"/>
+    <xsl:message select="'-----', $pipe-step-name"></xsl:message>
     <xsl:variable name="port-type" select="*:portGroup" as="xs:string"/>
     <xsl:variable name="port-name" select="*:portId"/>
     <xsl:variable name="port-primary" select="*:portPrimary" as="xs:string?"/>

@@ -4,6 +4,7 @@
 <head>
   <title>XProc-Editor</title>
   <meta charset="UTF-8"/>
+  <meta name="author" content="Marco Geue @ le-tex"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="libs/joint.css"/>
   <link rel="stylesheet" href="style.css"/>
@@ -50,21 +51,12 @@
     </div>
   </div>
   <div id="topPanel">
-    <!--<div id="btn_menu">-->
-      <!--<button id="drpdwn_file" class="btn_menu">FILE</button>-->
-      <!--<ul id="drp_file">-->
-        <!--<li>New</li>-->
-        <!--<li>Save</li>-->
-        <!--<li>Export Pipeline</li>-->
-      <!--</ul>-->
-    <!--</div>-->
     <div id="btnSub">
       <!--<button id="btn_link" class="btnStd btnSub" value="off">Main Link</button>-->
       <button id="btn_json" class="btnStd btnSub">get JSON</button>
       <button id="btnLSClear" class="btnStd btnSub">Clear LS</button>
       <button id="btnLSGet" class="btnStd btnSub">Get LS</button>
       <button id="btnClearPipeline" class="btnStd btnSub">Clear Pipeline</button>
-      <button id="btnGetEmbeds" class="btnStd btnSub">Get Embedded Steps</button>
     </div>
     <div style="display: inline-flex;">
     <div id="pipeImport">
@@ -81,14 +73,14 @@
     </div>
   </div>
   <div id="toolBar">
-    <!--<div id="backForwardBtns">-->
-    <!--<button id="btnBack" class="btnToolBar">-->
-      <!--<img src="img/back-arrow.svg"/>-->
-    <!--</button>-->
-    <!--<button id="btnForward" class="btnToolBar">-->
-      <!--<img src="img/back-arrow.svg"/>-->
-    <!--</button>-->
-    <!--</div>-->
+    <div id="backForwardBtns">
+    <button id="btnBack" class="btnToolBar">
+      <img src="img/back-arrow.svg"/>
+    </button>
+    <button id="btnForward" class="btnToolBar">
+      <img src="img/back-arrow.svg"/>
+    </button>
+    </div>
     <!--<div id="portBtns">-->
       <!--<label>Add Ports</label>-->
     <!--<button id="btnInPortAdd" class="btnToolBar">-->
@@ -110,7 +102,6 @@
   </div>
   <div id="metaPanel">
     <h1 id="metaHead">Meta</h1>
-    <!--<div id="metaContent">-->
     <div id="metaInfo" class="metaArea">
       <h2>Info</h2>
     </div>
@@ -120,18 +111,14 @@
     <div id="metaOptions" class="metaArea">
       <h2 id="h2Options">Options</h2>
     </div>
-    <!--</div>-->
   </div>
   <div id="papers">
     <div id="paper1" class="paperContent" style="background-color: #5fb598;"></div>
   </div>
   <div id="paperSwitch">
     <div class="tab">
-      <!--<button id="btnDefaultOpen" class="tablink" onclick="switchPaper(event, 'paper1', 'btnDefaultOpen')">XProc-Pipeline</button>-->
       <button id="btnDefaultOpen" class="tablink">XProc-Pipeline</button>
-      <!--<button class="tablink" style="display: none;">New Pipeline</button>-->
-      <button id="btnPaperNew" style="display: none;">+</button>
-      <!--<button id="btnPaperNew" class="tablink">+</button>-->
+      <button id="btnPaperNew">+</button>
     </div>
   </div>
 </div>
@@ -144,8 +131,8 @@
 <script src="libs/joint.js"></script>
 
 <script src="initializeJoint.js"></script>
-<script src="flyFunction.js"></script>
-<script src="buttonFunction.js"></script>
+<script src="stepInteraction.js"></script>
+<script src="buttons.js"></script>
 
 </body>
 </html>

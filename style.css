@@ -14,21 +14,7 @@
   font-family: 'SourceSans-SemiBold';
   src: url('fonts/source-sans-pro/SourceSansPro-Semibold.ttf') format('truetype');
 }
-@font-face
-{
-  font-family: 'SourceSerif-Reg';
-  src: url('fonts/source-serif-pro/SourceSerifPro-Regular.ttf') format('truetype');
-}
 
-@font-face
-{
-  font-family: 'SourceSerif-Bold';
-  src: url('fonts/source-serif-pro/SourceSerifPro-Bold.ttf') format('truetype');
-}
-
-/**{*/
-  /*font-family: 'SourceSans-Reg', sans-serif;*/
-/*}*/
 label {
   display: block;
   margin: 0.4em 0 0.4em 0;
@@ -246,13 +232,9 @@ fieldset{
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -o-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
-#portBtns {
-
-}
 
 /*STEP PANEL*/
 #stepPanel {
@@ -271,7 +253,7 @@ fieldset{
 }
 
 .stepGroup {
-  height: 12vh;
+  height: 15vh;
   overflow-y: scroll;
 }
 
@@ -288,7 +270,7 @@ fieldset{
 
 #stepPanel ul {
   padding: 0 0.3em;
-  margin-top: 0.05em;
+  margin: 0.05em 0 0 0;;
 }
 
 #stepPanel li {
@@ -305,7 +287,6 @@ fieldset{
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 #stepPanelAtomic {
@@ -347,7 +328,6 @@ fieldset{
   background-color: #c1ebf0;
   overflow: hidden;
   align-items: start;
-  /*display: grid;*/
 }
 
 #metaPanel h1 {
@@ -365,8 +345,6 @@ font-size: 1em;
 .metaArea {
   text-align: center;
   display: none;
-  /*overflow: auto;*/
-  /*grid-column: 3/4;*/
 }
 #metaHead{
   grid-row: 1 / 3;
@@ -401,14 +379,16 @@ font-size: 1em;
   width: 50%;
   float:left;
   background-color: #CAFF3A;
+  cursor: initial;
 }
 .h3Output{
   width: 50%;
   float:right;
   background-color: #ff804a;
+  cursor: pointer;
 }
 .divPorts{
-  max-height: 28vh;
+  max-height: 31vh;
   overflow: auto;
   width: 100%;
 }
@@ -424,7 +404,7 @@ font-size: 1em;
   margin-top: 1vh;
 }
 #divOption{
-  max-height: 28vh;
+  max-height: 31vh;
   overflow: auto;
 }
 .inputNameInfo{
@@ -451,14 +431,6 @@ font-size: 1em;
   font-family: 'SourceSans-SemiBold', sans-serif;
   text-align: center;
 }
-/*.modelString {*/
-/*position: absolute;*/
-/*top: 75px;*/
-/*left: 5px;*/
-/*width: 232px;*/
-/*height: 750px;*/
-/*overflow-y: auto;*/
-/*}*/
 
 /* JOINT-JS */
 /* PORTS */
@@ -538,7 +510,6 @@ font-size: 1em;
 }
 
 .element-tool-big:hover {
-  /*display: block;*/
   fill: #1ABC9C;
 }
 
@@ -580,116 +551,3 @@ font-size: 1em;
 .highlight-class > g > rect {
   stroke: red;
 }
-
-/*UI*/
-/*TOGGLE SLIDER*/
-.toggle label {
-  position: relative;
-  display: inline-block;
-  width: 7em;
-  height: 1.5em;
-}
-
-.toggle input {
-  display: none;
-}
-
-.toggle .slider {
-  /* Grundfläche */
-  position: absolute;
-  cursor: pointer;
-  top: 0.2em;
-  left: 0;
-  width: 5.5em;
-  height: 1.5em;
-  background-color: #c32e04;
-  transition: all 0.3s ease-in-out;
-  border-radius: 1em;
-}
-
-.toggle .slider:before {
-  /* verschiebbarer Button */
-  position: absolute;
-  content: "";
-  height: 1.1em;
-  width: 1.1em;
-  left: 0.2em;
-  bottom: 0.2em;
-  background-color: white;
-  border-radius: 50%;
-  transition: all .3s ease-in-out;
-}
-
-.toggle input:checked + .slider {
-  background-color: #5a9900;
-  /* green */
-}
-
-.toggle input:focus + .slider {
-  background-color: pink;
-  box-shadow: 0 0 1px #5a9900;
-}
-
-.toggle input:checked + .slider:before {
-  -webkit-transform: translateX(4em);
-  /* Android 4 */
-  -ms-transform: translateX(4em);
-  /* IE9 */
-  transform: translateX(4em);
-}
-
-.text .slider:after {
-  /* Text vor dem FlipFlop-Schalter */
-  position: absolute;
-  content: "FALSE";
-  color: #fff;
-  font-weight: bold;
-  height: 1.3em;
-  left: 2em;
-}
-
-.text input:checked + .slider:after {
-  /* Text hinter dem FlipFlop-Schalter */
-  position: absolute;
-  content: "TRUE";
-  color: #fff;
-  left: 0.3em;
-}
-
-/*.toggle li {*/
-/*padding: 0.4em;*/
-/*}*/
-/*.ui-state-default {*/
-/*background: #0889a1;*/
-/*color: #fff;*/
-/*font-weight: bold;*/
-/*}*/
-/*.ui-accordion .ui-accordion-content {*/
-/*padding: 0.5em 0.2em;*/
-/*}*/
-/*.toggleClick {*/
-/*background-color: #0e6dcd;*/
-/*height: 0.6em;*/
-/*padding: 0.3em 0 0.8em 0.6em;*/
-/*cursor: pointer;*/
-/*margin: 0 0 0.5em 0;*/
-/*}*/
-/*.toggleClose::before {*/
-/*content: "";*/
-/*display: inline-block;*/
-/*background-size: 14px 14px;*/
-/*background: url("img/btn-meta-close.svg") no-repeat;*/
-/*width: 18px;*/
-/*height: 14px;*/
-/*}*/
-/*.toggleOpen::before {*/
-/*content: "";*/
-/*display: inline-block;*/
-/*background-size: 14px 14px;*/
-/*background: url("img/btn-meta-open.svg") no-repeat;*/
-/*width: 18px;*/
-/*height: 14px;*/
-/*}*/
-/*.toggleView {*/
-/*display: none;*/
-/*}*/

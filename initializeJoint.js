@@ -1,3 +1,4 @@
+// Reset Function
 // window.addEventListener("load", function () {
 //   let lastGraphState = localStorage.getItem('lastGraphState');
 //   lastGraphState = JSON.parse(lastGraphState);
@@ -8,36 +9,47 @@
 // window.addEventListener("unload", function () {
 //   saveLastGraphState();
 // });
-window.addEventListener("dragover", function (e) {
-  e = e || event;
-  e.preventDefault();
-}, false);
-window.addEventListener("drop", function (e) {
-  e = e || event;
-  e.preventDefault();
-}, false);
+
+// GLOBAL VARIABLES
+let failedId = "";
+let newId = "";
+let idGlobal = [];
+let paperIdGlobal;
+let paperX;
+let graphX;
+let currentCell;
+
+function getId() {
+  let z1 = Math.random().toString().substring(2);
+  let z2 = Math.random().toString().substring(2);
+  newId = z1.charAt(0) + z2.charAt(1) + z1.charAt(2) + z2.charAt(3);
+
+  if (idGlobal.indexOf(newId) === -1 && idGlobal.length <= 9999) {
+    idGlobal.push(newId);
+    return newId;
+  } else if (idGlobal.length <= 9999) {
+    failedId = newId;
+    getId();
+  } else return alert("No Element-IDs left!");
+}
 
 //BUTTON-INITIALIZATION
-// let btnFile = document.getElementById('drpdwn_file');
 let btnJSON = document.getElementById('btn_json');
 let btnLSClear = document.getElementById('btnLSClear');
 let btnLSGet = document.getElementById('btnLSGet');
 // let btnLink = document.getElementById('btn_link');
 let btnClearPipeline = document.getElementById('btnClearPipeline');
-let btnGetEmbeds = document.getElementById('btnGetEmbeds');
 // let btnExportTest = document.getElementById('btnExportTest');
 let btnSavePipe = document.getElementById('btnSavePipe');
 
-// let btnBack = document.getElementById('btnBack');
-// let btnForward = document.getElementById('btnForward');
+let btnBack = document.getElementById('btnBack');
+let btnForward = document.getElementById('btnForward');
 // let btnInPortAdd = document.getElementById('btnInPortAdd');
 // let btnOutPortAdd = document.getElementById('btnOutPortAdd');
 let btnPaperNew = document.getElementById('btnPaperNew');
 
 let globalPipeline;
 let testGraph = [];
-
-
 let testBtnArray = [];
 
 //GET STEP-LIBRARIES
@@ -72,7 +84,7 @@ xhr.onload = function (e) {
       let id = e.target.id;
       e.dataTransfer.setData('text', id);
     });
-    elem.addEventListener('dblclick', function (e) {
+    elem.addEventListener('dblclick', function () {
       let placeX = 100;
       let placeY = 100;
       stepLoad(elem, placeX, placeY);
@@ -80,18 +92,17 @@ xhr.onload = function (e) {
   });
 };
 
-// let paperHtml = document.querySelector('#' + paperIdGlobal);
-// paperHtml.addEventListener('drop', function (e) {
-//   let data = e.dataTransfer.getData('text');
-//   let dropElem = document.querySelector('#' + data);
-//   let dropElemSibl = dropElem.nextSibling;
-//   console.log(dropElem.nextSibling);
-//   let placeX = e.layerX - 80;
-//   let placeY = e.layerY - 20;
-//   e.target.appendChild(document.getElementById(data));
-//   stepLoad(dropElem, placeX, placeY);
-//   dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
-// });
+// XProc-Step Drag and Drop
+window.addEventListener("dragover", function (e) {
+  e = e || event;
+  e.preventDefault();
+}, false);
+window.addEventListener("drop", function (e) {
+  e = e || event;
+  e.preventDefault();
+}, false);
+
+// Step - Load
 window.onload = function () {
   getId();
   let btnId = "btn-newPipeline_" + newId;
@@ -124,6 +135,7 @@ window.onload = function () {
       }
     });
   loadPipeline(pipelineId);
+  // Initialization SaxonJS
   SaxonJS.transform({
     sourceLocation: "xsl/xproceditor.sef",
     stylesheetLocation: "xsl/xproceditor.sef"
@@ -148,6 +160,8 @@ stepInput.forEach(function (elem) {
   })
 });
 
+// JOINT JS
+// Dev-Model-Link Initialization
 let devsLink = joint.dia.Link.define('devs.StandLink', {});
 
 let devsStandLink = new devsLink({
@@ -180,7 +194,7 @@ let devsOptionLink = new devsLink({
 });
 devsOptionLink.set('z', 1);
 
-// Canvas Initialization
+// Canvas/JointJS-Paper Initialization
 let canvas = document.querySelector('#papers');
 let graph = new joint.dia.Graph,
   paper = new joint.dia.Paper({
@@ -190,14 +204,10 @@ let graph = new joint.dia.Graph,
     // height: 854,
     width: canvas.offsetWidth,
     height: canvas.offsetHeight,
-    // defaultLink: function (elementView, magnet) {
     defaultLink: function (cellView) {
-      console.log(cellView.model.attributes.type);
-      // console.log(evt);
       if (cellView.model.attributes.type === "xproc.Option") {
         return devsOptionLink.clone();
       }
-      // else if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
       else return devsStandLink.clone();
     },
     snapLinks: true,
@@ -231,7 +241,7 @@ let graph = new joint.dia.Graph,
     },
     validateConnection: function (sourceView, sourceMagnet, targetView, targetMagnet) {
       let sourceGroup = sourceMagnet.getAttribute('port-group');
-      let targetGroup = targetMagnet.parentElement.getAttribute('port-group'); //JavaScript Befehl
+      let targetGroup = targetMagnet.parentElement.getAttribute('port-group');
       if (sourceGroup !== targetGroup) {
         return true;
       }
@@ -248,7 +258,7 @@ let graph = new joint.dia.Graph,
     }
   });
 
-// Paper-Switch-Event
+// Create New Paper (Button)
 btnPaperNew.addEventListener('click', function (evt) {
   getId();
   let oldPipeline = graphX.getCell(globalPipeline);
@@ -257,7 +267,6 @@ btnPaperNew.addEventListener('click', function (evt) {
   createPaperBtn(newPipelineId, evt, newCellView);
   globalPipeline = newPipelineId;
 });
-let paperIdGlobal;
 
 function createPaperBtn(modelId, evt, cellView) {
   //CREATE BUTTON
@@ -275,7 +284,6 @@ function createPaperBtn(modelId, evt, cellView) {
   paperIdGlobal = paperId;
   newPaper.classList.add('paperContent');
   newPaper.setAttribute('id', paperId);
-  // let paperHtml = document.querySelector('#' + paperIdGlobal);
   //DROP-EVENT
   newPaper.addEventListener('drop', function (e) {
     let data = e.dataTransfer.getData('text');
@@ -352,6 +360,7 @@ function createPaperBtn(modelId, evt, cellView) {
           }
         }
       });
+
     paperNew.on('cell:pointerdblclick', function (cellView, evt) {
       cellPointerDblClick(cellView, evt);
     });
@@ -378,15 +387,11 @@ function createPaperBtn(modelId, evt, cellView) {
     );
     switchPaper(evt, paperId, btnId, paperNew, graphNew);
   } else if (check === true) {
-    // jump to created paper / btn
     switchPaper(evt, paperId, btnId);
   }
 }
 
-let paperX;
-let graphX;
-let currentCell;
-
+// Paper-Switch-Panel
 function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   let btnText = document.querySelector('#' + btnId);
   let elem = btnText.innerText;
@@ -425,46 +430,26 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   paperX.on('cell:pointerdblclick', function (cellView, evt) {
     cellPointerDblClick(cellView, evt);
   });
-
-  // globalPipeline = btn.innerText;
 }
 
-// MARKUP - MANIPULATION
+// JointJS-Devs Markup-Manipulation
+// Definition of XProc Atomic Step Model
 joint.shapes.xproc = {};
-
 joint.shapes.xproc.toolElementAtomic = joint.shapes.devs.Atomic.extend({
-
   toolMarkup: ['<g class="element-tools">',
     '<g class="element-tool-remove"><circle fill="red" r="11"/>',
     '<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
     '<title>Remove this element from the model</title>',
     '</g>',
-    // '<g class="element-tool-big" transform="translate(200,0)  rotate(45)"><circle fill="blue" r="11"/>',
-    // '<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
-    // '<title>Maximize</title>',
-    // '</g>',
     '<g class="element-tool-small" transform="translate(200,0)  rotate(45)"><circle fill="pink" r="11"/>',
     '<path transform="matrix(0.8,0,0,0.8,-12.8,-12.8)" d="m 24.777,10.415 -2.828,-2.83 c 0,0 0.257243,-0.2562432 -13.833,13.834 l 2.83,2.829 z"/>',
     '<title>Minimize</title>',
     '</g>',
-    // '<g class="element-tool-meta"><circle fill="grey" r="20"/>',
-    // '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">M</text>',
-    // '<title>Open Meta-Information</title>',
-    // '</g>',
     '<g class="element-tool-options">',
     '<image x="5" y="75" width="25" height="25" href="img/btn-options-show.svg" />',
     '<image style="display: none" x="5" y="75" width="25" height="25" href="img/btn-options-hide.svg" />',
     '<title>Open Options</title>',
     '</g>',
-    // '<g class="element-tool-boeppel">',
-    // '<path d="M 2,2 l 0,12 6,0" fill="none" stroke="white" stroke-width="1.5"/>',
-    // // '<path d="M0,-2 l 200,0 0,25 -200,0z" fill="white" fill-opacity="0.1" cursor="default"/>',
-    // '<g class="element-tool-boeppelClick" id="boepplo" transform="translate(-6,0)" cursor="pointer">',
-    // '<path d="M15,2 l20,0 0,20 -20,0z" fill="grey" fill-opacity="0.1"/>',
-    // '<path stroke="white" fill="white" stroke-width="1.5" d="M20,12 l 10,0 M 25,7 l0,10"/>',
-    // '<circle fill="none" stroke="white" cx="25" cy="12" r="8"/>',
-    // '</g>',
-    // '</g>',
     '</g>'].join(''),
 
   defaults: joint.util.deepSupplement({
@@ -473,10 +458,10 @@ joint.shapes.xproc.toolElementAtomic = joint.shapes.devs.Atomic.extend({
     // },
   }, joint.shapes.devs.Atomic.prototype.defaults)
 });
-
 xRel = 100;
 yRel = 100;
 
+// xproc.Atomic - Default
 joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
   markup: '<g class="rotatable"><g class="scalable"><rect/><title class="tooltip"/></g><text class="label"/><text class="word2"></text></g>',
   defaults: joint.util.deepSupplement({
@@ -555,7 +540,6 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
         portContentTypes: "unset",
         portSerialization: {indent: "unset"}
       }
-
     ],
     stepOption: [
       {
@@ -566,45 +550,19 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
   }, joint.shapes.xproc.toolElementAtomic.prototype.defaults)
 });
 
+// Definition of XProc Compound Step Model
 joint.shapes.xproc.toolElementCompound = joint.shapes.devs.Coupled.extend({
-
   toolMarkup: ['<g class="element-tools">',
     '<g class="element-tool-remove"><circle fill="red" r="11"/>',
     '<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
     '<title>Remove this element from the model</title>',
     '</g>',
-    // '<g class="element-tool-big"><circle fill="blue" r="11"/>',
-    // '<path transform="scale(.8) translate(-16, -16)" d="M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z"/>',
-    // '<title>maximize</title>',
-    // '</g>',
-    // '<g class="element-tool-small"><circle fill="pink" r="11"/>',
-    // '<path transform="matrix(0.8,0,0,0.8,-12.8,-12.8)" d="m 24.777,10.415 -2.828,-2.83 c 0,0 0.257243,-0.2562432 -13.833,13.834 l 2.83,2.829 z"/>',
-    // '<title>Minimize</title>',
-    // '</g>',
-    // '<g class="element-tool-meta"><circle fill="grey" r="20"/>',
-    // '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">M</text>',
-    // '<title>Open Meta-Information</title>',
-    // '</g>',
-    // '<g class="element-tool-embed" transform="translate(150,60)"><circle fill="grey" r="20"/>',
-    // '<text text-anchor="middle" stroke="#fff" stroke-width="2px" dy=".3em">E</text>',
-    // '<title>Get Embedded Cells</title>',
-    // '</g>',
     '<g class="element-tool-options">',
     '<image x="5" y="75" width="25" height="25" href="img/btn-options-show.svg" />',
     '<image style="display: none" x="5" y="75" width="25" height="25" href="img/btn-options-hide.svg" />',
     '<title>Open Options</title>',
     '</g>',
-    // '<g class="element-tool-boeppel">',
-    // '<path d="M 2,2 l 0,12 6,0" fill="none" stroke="white" stroke-width="1.5"/>',
-    // // '<path d="M0,-2 l 200,0 0,25 -200,0z" fill="white" fill-opacity="0.1" cursor="default"/>',
-    // '<g class="element-tool-boeppelClick" id="boepplo" transform="translate(-6,0)" cursor="pointer">',
-    // '<path d="M15,2 l20,0 0,20 -20,0z" fill="grey" fill-opacity="0.1"/>',
-    // '<path stroke="white" fill="white" stroke-width="1.5" d="M20,12 l 10,0 M 25,7 l0,10"/>',
-    // '<circle fill="none" stroke="white" cx="25" cy="12" r="8"/>',
-    // '</g>',
-    // '</g>',
     '</g>'].join(''),
-
   defaults: joint.util.deepSupplement({
     // attrs: {
     //     text: { 'font-weight': 'bold', fill: 'black', 'text-anchor': 'middle', 'ref-x': .5, 'ref-y': 0.4, 'y-alignment': 'middle' },
@@ -612,11 +570,9 @@ joint.shapes.xproc.toolElementCompound = joint.shapes.devs.Coupled.extend({
   }, joint.shapes.devs.Coupled.prototype.defaults)
 });
 
-//COMPOUND - DECLARATION
+// xproc.Compound - Default
 joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
-
   markup: '<g class="rotatable"><g class="scalable"><rect/><title class="tooltip"/></g><text class="label"></text><text class="word2"></text></g>',
-
   defaults: joint.util.deepSupplement({
     type: 'xproc.Compound',
     attrs: {
@@ -631,7 +587,6 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
         'ry': 6
       },
       text: {ref: 'rect'},
-      // '.word1': {'dx':0, 'dy': 20},
       '.label': {ref: 'rect', 'font-weight': 'bold', 'font-size': 20},
       '.word2': {y: 60, x: 100}
     },
@@ -708,13 +663,8 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
   }, joint.shapes.xproc.toolElementCompound.prototype.defaults)
 });
 
-
-//Element Tools
-modelIdOld = "";
-clicks = 0;
-modelNewHeight = 100;
+// Element Tool Settings
 joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
-
   initialize: function () {
     joint.dia.ElementView.prototype.initialize.apply(this, arguments);
   },
@@ -743,34 +693,6 @@ joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
         this.model.remove();
         return;
         break;
-      // case 'element-tool-big':
-      //   this.model.resize(400, 400);
-      //   $('.element-tool-big').css('display', 'none');
-      //   $('.element-tool-meta').css('transform', 'translate(200px,200px)');
-      //   $('.element-tool-boeppel').css('transform', 'translate(0,400px)');
-      //   $('.element-tool-options').css('transform', 'translate(15px,386px)');
-      //   $('.element-tool-small').css({
-      //     "display": "block",
-      //     "transform": "translate(400px,0) rotate(45deg)"
-      //   });
-      //   return;
-      //   break;
-      // case 'element-tool-small':
-      //   this.model.resize(200, 100);
-      //   $('.element-tool-small').css('display', 'none');
-      //   $('.element-tool-big').css('display', 'block');
-      //   return;
-      //   break;
-      // case 'element-tool-embed':
-      //     // let embed = this.model.getEmbeddedCells();
-      //     return;
-      //     break;
-      // case 'element-tool-boeppelClick':
-      //   let optionName = "unset";
-      //   let boeppelId = "" + this.model.id + "_boep";
-      //   makeBoeppl(this, boeppelId, optionName);
-      //   return;
-      //   break;
       case 'element-tool-options':
         let parentId = this.id;
         let btn = document.querySelector('#' + parentId + ' .element-tool-options');
@@ -793,6 +715,7 @@ joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
 joint.shapes.xproc.AtomicView = joint.shapes.xproc.ToolElementView;
 joint.shapes.xproc.CompoundView = joint.shapes.xproc.ToolElementView;
 
+// xproc.Pipeline Initialization and Default
 let stepPipeWidth = canvas.offsetWidth - (canvas.offsetWidth * 10 / 100);
 joint.shapes.xproc.Compound.define('xproc.Pipeline', {
   type: "xproc.Compound",
@@ -838,7 +761,6 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
           // 'circle': {fill: 'red'}
         },
         markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>",
-        // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
       },
       'out': {
         position: 'right',
@@ -864,8 +786,6 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
       }
     }
   },
-  // inPorts: ["source"],
-  // outPorts: ["result"],
   portData: [
     {
       portId: "source",
@@ -882,7 +802,6 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
   ]
 });
 
-
 function loadPipeline(pipelineId) {
   getId();
   graphX.clear();
@@ -896,52 +815,36 @@ function loadPipeline(pipelineId) {
       height: canvas.offsetHeight - (canvas.offsetHeight * 10 / 100)
     }
   });
-  // let pipelineId = 'newPipeline' + '_' + newId;
   globalPipeline = pipelineId;
-  // testGraph.push(pipelineId);
   newPipeline.prop('id', pipelineId)
     .prop('stepId', pipelineId);
   newPipeline.addInPort("source");
   newPipeline.addOutPort("result");
-  // newPipeline.addPort(inPort);
   graphX.addCell(newPipeline);
   let cell = paperX.findViewByModel(pipelineId);
   metaPanel(cell);
 }
 
-
+// xproc.Custom - Initialization and Default
 joint.shapes.xproc.Compound.define('xproc.Custom', {
   type: 'xproc.Compound',
-  markup: '<defs>' +
-    '<pattern id="dishwasher" patternUnits="userSpaceOnUse" width="410" height="418">' +
-    '<image xlink:href="img/pDishwasher-order-new.jpg" x="0" y="0" width="410" height="418">' +
-    '</image>' +
-    '</pattern>' +
-    '</defs>' +
-    '<g class="rotatable"><g class="scalable"><rect class="rectangle"></rect></g></g>',
-  // <image href="img/pDishwasher-order.jpg" x="0" y="0" width="300" height="200"></image>
   attrs: {
     rect: {
-      // fill: '#359b2b',
-      fill: 'url(#dishwasher)',
-      // stroke: 'black',
-      // 'stroke-width': 1,
-      // 'follow-scale': true,
-      // width: 160,
-      width: 410,
-      height: 418,
-      // height: 80,
+      fill: '#359b2b',
+      stroke: 'black',
+      'stroke-width': 1,
+      'follow-scale': true,
+      width: 160,
+      height: 80,
       'rx': 6,
       'ry': 6
     },
     text: {ref: 'rect'},
     // '.word1': {'dx':0, 'dy': 20},
     '.label': {ref: 'rect', 'font-weight': 'bold', 'font-size': 20},
-    // '.word2': {y: 60, x: 100}
-    '.word2': {y: 60, x: 170}
+    '.word2': {y: 60, x: 100}
   },
-  // size: {width: 200, height: 100},
-  size: {width: 410, height: 418},
+  size: {width: 200, height: 100},
   ports: {
     groups: {
       'in': {
@@ -1014,17 +917,14 @@ joint.shapes.xproc.Compound.define('xproc.Custom', {
 });
 
 
-//Definition of a custom Model object
+// xproc.Option - Initialization and Default
 joint.shapes.devs.Model.define('xproc.Option', {
   type: "devs.Model",
   // markup: [{
   //     tagName: 'xproc',
   //     selector: 'xproc'}
   // ],
-  // position: {
-  //     x: 200,
-  //     y: 250
-  // },
+  inPorts: [""],
   size: {
     width: 200,
     height: 20
@@ -1057,14 +957,13 @@ joint.shapes.devs.Model.define('xproc.Option', {
           'circle': {fill: 'red'}
         },
         markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>",
-        // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
       }
     }
   },
   portData: [
     {
-      portId: "unset",
-      portGroup: "unset",
+      portId: "in",
+      portGroup: "in",
       portPrimary: "unset",
       portSequence: "unset",
       portContentTypes: "unset",
@@ -1077,6 +976,7 @@ joint.shapes.devs.Model.define('xproc.Option', {
   optionSelect: "unset"
 });
 
+// Window Responsive - has to be below paper initialization
 window.addEventListener("resize", function () {
   let canvasWidth = canvas.offsetWidth;
   let canvasHeight = canvas.offsetHeight;
@@ -1086,3 +986,25 @@ window.addEventListener("resize", function () {
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.resize(xplWidth, xplHeight);
 });
+// Mousewheel-ZOOM-function
+paper.$el.on('mousewheel DOMMouseScroll', function onMouseWheel(e) {
+  //function onMouseWheel(e){
+  e.preventDefault();
+  e = e.originalEvent;
+  let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))) / 50;
+  let offsetX = (e.offsetX || e.clientX - $(this).offset().left);
+  let offsetY = (e.offsetY || e.clientY - $(this).offset().top);
+  let p = offsetToLocalPoint(offsetX, offsetY);
+  let newScale = V(paper.viewport).scale().sx + delta;
+  if (newScale > 0.4 && newScale < 2) {
+    paper.setOrigin(0, 0);
+    paper.scale(newScale, newScale, p.x, p.y);
+  }
+});
+
+function offsetToLocalPoint(x, y) {
+  let svgPoint = paper.svg.createSVGPoint();
+  svgPoint.x = x;
+  svgPoint.y = y;
+  return svgPoint.matrixTransform(paper.viewport.getCTM().inverse());
+}

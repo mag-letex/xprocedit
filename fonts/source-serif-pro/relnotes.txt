@@ -1,4 +1,0 @@
-
-version 1.014 created 2014/04/27
-
-	First release.

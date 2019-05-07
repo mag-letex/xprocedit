@@ -20,6 +20,7 @@ label {
   margin: 0.4em 0 0.4em 0;
   font-family: 'SourceSans-SemiBold', sans-serif;
   width: 100%;
+  font-size: 1.1em;
 }
 select{
   margin-right: 1.7em;
@@ -34,26 +35,26 @@ fieldset{
   display: grid;
   width: 95vw;
   height: 95vh;
-  grid-template-columns: [stepPanel] 160px [paper] 70% [metaPanel] 240px;
-  grid-template-rows: 2.6em 1.8em repeat(10, 1fr) 1.85em;
+  grid-template-columns: [stepPanel] 150px [paper] 70% [metaPanel] 220px;
+  grid-template-rows: [topPanel] 2.6em [toolBar] 1.8em [paper] 86% [paperSwitch] 1.85em;
   margin-left: 1vw;
 }
 
 /* PAPERS */
 #papers {
-  grid-row: 3 / 13;
   grid-column: 2 / 3;
+  grid-row: 3 / 4;
 }
 
 #paper1 {
-  grid-row: 3 / 13;
   grid-column: 2 / 3;
+  grid-row: 3 / 4;
 }
 
 /*PAPER-SWITCH*/
 #paperSwitch {
-  grid-row: 13 / 14;
   grid-column: 2 / 3;
+  grid-row: 4 / 5;
   /*border: 5px solid black;*/
   background-color: grey;
   width: 100%;
@@ -72,8 +73,9 @@ fieldset{
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 6px 16px;
+  padding: 0.65em 1.2em;
   transition: 0.3s;
+  font-size: 0.7em;
 }
 
 .tab button:hover {
@@ -95,15 +97,17 @@ fieldset{
 
 /* TOP-PANEL/ MENUE */
 #topPanel {
-  grid-row: 1 / 2;
   grid-column: 2 / 3;
+  grid-row: 1 / 2;
   background-color: #1f8780e6;
   padding: 0.6em 1em;
   display: flex;
   justify-content: space-between;
 }
 #topPanel label{
+  display: inline;
   width: initial;
+  font-size: 0.8em;
 }
 
 #drp_file {
@@ -123,6 +127,7 @@ fieldset{
 .btnStd {
   padding: 0.3em;
   border-radius: 0.5em;
+  font-size: 0.7em;
 }
 
 #btn_menu {
@@ -176,6 +181,13 @@ fieldset{
   padding: 0.13em;
   color: gold;
   align-self: center;
+  /*display: inherit;*/
+}
+#pipeDownload{
+  border: 0.13em dashed #b8efd9;
+  padding: 0.13em;
+  color: gold;
+  align-self: center;
   display: inherit;
 }
 
@@ -192,6 +204,8 @@ fieldset{
 
 /*TOOL BAR*/
 #toolBar {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
   background-color: #8bd0d8;
   display: flex;
   flex-direction: row;
@@ -201,25 +215,25 @@ fieldset{
 
 #toolBar label {
   font-weight: bold;
-  font-size: 1.1em;
+  font-size: 0.8em;
 }
 
 .btnToolBar {
-  height: 1.7em;
-  width: 1.7em;
+  height: 1.5em;
+  width: 1.5em;
   border: none;
   background-color: unset;
   margin: 0 0.2em 0 0.2em;
 }
 
 .btnToolBar img {
-  width: 1.7em;
-  height: 1.7em;
+  width: 1.5em;
+  height: 1.5em;
 }
 
 #backForwardBtns {
   display: inherit;
-  width: 5em;
+  width: 4em;
   justify-content: inherit;
 }
 
@@ -238,50 +252,60 @@ fieldset{
 
 /*STEP PANEL*/
 #stepPanel {
-  grid-row: 1 / 14;
   grid-column: 1 / 2;
+  grid-row: 1 / 5;
   overflow: hidden;
   background-color: #c1ebf0;
   opacity: 0.9;
   z-index: 1;
   display: grid;
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: 29% 29% 21% 21%;
 }
 
 .stepPanelGroup {
   grid-column: 1 / 2;
+  height: 100%;
 }
 
 .stepGroup {
-  height: 15vh;
+  /*height: 14vh;*/
   overflow-y: scroll;
 }
 
 #stepPanel input {
   width: 100%;
   z-index: 1;
-}
-
-#stepPanel h2 {
-  font-family: Courier, sans-serif;
-  font-size: 1.3em;
+  /*height: 10%;*/
+  padding: 0 0.2em 0 0.2em;
+  font-size: 0.7em;
   text-align: center;
 }
 
+#stepPanel h2 {
+  font-family: 'SourceSans-Reg', sans-serif;
+  font-size: 1.1em;
+  text-align: center;
+  margin: 0;
+  line-height: 1em;
+}
+
 #stepPanel ul {
-  padding: 0 0.3em;
+  padding: 0 0.2em 0 0.5em;
   margin: 0.05em 0 0 0;;
 }
 
 #stepPanel li {
+  width: 96%;
   margin: 0.4em 0;
-  padding: 0.3em 0.4em;
+  padding: 0.25em 0;
   color: white;
   border-radius: 0.9em;
   list-style-type: none;
   cursor: move;
   text-align: center;
-  font-weight: bold;
+  border: 0.1em dotted black;
+  /*font-weight: bold;*/
+  font-family: 'SourceSans-SemiBold', sans-serif;
   font-size: 0.85em;
   user-select: none;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -292,25 +316,51 @@ fieldset{
 #stepPanelAtomic {
   grid-row: 1 / 2;
 }
+#stepPanelAtomic h2{
+  margin: 10% 0 6% 0;
+}
 
 #stepPanelAtomic li {
   background-color: #f86f75;
+}
+#atomicUL{
+  height: 67%;
+}
+#inputAtomicStep{
+  height: 9%;
 }
 
 #stepPanelCompound {
   grid-row: 2 / 3;
 }
+#stepPanelCompound h2{
+  margin: 8% 0 6% 0;
+}
 
 #stepPanelCompound li {
   background-color: #6FB7FF;
 }
-
+#compoundUL{
+  height: 67%;
+}
+#inputCompoundStep{
+  height: 9%;
+}
 #stepPanelTranspect {
   grid-row: 3 / 4;
+}
+#stepPanelTranspect h2{
+  margin: 0% 0 6% 0;
+}
+#inputTranspectStep{
+  height: 14%;
 }
 
 #stepPanelTranspect li {
   background-color: #95a524;
+}
+#transpectUL{
+  height: 66%;
 }
 
 #stepPanelCustom {
@@ -320,14 +370,24 @@ fieldset{
 #stepPanelCustom li {
   background-color: #359B2B;
 }
+#stepPanelCustom h2{
+  margin: 6% 0 6% 0;
+}
+#inputCustomStep{
+  height: 14%;
+}
+#customUL{
+  height: 59%;
+}
 
 /* META-PANEL*/
 #metaPanel {
-  grid-row: 1 / 14;
   grid-column: 3 /4;
+  grid-row: 1 / 5;
   background-color: #c1ebf0;
   overflow: hidden;
   align-items: start;
+  height: 100%;
 }
 
 #metaPanel h1 {
@@ -345,10 +405,11 @@ font-size: 1em;
 .metaArea {
   text-align: center;
   display: none;
+  font-size: 0.8em;
 }
 #metaHead{
   grid-row: 1 / 3;
-  margin: 0.3em 0 0.3em 0;
+  margin: 0.2em 0 0.2em 0;
 }
 
 .metaArea h2 {
@@ -361,9 +422,22 @@ font-size: 1em;
 #metaInfo{
   grid-row: 3 / 5;
   max-height: 18vh;
+  padding-bottom: 0.8em;
+}
+#metaInfo label{
+  text-align: left;
+}
+#metaInfo select{
+  margin-right: 6.4em;
+}
+#metaInfo input{
+  float: right;
+  width: 72%;
 }
 #metaPorts{
   grid-row: 5 / 9;
+  max-height: 39%;
+  overflow: hidden;
 }
 #divPortsHead{
   height: 1.2em;
@@ -388,9 +462,10 @@ font-size: 1em;
   cursor: pointer;
 }
 .divPorts{
-  max-height: 31vh;
+  max-height: 29vh;
   overflow: auto;
   width: 100%;
+  margin-bottom: 0.5em;
 }
 #divInput{
   background-color: #CAFF3A;
@@ -401,10 +476,12 @@ font-size: 1em;
 #metaOptions{
   grid-row: 9 / 14;
   /*height: 35vh;*/
-  margin-top: 1vh;
+  /*margin-top: 1vh;*/
+  max-height: 37%;
+  overflow: auto;
 }
 #divOption{
-  max-height: 31vh;
+  max-height: 29vh;
   overflow: auto;
 }
 .inputNameInfo{
@@ -420,6 +497,7 @@ font-size: 1em;
   font-size: 0.8em;
   font-family: 'SourceSans-SemiBold', sans-serif;
   text-align: center;
+  width: 77%;
 }
 .option-name{
   font-size: 1.2em;
@@ -430,6 +508,7 @@ font-size: 1em;
   font-size: 0.8em;
   font-family: 'SourceSans-SemiBold', sans-serif;
   text-align: center;
+  width: 77%;
 }
 
 /* JOINT-JS */
@@ -439,6 +518,8 @@ font-size: 1em;
   font-weight: bold;
   text-anchor: middle;
   display: block;
+  font-family: 'SourceSans-SemiBold', sans-serif;
+  font-size: 0.8em;
 }
 
 .port-body {
@@ -479,15 +560,20 @@ font-size: 1em;
 }
 
 /*!*Model Label*!*/
+.joint-type-xproc-option .label {
+  font-family: 'SourceSans-Reg', sans-serif !important;
+  font-size: 0.8em !important;
+}
 .label {
-  font-weight: bold;
-  font-size: 1.2em;
+  font-family: 'SourceSans-SemiBold', sans-serif;
+  /*font-weight: bold;*/
+  font-size: 1em;
 }
 
 .word2 {
   fill: #ffe3b4;
   font-weight: bold;
-  font-size: 1.3em;
+  font-size: 1.1em;
   text-anchor: middle;
 }
 

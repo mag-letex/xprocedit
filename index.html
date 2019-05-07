@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="libs/joint.css"/>
   <link rel="stylesheet" href="style.css"/>
   <script src="libs/SaxonJS.js"></script>
-
 </head>
 <body>
 <div id="container">
@@ -18,14 +17,14 @@
       <h2>Atomic Steps</h2>
       <input type="text" id="inputAtomicStep" placeholder="Search an Atomic Step..." autocomplete="off"/>
         <ul id="atomicUL" class="stepGroup">
-          <!--Content vom JSON-Object-->
+          <!--Content of JSON-Object-->
         </ul>
     </div>
     <div id="stepPanelCompound" class="stepPanelGroup">
       <h2>Compound Steps</h2>
       <input type="text" id="inputCompoundStep" placeholder="Search a Compound Step..." autocomplete="off"/>
         <ul id="compoundUL" class="stepGroup">
-          <!-- Content von JSON-Objekt -->
+          <!-- Content of JSON-Objekt -->
         </ul>
     </div>
     <div id="stepPanelTranspect" class="stepPanelGroup">
@@ -46,13 +45,12 @@
       <h2>User Steps</h2>
       <input type="text" id="inputCustomStep" placeholder="Search your Custom Step..." autocomplete="off"/>
         <ul id="customUL" class="stepGroup">
-          <!-- Content von JSON-Object -->
+          <!-- Content of JSON-Object -->
         </ul>
     </div>
   </div>
   <div id="topPanel">
     <div id="btnSub">
-      <!--<button id="btn_link" class="btnStd btnSub" value="off">Main Link</button>-->
       <button id="btn_json" class="btnStd btnSub">get JSON</button>
       <button id="btnLSClear" class="btnStd btnSub">Clear LS</button>
       <button id="btnLSGet" class="btnStd btnSub">Get LS</button>
@@ -63,14 +61,11 @@
       <button id="btnSavePipe" class="btnStd">Save Pipeline</button>
     </div>
     <div id="pipeExport">
-      <button id="btn_pipe" class="btnStd btnExp">Export Pipeline</button>
+      <button id="btn_pipe" class="btnStd btnExp">Convert Pipeline</button>
       <input type="checkbox" name="layout" id="layout-checkbox" value="preserve"/>
         <label for="layout-checkbox">preserve Layout</label>
     </div>
-      <!--<div id="pipeExportTest">-->
-        <!--<button id="btnExportTest" class="btnStd btnExp">Export Test</button>-->
-      <!--</div>-->
-    </div>
+</div>
   </div>
   <div id="toolBar">
     <div id="backForwardBtns">
@@ -81,22 +76,13 @@
       <img src="img/back-arrow.svg"/>
     </button>
     </div>
-    <!--<div id="portBtns">-->
-      <!--<label>Add Ports</label>-->
-    <!--<button id="btnInPortAdd" class="btnToolBar">-->
-      <!--<img src="img/btn-ports-in.svg"/>-->
-    <!--</button>-->
-    <!--<button id="btnOutPortAdd" class="btnToolBar">-->
-      <!--<img src="img/btn-ports-out.svg"/>-->
-    <!--</button>-->
-    <!--</div>-->
   <div id="optionBtns">
     <label>Hide/Show Options:</label>
-    <button id="btnShowOptions" class="btnToolBar" style="width:2.6em; height:2.6em;">
-      <img src="img/btn-options-show.svg" style="width: 2.6em; height: 2.6em;"/>
+    <button id="btnShowOptions" class="btnToolBar" style="width:2.2em; height:2.2em;">
+      <img src="img/btn-options-show.svg" style="width: 2.2em; height: 2.2em;"/>
     </button>
-    <button id="btnHideOptions" class="btnToolBar" style="width:2.6em; height:2.6em;display: none;">
-      <img src="img/btn-options-hide.svg" style="width: 2.6em; height: 2.6em;"/>
+    <button id="btnHideOptions" class="btnToolBar" style="width:2.2em; height:2.2em;display: none;">
+      <img src="img/btn-options-hide.svg" style="width: 2.2em; height: 2.2em;"/>
     </button>
   </div>
   </div>

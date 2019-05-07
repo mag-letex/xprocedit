@@ -4,9 +4,11 @@ btnJSON.addEventListener('click', function () {
   console.log(graphJSON);
   console.log(graphJSONstring);
 });
+
 btnLSClear.addEventListener('click', function () {
   localStorage.clear();
 });
+
 btnLSGet.addEventListener('click', function () {
   let i;
   console.log(">>>>> local storage");
@@ -22,6 +24,7 @@ btnLSGet.addEventListener('click', function () {
     console.log(localStorage.key(i));
   }
 });
+
 btnClearPipeline.addEventListener('click', function () {
   let currentPipeline = graphX.getCell(globalPipeline);
   getId();
@@ -29,16 +32,6 @@ btnClearPipeline.addEventListener('click', function () {
   graphX.removeCells(currentPipeline);
   loadPipeline(id);
 });
-// btnLink.addEventListener('click', function () {
-//   let val = btnLink.getAttribute('value');
-//   if (val === "off") {
-//     btnLink.setAttribute('value', "on");
-//     btnLink.innerHTML = "Standard Link";
-//   } else {
-//     btnLink.setAttribute('value', "off");
-//     btnLink.innerHTML = "Main Link";
-//   }
-// });
 
 let customLib = [];
 
@@ -92,28 +85,6 @@ btnSavePipe.addEventListener('click', function () {
   } else return alert("This is a Built-in Step that you can't save!");
 });
 
-// let graphArray = [];
-// btnExportTest.addEventListener('click', function () {
-//   pipelineExport();
-// });
-//
-// function pipelineExport() {
-//   graphArray = [];
-//   let i;
-//   for (i = 0; i < testBtnArray.length; i++) {
-//     let btnId = testBtnArray[i];
-//     let btn = document.getElementById(btnId);
-//     btn.click();
-//     let graphJSON = graphX.toJSON();
-//     let graphCells = graphJSON.cells;
-//     graphArray.push(graphCells);
-//     document.getElementById(testBtnArray[0]).click();
-//   }
-//   console.log(">>>>> GRAPH ARRAY");
-//   console.log(graphArray);
-//   console.log(JSON.stringify(graphArray));
-// }
-
 btnBack.addEventListener('click', function () {
   getLastGraphState();
 });
@@ -146,14 +117,6 @@ function getNextGraphState() {
   graph.fromJSON(nextGraphState);
 }
 
-// btnInPortAdd.addEventListener('click', function () {
-//   let currentPipeline = graphX.getCell(globalPipeline);
-//   currentPipeline.addPort(inPort);
-// });
-// btnOutPortAdd.addEventListener('click', function () {
-//   let currentPipeline = graphX.getCell(globalPipeline);
-//   currentPipeline.addPort(outPort);
-// });
 $('#btnShowOptions').on('click', function () {
   $('.joint-type-xproc-option').fadeOut('fast');
   $('#btnShowOptions').hide();

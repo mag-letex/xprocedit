@@ -219,8 +219,8 @@ let name = "unset";
 function metaPanel(cellView) {
   //Step-Information
   currentCell = cellView;
+  console.log(cellView);
   let step = cellView.model.toJSON();
-  console.log(step);
   let stepType = step.stepType;
   let stepPrefix = cellView.model.attributes.stepPrefix;
   let stepName = cellView.model.attributes.stepName;
@@ -230,6 +230,7 @@ function metaPanel(cellView) {
   let stepOptions = cellView.model.attributes.stepOption;
   let inputPorts = [];
   let outputPorts = [];
+  console.log(step);
   for (let i = 0; i < portData.length; i++) {
     if (portData[i].portGroup === "in") {
       inputPorts.push(portData[i]);
@@ -273,7 +274,7 @@ function metaPanel(cellView) {
   let btnName = inputBtn.cloneNode();
   btnName.setAttribute('value', "set Name");
   let labelName = label.cloneNode();
-  labelName.appendChild(document.createTextNode("Name/ Type"));
+  labelName.appendChild(document.createTextNode("Type: "));
   let inputName = labelName.appendChild(input.cloneNode());
   inputName.setAttribute('type', 'text');
   inputName.classList.add("inputNameInfo");
@@ -300,10 +301,10 @@ function metaPanel(cellView) {
 
   let prefixes = [
     createPrefix("unset"),
-    createPrefix("c"),
     createPrefix("d"),
     createPrefix("e"),
-    createPrefix("p")
+    createPrefix("f"),
+    createPrefix("custom")
   ];
   for (let i = 0; i < prefixes.length; i++) {
     selectPrefix.appendChild(prefixes[i]);
@@ -817,4 +818,3 @@ function metaPanel(cellView) {
     createOptionContent(foo, false);
   }
 }
-

@@ -41,7 +41,7 @@ let btnLSGet = document.getElementById('btnLSGet');
 let btnClearPipeline = document.getElementById('btnClearPipeline');
 // let btnExportTest = document.getElementById('btnExportTest');
 let btnSavePipe = document.getElementById('btnSavePipe');
-
+// let btnPipeDownload = document.getElementById('btnPipeDownload');
 let btnBack = document.getElementById('btnBack');
 let btnForward = document.getElementById('btnForward');
 // let btnInPortAdd = document.getElementById('btnInPortAdd');
@@ -168,7 +168,7 @@ let devsStandLink = new devsLink({
   router: {name: 'manhattan'},
   connector: {name: 'rounded'},
   attrs: {
-    '.connection': {fill: '#fff7ec', stroke: '#FFF7EC', 'stroke-width': 3},
+    '.connection': {fill: '#7decff', stroke: '#7decff', 'stroke-width': 4},
     '.marker-target': {fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z'},
   }
 });
@@ -256,6 +256,7 @@ let graph = new joint.dia.Graph,
         };
       } else return true;
     }
+    // Missing Code
   });
 
 // Create New Paper (Button)
@@ -423,13 +424,14 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   if (cell !== undefined) {
     metaPanel(cell);
   }
-  paperX.on('cell:pointerclick', function (cellView) {
+  paperX.on('cell:pointerclick', function (cellView, evt) {
     metaPanel(cellView);
     currentCell = cellView;
   });
   paperX.on('cell:pointerdblclick', function (cellView, evt) {
     cellPointerDblClick(cellView, evt);
   });
+
 }
 
 // JointJS-Devs Markup-Manipulation
@@ -477,9 +479,9 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
       },
       text: {ref: 'rect'},
       '.label': {ref: 'rect'},
-      '.word2': {y: 60, x: 100}
+      '.word2': {y: 60, x: 90}
     },
-    size: {width: 200, height: 100},
+    size: {width: 180, height: 100},
     ports: {
       groups: {
         'in': {
@@ -489,20 +491,20 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
               name: 'manual',
               args: {
                 y: 5,
-                x: -40,
-                attrs: {'.': {'text-anchor': 'middle'}}
+                x: -35,
+                attrs: {'.': {'text-anchor': 'right'}}
               }
             }
           },
           attrs: {
             '.port-body': {
-              r: 12,
+              r: 10,
               fill: '#fff'
               // magnet: 'passive'
             }
             // 'circle': {fill: 'green'}
           },
-          markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>",
+          markup: "<circle class=\"port-body in-ports\" r=\"8\" stroke=\"#000\" fill=\"#fff\"/>",
           // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
         },
         'out': {
@@ -512,19 +514,20 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
               name: 'manual',
               args: {
                 y: 5,
-                x: 40
+                x: 35,
+                attrs: {'.': {'text-anchor': 'left'}}
               }
             }
           },
           attrs: {
             '.port-body': {
               fill: '#fff',
-              r: 12,
+              r: 10,
               // magnet: 'passive'
             }
             // 'circle': {fill: 'green'}
           },
-          markup: "<circle class=\"port-body out-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>"
+          markup: "<circle class=\"port-body out-ports\" r=\"8\" stroke=\"#000\" fill=\"#fff\"/>"
         }
       }
     },
@@ -588,9 +591,9 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
       },
       text: {ref: 'rect'},
       '.label': {ref: 'rect', 'font-weight': 'bold', 'font-size': 20},
-      '.word2': {y: 60, x: 100}
+      '.word2': {y: 60, x: 90}
     },
-    size: {width: 200, height: 100},
+    size: {width: 180, height: 100},
     ports: {
       groups: {
         'in': {
@@ -600,14 +603,14 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
               name: 'manual',
               args: {
                 y: 5,
-                x: -40,
-                attrs: {'.': {'text-anchor': 'middle'}}
+                x: -35,
+                attrs: {'.': {'text-anchor': 'right'}}
               }
             }
           },
           attrs: {
             '.port-body': {
-              r: 12,
+              r: 10,
               fill: '#fff'
               // magnet: 'passive'
             }
@@ -623,14 +626,15 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
               name: 'manual',
               args: {
                 y: 5,
-                x: 40
+                x: 35,
+                attrs: {'.': {'text-anchor': 'left'}}
               }
             }
           },
           attrs: {
             '.port-body': {
               fill: '#fff',
-              r: 12,
+              r: 10,
               // magnet: 'passive'
             }
             // 'circle': {fill: 'red'}
@@ -747,14 +751,14 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
             name: 'manual',
             args: {
               y: 5,
-              x: 50,
+              x: 35,
               attrs: {'.': {'text-anchor': 'left'}}
             }
           }
         },
         attrs: {
           '.port-body': {
-            r: 12,
+            r: 10,
             fill: '#fff'
             // magnet: 'passive'
           }
@@ -769,7 +773,7 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
             name: 'manual',
             args: {
               y: 5,
-              x: -40,
+              x: -35,
               attrs: {'.': {'text-anchor': 'right'}}
             }
           }
@@ -777,7 +781,7 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
         attrs: {
           '.port-body': {
             fill: '#fff',
-            r: 12,
+            r: 10,
             // magnet: 'passive'
           }
           // 'circle': {fill: 'red'}
@@ -807,12 +811,12 @@ function loadPipeline(pipelineId) {
   graphX.clear();
   let newPipeline = new joint.shapes.xproc.Pipeline({
     position: {
-      x: 50,
-      y: 30
+      x: 30,
+      y: 20
     },
     size: {
-      width: canvas.offsetWidth - (canvas.offsetWidth * 10 / 100),
-      height: canvas.offsetHeight - (canvas.offsetHeight * 10 / 100)
+      width: canvas.offsetWidth - (canvas.offsetWidth * 8 / 100),
+      height: canvas.offsetHeight - (canvas.offsetHeight * 8 / 100)
     }
   });
   globalPipeline = pipelineId;
@@ -842,9 +846,9 @@ joint.shapes.xproc.Compound.define('xproc.Custom', {
     text: {ref: 'rect'},
     // '.word1': {'dx':0, 'dy': 20},
     '.label': {ref: 'rect', 'font-weight': 'bold', 'font-size': 20},
-    '.word2': {y: 60, x: 100}
+    '.word2': {y: 60, x: 90}
   },
-  size: {width: 200, height: 100},
+  size: {width: 180, height: 100},
   ports: {
     groups: {
       'in': {
@@ -861,7 +865,7 @@ joint.shapes.xproc.Compound.define('xproc.Custom', {
         },
         attrs: {
           '.port-body': {
-            r: 12,
+            r: 10,
             fill: '#fff'
             // magnet: 'passive'
           }
@@ -884,7 +888,7 @@ joint.shapes.xproc.Compound.define('xproc.Custom', {
         attrs: {
           '.port-body': {
             fill: '#fff',
-            r: 12,
+            r: 10,
             // magnet: 'passive'
           }
           // 'circle': {fill: 'red'}
@@ -926,7 +930,7 @@ joint.shapes.devs.Model.define('xproc.Option', {
   // ],
   inPorts: [""],
   size: {
-    width: 200,
+    width: 180,
     height: 20
   },
   attrs: {
@@ -950,7 +954,7 @@ joint.shapes.devs.Model.define('xproc.Option', {
         },
         attrs: {
           '.port-body': {
-            r: 10,
+            r: 8,
             fill: '#fff'
             // magnet: 'passive'
           },

@@ -33,6 +33,46 @@ btnClearPipeline.addEventListener('click', function () {
   loadPipeline(id);
 });
 
+// btnScalePaper.addEventListener('click', function () {
+// });
+
+btnOrderPipeline.addEventListener('click', function(){
+  paperX.scaleContentToFit({padding: 20});
+  let cells = graphX.getCells();
+  let pipe = graphX.getCell(globalPipeline);
+  console.log(paperX);
+  // paperX.scaleContentToFit();
+  let paperHeight = paperX.el.clientHeight - 50;
+  let paperWidth = paperX.el.clientWidth - 50;
+  let paperSX = paperX.scale().sx;
+  let paperSY = paperX.scale().sx;
+  let width = paperWidth * paperSX;
+  let height = paperHeight * paperSY;
+  console.log(paperSX);
+  console.log(paperWidth);
+  console.log(paperHeight);
+  console.log(pipe);
+  console.log(graphX);
+  let graphArr = [];
+  for (let i = 0; i < cells.length; i++){
+  let type = cells[i].attributes.type;
+    if (type !== "xproc.Pipeline" && type !== "xproc.Option"){
+graphArr.push(cells[i]);
+    }
+  }
+  console.log(cells);
+  var graphBBox = joint.layout.DirectedGraph.layout(graphArr, {
+    rankDir: "LR",
+    nodeSep: 80,
+    edgeSep: 80,
+    rankSep: 100,
+    marginX: 50,
+    marginY: 50,
+    clusterPadding: { left: 30, right: 30, top: 50, bottom: 30 }
+  });
+  pipe.resize(width, height);
+});
+
 let customLib = [];
 
 function savePipeline(cellView) {

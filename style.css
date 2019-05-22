@@ -15,17 +15,19 @@
   src: url('fonts/source-sans-pro/SourceSansPro-Semibold.ttf') format('truetype');
 }
 
+body{
+  font-family: 'SourceSans-SemiBold', sans-serif;
+}
+
 label {
   display: block;
   margin: 0.4em 0 0.4em 0;
-  font-family: 'SourceSans-SemiBold', sans-serif;
   width: 100%;
   font-size: 1.1em;
 }
 select{
   margin-right: 1.7em;
   float: right;
-  font-family: 'SourceSans-SemiBold', sans-serif;
 }
 fieldset{
   padding-bottom: 0;
@@ -304,8 +306,6 @@ fieldset{
   cursor: move;
   text-align: center;
   border: 0.1em dotted black;
-  /*font-weight: bold;*/
-  font-family: 'SourceSans-SemiBold', sans-serif;
   font-size: 0.85em;
   user-select: none;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -393,10 +393,8 @@ fieldset{
 #metaPanel h1 {
   text-align: center;
   color: #4ea7bb;
-  font-family: 'SourceSans-SemiBold', sans-serif;
 }
 .btnInput{
-  font-family: 'SourceSans-SemiBold', sans-serif;
 font-size: 1em;
   margin: 0.5em 0 0.5em 0;
 
@@ -518,7 +516,6 @@ font-size: 1em;
   font-weight: bold;
   text-anchor: middle;
   display: block;
-  font-family: 'SourceSans-SemiBold', sans-serif;
   font-size: 0.8em;
 }
 
@@ -565,8 +562,6 @@ font-size: 1em;
   font-size: 0.8em !important;
 }
 .label {
-  font-family: 'SourceSans-SemiBold', sans-serif;
-  /*font-weight: bold;*/
   font-size: 1em;
 }
 

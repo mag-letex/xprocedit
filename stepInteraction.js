@@ -1,3 +1,46 @@
+// let metaPanelDeux = Backbone.View.extend ({
+//   el: '#meta2',
+//   initialize: function(){
+//     this.render();
+//   },
+//   render: function(){
+//     this.$el.html("Hello TutorialsPoint!!!");
+// }
+// });
+// let metaView = new metaPanelDeux();
+
+
+// // create a model class
+// let testModel = Backbone.Model.extend({});
+//
+// // create a model instance
+// let testItem = new testModel({
+//   description: 'Pick up milk',
+//   status: 'incomplete',
+//   id: 1
+// }) ;
+//
+// // to get an attribute
+// testItem.get('description');
+// // to set an attribute
+// testItem.set({status: 'complete'});
+// // sync to server
+// testItem.save();
+//
+//
+// // create a view class
+// let testView = Backbone.View.extend({
+//   render: function(){
+//     let html = '<h3>' + this.model.get('description') + '</h3>';
+//     $(this.el).html(html);
+//   }
+// });
+// // create a view instance
+// let viewInstance = new testView({
+//   model: testItem
+// });
+// testView.render();
+
 // Load Steps into Paper
 function stepLoad(elem, placeX, placeY) {
   getId();
@@ -146,13 +189,10 @@ function cellPointerDblClick(cellView, evt) {
     globalPipeline = modelId;
   }
 }
-// paper.on('cell:pointerclick', function (cellView) {
-//   metaPanel(cellView);
-// });
+
 //HIGHLIGHTING FUNCTION
 let oldCellView = null;
 clickHighlight = 0;
-
 paper.on('element:pointerdown', function (cellView) {
   //HIGHLIGHTING FUNCTION
   if (oldCellView != null) {
@@ -209,25 +249,82 @@ document.addEventListener('keydown', function (e) {
 });
 
 // META - PANEL
-let metaArea = document.querySelectorAll('.metaArea');
-let metaInfo = document.querySelector('#metaInfo');
-let metaPorts = document.querySelector('#metaPorts');
-let metaOptions = document.querySelector('#metaOptions');
+const metaArea = document.querySelectorAll('.metaArea');
+const metaInfo = document.querySelector('#metaInfo');
+const metaPorts = document.querySelector('#metaPorts');
+const metaOptions = document.querySelector('#metaOptions');
 let prefix = "unset";
 let name = "unset";
+
+//Form Elements
+const form = document.createElement('form');
+const fieldset = document.createElement('fieldset');
+const legend = document.createElement('legend');
+const label = document.createElement('label');
+const input = document.createElement('input');
+const inputBtn = input.cloneNode();
+inputBtn.setAttribute('type', "button");
+inputBtn.classList.add('btnInput');
+const select = document.createElement('select');
+const option = document.createElement('option');
+const optionUnset = option.cloneNode();
+optionUnset.appendChild(document.createTextNode("unset"));
+const optionTrue = option.cloneNode();
+optionTrue.appendChild(document.createTextNode("true"));
+const optionFalse = option.cloneNode();
+optionFalse.appendChild(document.createTextNode("false"));
+const optionString = option.cloneNode();
+optionString.appendChild(document.createTextNode("xs-string"));
+const h3 = document.createElement('h3');
+const div = document.createElement('div');
+
+
+const fieldsetPort = fieldset.cloneNode();
+fieldsetPort.classList.add("port-field");
+const legendPort = fieldsetPort.appendChild(legend.cloneNode());
+legendPort.appendChild(document.createTextNode("Port"));
+
+
+function selectBoolean(portOpt, cellView, cont, dataId, dataType, select, type) {
+  for (let i = 0; i < select.length; i++) {
+    if (dataType !== undefined && dataType.toString() === select[i].value) {
+      select[i].setAttribute('selected', "selected");
+    }
+  }
+  select.addEventListener('change', function () {
+    for (let i = 0; i < cont.length; i++) {
+      if (portOpt === "port") {
+        if (cont[i].portId === dataId) {
+          if (type === "primary") {
+            cont[i].portPrimary = this.value;
+          } else if (type === "sequence") {
+            cont[i].portSequence = this.value;
+          }
+        }
+      } else if (portOpt === "opt") {
+        if (cont[i].name === dataId) {
+          cont[i].required = this.value;
+        }
+      }
+    }
+    metaPanel(cellView);
+  });
+}
 
 function metaPanel(cellView) {
   //Step-Information
   currentCell = cellView;
-  console.log(cellView);
   let step = cellView.model.toJSON();
-  let stepType = step.stepType;
+  let stepType = cellView.model.attributes.stepType;
   let stepPrefix = cellView.model.attributes.stepPrefix;
   let stepName = cellView.model.attributes.stepName;
   let portData = cellView.model.attributes.portData;
   let inPorts = cellView.model.attributes.inPorts;
   let outPorts = cellView.model.attributes.outPorts;
   let stepOptions = cellView.model.attributes.stepOption;
+  let optName = cellView.model.attributes.optionName;
+  let optRequired = cellView.model.attributes.optionRequired;
+  let optValue = cellView.model.attributes.optionValue;
   let inputPorts = [];
   let outputPorts = [];
   console.log(step);
@@ -245,34 +342,11 @@ function metaPanel(cellView) {
       metaArea[i].removeChild(metaArea[i].lastChild);
     }
   }
-  //Form Elements
-  let form = document.createElement('form');
-  form.setAttribute('onSubmit', "return false;");
-  let fieldset = document.createElement('fieldset');
-  let legend = document.createElement('legend');
-  let label = document.createElement('label');
-  let input = document.createElement('input');
-  let inputBtn = input.cloneNode();
-  inputBtn.setAttribute('type', "button");
-  inputBtn.classList.add('btnInput');
-  let select = document.createElement('select');
-  let option = document.createElement('option');
-  let optionUnset = option.cloneNode();
-  optionUnset.appendChild(document.createTextNode("unset"));
-  let optionTrue = option.cloneNode();
-  optionTrue.appendChild(document.createTextNode("true"));
-  let optionFalse = option.cloneNode();
-  optionFalse.appendChild(document.createTextNode("false"));
-  let h3 = document.createElement('h3');
-  let div = document.createElement('div');
-
   // Info-DIV
   let formInfo = form.cloneNode();
   let fieldsetName = fieldset.cloneNode();
   let legendName = fieldsetName.appendChild(legend.cloneNode());
   legendName.appendChild(document.createTextNode("Name"));
-  let btnName = inputBtn.cloneNode();
-  btnName.setAttribute('value', "set Name");
   let labelName = label.cloneNode();
   labelName.appendChild(document.createTextNode("Type: "));
   let inputName = labelName.appendChild(input.cloneNode());
@@ -316,33 +390,28 @@ function metaPanel(cellView) {
   }
   selectPrefix.addEventListener('change', function () {
     prefix = this.value;
-    cellView.model.attributes.stepPrefix = this.value;
     let type = "" + prefix + name;
-    cellView.model.attributes.stepType = type;
-    cellView.model.attributes.attrs[".label"].text = type;
-    let currentCells = graphX.getCells();
-    graphX.resetCells(currentCells);
+    stepPrefix = prefix;
+    stepType = type;
+    cellView.model.attr({".label": {text: type}});
+    console.log(cellView.model);
   });
   inputName.addEventListener('change', function () {
     name = this.value;
-    cellView.model.attributes.stepName = this.value;
     let type = "" + prefix + "-" + name;
     let label = "" + prefix + ":" + name;
-    cellView.model.attributes.stepType = type;
-    cellView.model.attributes.attrs[".label"].text = label;
-    let currentCells = graphX.getCells();
-    graphX.resetCells(currentCells);
+    stepName = name;
+    stepType = type;
+    cellView.model.attr({".label": {text: label}});
   });
-  inputName.addEventListener('keydown', function (e) {
-    if (e.which === 13) {
+  inputName.addEventListener('keyup', function (e) {
+    if (e.which !== 13) {
       name = this.value;
       let type = "" + prefix + "-" + name;
       let label = "" + prefix + ":" + name;
-      cellView.model.attributes.stepName = this.value;
-      cellView.model.attributes.stepType = type;
-      cellView.model.attributes.attrs[".label"].text = label;
-      let currentCells = graphX.getCells();
-      graphX.resetCells(currentCells);
+      stepName = this.value;
+      stepType = type;
+      cellView.model.attr({".label": {text: label}});
     }
   });
 
@@ -401,10 +470,7 @@ function metaPanel(cellView) {
     createPortContent(portId, true, inputPorts, formInput, "in");
     cellView.model.attributes.portData.push(portObject);
   });
-  let fieldsetPort = fieldset.cloneNode();
-  fieldsetPort.classList.add("port-field");
-  let legendPort = fieldsetPort.appendChild(legend.cloneNode());
-  legendPort.appendChild(document.createTextNode("Port"));
+
 
   // Output-Ports
   let divOutput = div.cloneNode();
@@ -471,29 +537,9 @@ function metaPanel(cellView) {
       });
     }
 
-    function selectLoad(dataId, dataType, select, type) {
-      for (let j = 0; j < select.length; j++) {
-        if (dataType !== undefined && dataType.toString() === select[j].value) {
-          select[j].setAttribute('selected', "selected");
-        }
-      }
-      select.addEventListener('change', function () {
-        for (let j = 0; j < portData.length; j++) {
-          if (portData[j].portId === dataId) {
-            if (type === "primary") {
-              portData[j].portPrimary = this.value;
-            } else if (type === "sequence") {
-              portData[j].portSequence = this.value;
-            }
-          }
-        }
-        metaPanel(cellView);
-      });
-    }
-
     function nameInputLoad(dataId, input) {
       input.setAttribute('type', 'text');
-      input.setAttribute('port', dataId);
+      input.setAttribute('inputId', dataId);
       input.setAttribute('placeholder', dataId);
       input.addEventListener('change', function () {
         let idArray = [];
@@ -545,11 +591,11 @@ function metaPanel(cellView) {
         //Primary Select Settings
         let thisFieldPrimary = portPrimary.cloneNode(true);
         let primarySelect = thisFieldPrimary.childNodes[1];
-        selectLoad(port, primary, primarySelect, "primary");
+        selectBoolean("port", cellView, portData, port, primary, primarySelect, "primary");
         //Sequence Select Settings
         let thisFieldSequence = portSequence.cloneNode(true);
         let sequenceSelect = thisFieldSequence.childNodes[1];
-        selectLoad(port, sequence, sequenceSelect, "sequence");
+        selectBoolean("port", cellView, portData, port, sequence, sequenceSelect, "sequence");
         //Delete Button
         let thisBtnDelete = btnDelete.cloneNode(true);
         loadBtnDelete(thisBtnDelete, port, thisField);
@@ -581,10 +627,10 @@ function metaPanel(cellView) {
       nameInputLoad(portId, nameInput);
       let thisFieldPrimary = portPrimary.cloneNode(true);
       let primarySelect = thisFieldPrimary.childNodes[1];
-      selectLoad(portId, primary, primarySelect, "primary");
+      selectBoolean("port", cellView, portData, portId, primary, primarySelect, "primary");
       let thisFieldSequence = portSequence.cloneNode(true);
       let sequenceSelect = thisFieldSequence.childNodes[1];
-      selectLoad(portId, sequence, sequenceSelect, "sequence");
+      selectBoolean("port", cellView, portData, portId, sequence, sequenceSelect, "sequence");
       let thisBtnDelete = btnDelete.cloneNode(true);
       loadBtnDelete(thisBtnDelete, portId, thisField);
       formPorts.appendChild(thisField);
@@ -609,7 +655,8 @@ function metaPanel(cellView) {
   selectRequired.appendChild(optionTrue.cloneNode(true));
   selectRequired.appendChild(optionFalse.cloneNode(true));
   optionRequired.appendChild(selectRequired);
-  let btnOptionAdd = inputBtn.cloneNode();
+  let fieldsetOptionAdd = fieldset.cloneNode();
+  let btnOptionAdd = fieldsetOptionAdd.appendChild(inputBtn.cloneNode());
   btnOptionAdd.setAttribute('value', "add Option");
   btnOptionAdd.addEventListener('click', function () {
     getId();
@@ -621,6 +668,8 @@ function metaPanel(cellView) {
     createOptionContent(optionId, true);
     cellView.model.attributes.stepOption.push(optionObject);
   });
+  let selectOptionAdd = fieldsetOptionAdd.appendChild(select.cloneNode(true));
+  selectOptionAdd.appendChild(optionString.cloneNode(true));
 
   function optionInputLoad(dataId, input) {
     input.setAttribute('type', 'text');
@@ -644,22 +693,6 @@ function metaPanel(cellView) {
         graphX.resetCells(currentCells);
         metaPanel(cellView);
       }
-    });
-  }
-
-  function selectOptionLoad(dataId, dataType, select) {
-    for (let i = 0; i < select.length; i++) {
-      if (dataType !== undefined && dataType.toString() === select[i].value) {
-        select[i].setAttribute('selected', "selected");
-      }
-    }
-    select.addEventListener('change', function () {
-      for (let i = 0; i < stepOptions.length; i++) {
-        if (stepOptions[i].name === dataId) {
-          stepOptions[i].required = this.value;
-        }
-      }
-      metaPanel(cellView);
     });
   }
 
@@ -693,8 +726,8 @@ function metaPanel(cellView) {
         formOptions.removeChild(field);
       });
     }
+
     if (btn === false) {
-      // if(step.type === xProc)
       for (let i = 0; i < stepOptions.length; i++) {
         let optName = stepOptions[i].name;
         let optRequired = stepOptions[i].required;
@@ -708,7 +741,7 @@ function metaPanel(cellView) {
         //Required Select Settings
         let thisFieldRequired = optionRequired.cloneNode(true);
         let requiredSelect = thisFieldRequired.childNodes[1];
-        selectOptionLoad(optName, optRequired, requiredSelect);
+        selectBoolean("opt", cellView, stepOptions, optName, optRequired, requiredSelect);
         //Delete Button
         let thisBtnDelete = btnDelete.cloneNode(true);
         loadBtnDelete(thisBtnDelete, optName, thisField);
@@ -736,7 +769,7 @@ function metaPanel(cellView) {
       optionInputLoad(optionId, nameInput);
       let thisFieldRequired = optionRequired.cloneNode(true);
       let requiredSelect = thisFieldRequired.childNodes[1];
-      selectOptionLoad(optionId, required, requiredSelect);
+      selectBoolean("opt", cellView, stepOptions, optionId, required, requiredSelect);
       let thisBtnDelete = btnDelete.cloneNode(true);
       loadBtnDelete(thisBtnDelete, optionId, thisField);
       formOptions.appendChild(thisField);
@@ -745,7 +778,6 @@ function metaPanel(cellView) {
       thisField.appendChild(thisBtnDelete);
     }
   }
-
 
   //Push Meta-Elements
   if (step.type === "xproc.Pipeline") {
@@ -761,24 +793,20 @@ function metaPanel(cellView) {
     metaPorts.appendChild(divInput);
     divInput.appendChild(formInput);
     formInput.appendChild(btnInputAdd);
-    let foo;
-    createPortContent(foo, false, inputPorts, formInput, "in");
+    createPortContent(null, false, inputPorts, formInput, "in");
     metaPorts.appendChild(divOutput);
     divOutput.appendChild(formOutput);
     formOutput.appendChild(btnOutputAdd);
-    createPortContent(foo, false, outputPorts, formOutput, "out");
+    createPortContent(null, false, outputPorts, formOutput, "out");
     // Options
     metaOptions.appendChild(divOption);
     divOption.appendChild(formOptions);
-    formOptions.appendChild(btnOptionAdd);
-    createOptionContent(foo, false);
+    formOptions.appendChild(fieldsetOptionAdd);
+    createOptionContent(null, false);
   } else if (step.type === "xproc.Option") {
     let name = label.cloneNode(true);
     name.classList.add("option-value");
     name.appendChild(document.createTextNode("Value: "));
-    let optName = cellView.model.attributes.optionName;
-    let optRequired = cellView.model.attributes.optionRequired;
-    let optValue = cellView.model.attributes.optionValue;
     let h3Option = h3.cloneNode(true);
     h3Option.appendChild(document.createTextNode(optName));
     metaInfo.appendChild(h3Option);
@@ -790,10 +818,9 @@ function metaPanel(cellView) {
     let fieldRequired = optionRequired.cloneNode(true);
     let thisFieldRequired = fieldRequired.cloneNode(true);
     let requiredSelect = thisFieldRequired.childNodes[1];
-    selectOptionLoad(optName, optRequired, requiredSelect);
+    selectBoolean("opt", cellView, stepOptions, optName, optRequired, requiredSelect);
     formOptions.appendChild(fieldRequired);
-  }
-  else {
+  } else {
     // Info
     let type = document.createElement('h3');
     let id = document.createElement('p');
@@ -803,18 +830,17 @@ function metaPanel(cellView) {
     metaInfo.appendChild(type);
     metaInfo.appendChild(id);
     // Ports
-    let foo;
     metaPorts.appendChild(divPortsHead);
     divPortsHead.appendChild(h3PortsInput);
     divPortsHead.appendChild(h3PortsOutput);
     metaPorts.appendChild(divInput);
     divInput.appendChild(formInput);
-    createPortContent(foo, false, inputPorts, formInput, "in");
+    createPortContent(null, false, inputPorts, formInput, "in");
     metaPorts.appendChild(divOutput);
     divOutput.appendChild(formOutput);
-    createPortContent(foo, false, outputPorts, formOutput, "out");
+    createPortContent(null, false, outputPorts, formOutput, "out");
     // Options
     metaOptions.appendChild(formOptions);
-    createOptionContent(foo, false);
+    createOptionContent(null, false);
   }
 }

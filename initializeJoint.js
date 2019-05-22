@@ -39,6 +39,8 @@ let btnLSClear = document.getElementById('btnLSClear');
 let btnLSGet = document.getElementById('btnLSGet');
 // let btnLink = document.getElementById('btn_link');
 let btnClearPipeline = document.getElementById('btnClearPipeline');
+let btnOrderPipeline = document.getElementById('btnOrderPipeline');
+let btnScalePaper = document.getElementById('btnScalePaper');
 // let btnExportTest = document.getElementById('btnExportTest');
 let btnSavePipe = document.getElementById('btnSavePipe');
 // let btnPipeDownload = document.getElementById('btnPipeDownload');
@@ -980,8 +982,7 @@ joint.shapes.devs.Model.define('xproc.Option', {
   optionSelect: "unset"
 });
 
-// Window Responsive - has to be below paper initialization
-window.addEventListener("resize", function () {
+function resize(){
   let canvasWidth = canvas.offsetWidth;
   let canvasHeight = canvas.offsetHeight;
   paperX.setDimensions(canvasWidth, canvasHeight);
@@ -989,6 +990,11 @@ window.addEventListener("resize", function () {
   let xplHeight = canvasWidth * 0.6;
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.resize(xplWidth, xplHeight);
+}
+
+// Window Responsive - has to be below paper initialization
+window.addEventListener("resize", function () {
+  resize();
 });
 // Mousewheel-ZOOM-function
 paper.$el.on('mousewheel DOMMouseScroll', function onMouseWheel(e) {
@@ -998,6 +1004,7 @@ paper.$el.on('mousewheel DOMMouseScroll', function onMouseWheel(e) {
   let delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail))) / 50;
   let offsetX = (e.offsetX || e.clientX - $(this).offset().left);
   let offsetY = (e.offsetY || e.clientY - $(this).offset().top);
+
   let p = offsetToLocalPoint(offsetX, offsetY);
   let newScale = V(paper.viewport).scale().sx + delta;
   if (newScale > 0.4 && newScale < 2) {

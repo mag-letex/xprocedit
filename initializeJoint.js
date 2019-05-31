@@ -660,12 +660,12 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
         portSerialization: {indent: "unset"}
       }
     ],
-    stepOption: [
-      {
-        name: "unset",
-        required: "unset"
-      }
-    ]
+    stepOption: []
+    //   {
+    //     name: "unset",
+    //     required: "unset"
+    //   }
+    // ]
   }, joint.shapes.xproc.toolElementCompound.prototype.defaults)
 });
 

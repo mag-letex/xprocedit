@@ -1,46 +1,3 @@
-// let metaPanelDeux = Backbone.View.extend ({
-//   el: '#meta2',
-//   initialize: function(){
-//     this.render();
-//   },
-//   render: function(){
-//     this.$el.html("Hello TutorialsPoint!!!");
-// }
-// });
-// let metaView = new metaPanelDeux();
-
-
-// // create a model class
-// let testModel = Backbone.Model.extend({});
-//
-// // create a model instance
-// let testItem = new testModel({
-//   description: 'Pick up milk',
-//   status: 'incomplete',
-//   id: 1
-// }) ;
-//
-// // to get an attribute
-// testItem.get('description');
-// // to set an attribute
-// testItem.set({status: 'complete'});
-// // sync to server
-// testItem.save();
-//
-//
-// // create a view class
-// let testView = Backbone.View.extend({
-//   render: function(){
-//     let html = '<h3>' + this.model.get('description') + '</h3>';
-//     $(this.el).html(html);
-//   }
-// });
-// // create a view instance
-// let viewInstance = new testView({
-//   model: testItem
-// });
-// testView.render();
-
 // Load Steps into Paper
 function stepLoad(elem, placeX, placeY) {
   getId();
@@ -267,14 +224,30 @@ inputBtn.setAttribute('type', "button");
 inputBtn.classList.add('btnInput');
 const select = document.createElement('select');
 const option = document.createElement('option');
-const optionUnset = option.cloneNode();
-optionUnset.appendChild(document.createTextNode("unset"));
-const optionTrue = option.cloneNode();
-optionTrue.appendChild(document.createTextNode("true"));
-const optionFalse = option.cloneNode();
-optionFalse.appendChild(document.createTextNode("false"));
-const optionString = option.cloneNode();
-optionString.appendChild(document.createTextNode("xs-string"));
+const optUnset = option.cloneNode();
+optUnset.appendChild(document.createTextNode("unset"));
+const optTrue = option.cloneNode();
+optTrue.appendChild(document.createTextNode("true"));
+const optFalse = option.cloneNode();
+optFalse.appendChild(document.createTextNode("false"));
+const selectBool = select.cloneNode(true);
+selectBool.appendChild(optUnset);
+selectBool.appendChild(optTrue);
+selectBool.appendChild(optFalse);
+const optString = option.cloneNode();
+optString.appendChild(document.createTextNode("xs:string"));
+const optInteger = option.cloneNode();
+optInteger.appendChild(document.createTextNode("xs:integer"));
+const optBoolean = option.cloneNode();
+optBoolean.appendChild(document.createTextNode("xs:boolean"));
+const selectOptionType = select.cloneNode(true);
+selectOptionType.appendChild(optUnset.cloneNode(true));
+selectOptionType.appendChild(optString);
+selectOptionType.appendChild(optInteger);
+selectOptionType.appendChild(optBoolean);
+// Delete Button
+const btnDelete = inputBtn.cloneNode();
+btnDelete.setAttribute('value', "X");
 const h3 = document.createElement('h3');
 const div = document.createElement('div');
 
@@ -283,6 +256,21 @@ const fieldsetPort = fieldset.cloneNode();
 fieldsetPort.classList.add("port-field");
 const legendPort = fieldsetPort.appendChild(legend.cloneNode());
 legendPort.appendChild(document.createTextNode("Port"));
+const portName = label.cloneNode(true);
+portName.classList.add("port-name");
+//Port-Primary Dummy
+const portPrimary = label.cloneNode(true);
+portPrimary.appendChild(document.createTextNode("primary"));
+const selectPrimary = selectBool.cloneNode(true);
+portPrimary.appendChild(selectPrimary);
+//Port-Sequence Dummy
+const portSequence = label.cloneNode(true);
+portSequence.appendChild(document.createTextNode("sequence"));
+const selectSequence = selectBool.cloneNode(true);
+portSequence.appendChild(selectSequence);
+
+let optionName = label.cloneNode(true);
+optionName.classList.add("option-name");
 
 
 function selectBoolean(portOpt, cellView, cont, dataId, dataType, select, type) {
@@ -311,6 +299,10 @@ function selectBoolean(portOpt, cellView, cont, dataId, dataType, select, type) 
   });
 }
 
+document.getElementById('metaPanel').addEventListener('submit', function (e) {
+  e.preventDefault();
+}, false);
+
 function metaPanel(cellView) {
   //Step-Information
   currentCell = cellView;
@@ -328,6 +320,7 @@ function metaPanel(cellView) {
   let inputPorts = [];
   let outputPorts = [];
   console.log(step);
+  console.log(cellView.model);
   for (let i = 0; i < portData.length; i++) {
     if (portData[i].portGroup === "in") {
       inputPorts.push(portData[i]);
@@ -388,54 +381,33 @@ function metaPanel(cellView) {
       prefixOptions[i].setAttribute('selected', "selected");
     }
   }
+
+  function mainInput(nm, prfx) {
+    let type = "" + prfx + "-" + nm;
+    let label = "" + prfx + ":" + nm;
+    stepName = this.value;
+    stepType = type;
+    cellView.model.attr({".label": {text: label}});
+  }
+
   selectPrefix.addEventListener('change', function () {
     prefix = this.value;
-    let type = "" + prefix + name;
-    stepPrefix = prefix;
-    stepType = type;
-    cellView.model.attr({".label": {text: type}});
-    console.log(cellView.model);
+    mainInput(name, prefix);
   });
   inputName.addEventListener('change', function () {
     name = this.value;
-    let type = "" + prefix + "-" + name;
-    let label = "" + prefix + ":" + name;
-    stepName = name;
-    stepType = type;
-    cellView.model.attr({".label": {text: label}});
+    mainInput(name, prefix);
   });
   inputName.addEventListener('keyup', function (e) {
     if (e.which !== 13) {
       name = this.value;
-      let type = "" + prefix + "-" + name;
-      let label = "" + prefix + ":" + name;
-      stepName = this.value;
-      stepType = type;
-      cellView.model.attr({".label": {text: label}});
+      mainInput(name, prefix);
     }
   });
 
   // Ports-DIV
   let divPortsHead = div.cloneNode();
   divPortsHead.setAttribute('id', "divPortsHead");
-
-  //Port-Primary Dummy
-  let portPrimary = label.cloneNode(true);
-  portPrimary.appendChild(document.createTextNode("primary"));
-  let selectPrimary = select.cloneNode(true);
-  selectPrimary.appendChild(optionUnset.cloneNode(true));
-  selectPrimary.appendChild(optionTrue.cloneNode(true));
-  selectPrimary.appendChild(optionFalse.cloneNode(true));
-  portPrimary.appendChild(selectPrimary);
-
-  //Port-Sequence Dummy
-  let portSequence = label.cloneNode(true);
-  portSequence.appendChild(document.createTextNode("sequence"));
-  let selectSequence = select.cloneNode(true);
-  selectSequence.appendChild(optionUnset.cloneNode(true));
-  selectSequence.appendChild(optionTrue.cloneNode(true));
-  selectSequence.appendChild(optionFalse.cloneNode(true));
-  portSequence.appendChild(selectSequence);
 
   // Input-Ports
   let divInput = div.cloneNode();
@@ -511,15 +483,7 @@ function metaPanel(cellView) {
   legendOutput.appendChild(document.createTextNode("Out-Port"));
 
   function createPortContent(portId, btn, ports, formPorts, inout) {
-    // Basic Elements
-    let field = fieldsetPort.cloneNode(true);
-    let name = label.cloneNode(true);
-    name.classList.add("port-name");
-    // Delete-Button
-    let btnDelete = inputBtn.cloneNode();
-    btnDelete.setAttribute('value', "X");
-
-    function loadBtnDelete(btn, id, field) {
+    function portBtnDelete(btn, id, field) {
       btn.setAttribute('portId', id);
       btn.addEventListener('click', function (e) {
         let thisId = e.target.attributes.portId.nodeValue;
@@ -576,68 +540,51 @@ function metaPanel(cellView) {
       });
     }
 
+    function portLoadCont(port, primary, sequence) {
+      let thisField = fieldsetPort.cloneNode(true);
+      let thisName = portName.cloneNode(true);
+      let noName = portName.cloneNode(true);
+      noName.appendChild(document.createTextNode(port));
+      let nameInput = thisName.appendChild(input.cloneNode(true));
+      nameInputLoad(port, nameInput);
+      let thisFieldPrimary = portPrimary.cloneNode(true);
+      let primarySelect = thisFieldPrimary.childNodes[1];
+      selectBoolean("port", cellView, portData, port, primary, primarySelect, "primary");
+      let thisFieldSequence = portSequence.cloneNode(true);
+      let sequenceSelect = thisFieldSequence.childNodes[1];
+      selectBoolean("port", cellView, portData, port, sequence, sequenceSelect, "sequence");
+      let thisBtnDelete = btnDelete.cloneNode(true);
+      portBtnDelete(thisBtnDelete, port, thisField);
+
+      if (step.type !== "xproc.Pipeline") {
+        formPorts.appendChild(thisField);
+        thisField.appendChild(noName);
+        thisField.appendChild(thisFieldPrimary);
+        thisField.appendChild(thisFieldSequence);
+        primarySelect.setAttribute('disabled', "disabled");
+        sequenceSelect.setAttribute('disabled', "disabled");
+      } else {
+        formPorts.appendChild(thisField);
+        thisField.appendChild(thisName);
+        thisField.appendChild(thisFieldPrimary);
+        thisField.appendChild(thisFieldSequence);
+        thisField.appendChild(thisBtnDelete);
+      }
+    }
+
     //Load when clicking Step
     if (btn === false) {
-      // if(step.type === xProc)
       for (let i = 0; i < ports.length; i++) {
         let port = ports[i].portId;
         let primary = ports[i].portPrimary;
         let sequence = ports[i].portSequence;
-        let thisField = field.cloneNode(true);
-        let thisName = name.cloneNode(true);
-        let noInputName = name.cloneNode(true);
-        let nameInput = thisName.appendChild(input.cloneNode(true));
-        nameInputLoad(port, nameInput);
-        //Primary Select Settings
-        let thisFieldPrimary = portPrimary.cloneNode(true);
-        let primarySelect = thisFieldPrimary.childNodes[1];
-        selectBoolean("port", cellView, portData, port, primary, primarySelect, "primary");
-        //Sequence Select Settings
-        let thisFieldSequence = portSequence.cloneNode(true);
-        let sequenceSelect = thisFieldSequence.childNodes[1];
-        selectBoolean("port", cellView, portData, port, sequence, sequenceSelect, "sequence");
-        //Delete Button
-        let thisBtnDelete = btnDelete.cloneNode(true);
-        loadBtnDelete(thisBtnDelete, port, thisField);
-
-        //Initialization
-        if (step.type === "xproc.Pipeline") {
-          formPorts.appendChild(thisField);
-          thisField.appendChild(thisName);
-          thisField.appendChild(thisFieldPrimary);
-          thisField.appendChild(thisFieldSequence);
-          thisField.appendChild(thisBtnDelete);
-        } else {
-          formPorts.appendChild(thisField);
-          thisField.appendChild(noInputName);
-          noInputName.appendChild(document.createTextNode(ports[i].portId));
-          thisField.appendChild(thisFieldPrimary);
-          thisField.appendChild(thisFieldSequence);
-          primarySelect.setAttribute('disabled', "disabled");
-          sequenceSelect.setAttribute('disabled', "disabled");
-        }
+        portLoadCont(port, primary, sequence);
       }
       //Load when Button is Clicked
     } else if (btn === true) {
       let primary = "unset";
       let sequence = "unset";
-      let thisField = field.cloneNode(true);
-      let thisName = name.cloneNode(true);
-      let nameInput = thisName.appendChild(input.cloneNode(true));
-      nameInputLoad(portId, nameInput);
-      let thisFieldPrimary = portPrimary.cloneNode(true);
-      let primarySelect = thisFieldPrimary.childNodes[1];
-      selectBoolean("port", cellView, portData, portId, primary, primarySelect, "primary");
-      let thisFieldSequence = portSequence.cloneNode(true);
-      let sequenceSelect = thisFieldSequence.childNodes[1];
-      selectBoolean("port", cellView, portData, portId, sequence, sequenceSelect, "sequence");
-      let thisBtnDelete = btnDelete.cloneNode(true);
-      loadBtnDelete(thisBtnDelete, portId, thisField);
-      formPorts.appendChild(thisField);
-      thisField.appendChild(thisName);
-      thisField.appendChild(thisFieldPrimary);
-      thisField.appendChild(thisFieldSequence);
-      thisField.appendChild(thisBtnDelete);
+      portLoadCont(portId, primary, sequence)
     }
   }
 
@@ -650,31 +597,41 @@ function metaPanel(cellView) {
   legendOption.appendChild(document.createTextNode("Option"));
   let optionRequired = label.cloneNode(true);
   optionRequired.appendChild(document.createTextNode("required"));
-  let selectRequired = select.cloneNode(true);
-  selectRequired.appendChild(optionUnset.cloneNode(true));
-  selectRequired.appendChild(optionTrue.cloneNode(true));
-  selectRequired.appendChild(optionFalse.cloneNode(true));
+  let selectRequired = selectBool.cloneNode(true);
   optionRequired.appendChild(selectRequired);
+  let defaultInput = label.cloneNode(true);
+  defaultInput.appendChild(document.createTextNode("default Input: "));
   let fieldsetOptionAdd = fieldset.cloneNode();
+  let optionTypes = selectOptionType.cloneNode(true);
+  fieldsetOptionAdd.appendChild(optionTypes);
   let btnOptionAdd = fieldsetOptionAdd.appendChild(inputBtn.cloneNode());
   btnOptionAdd.setAttribute('value', "add Option");
   btnOptionAdd.addEventListener('click', function () {
+    let type = optionTypes.value;
+    console.log(type);
     getId();
     let optionId = "option-" + newId;
     let optionObject = {
       "name": optionId,
       "required": "unset",
+      "defaultInputType": type,
+      "defaultInput": ""
     };
-    createOptionContent(optionId, true);
-    cellView.model.attributes.stepOption.push(optionObject);
+    if (type !== "unset") {
+      createOptionContent(optionId, true, type);
+      cellView.model.attributes.stepOption.push(optionObject);
+
+    } else {
+      alert("You first have to select an option type!");
+    }
+
   });
-  let selectOptionAdd = fieldsetOptionAdd.appendChild(select.cloneNode(true));
-  selectOptionAdd.appendChild(optionString.cloneNode(true));
 
   function optionInputLoad(dataId, input) {
     input.setAttribute('type', 'text');
     input.setAttribute('option', dataId);
     input.setAttribute('placeholder', dataId);
+    input.setAttribute('value', dataId);
     input.addEventListener('change', function () {
       let idArray = [];
       for (let i = 0; i < stepOptions.length; i++) {
@@ -696,6 +653,32 @@ function metaPanel(cellView) {
     });
   }
 
+  function defaultInputLoad(dataId, optInputType, optDefInput, input) {
+    input.setAttribute('type', 'text');
+    input.setAttribute('option', dataId);
+    if (optInputType === "xs:boolean") {
+      let sel = input.children;
+      console.log(sel);
+      for (let i = 0; i < sel.length; i++) {
+        if (sel[i].value === optDefInput) {
+          sel[i].setAttribute('selected', "selected");
+        }
+      }
+    }
+    if (optDefInput !== undefined) {
+      input.setAttribute('value', optDefInput);
+    } else {
+      input.setAttribute('placeholder', optInputType)
+    }
+    input.addEventListener('change', function () {
+      for (let i = 0; i < stepOptions.length; i++) {
+        if (stepOptions[i].name === dataId) {
+          stepOptions[i].defaultInput = this.value;
+        }
+      }
+    });
+  }
+
   function optionValueLoad(dataId, input, cellView) {
     input.setAttribute('type', 'text');
     input.setAttribute('option', dataId);
@@ -705,21 +688,13 @@ function metaPanel(cellView) {
     });
   }
 
-  function createOptionContent(optionId, btn) {
-    // Basic Elements
-    let name = label.cloneNode(true);
-    name.classList.add("option-name");
-    // Delete Button
-    let btnDelete = inputBtn.cloneNode();
-    btnDelete.setAttribute('value', "X");
-
-    function loadBtnDelete(btn, id, field) {
+  function createOptionContent(optionId, btn, inputType) {
+    function optionBtnDelete(btn, id, field) {
       btn.setAttribute('optionid', id);
       btn.addEventListener('click', function (e) {
         let thisId = e.target.attributes.optionid.nodeValue;
         for (let i = 0; i < stepOptions.length; i++) {
           if (stepOptions[i].name === thisId) {
-            console.log("true");
             stepOptions.splice(i, 1);
           }
         }
@@ -727,55 +702,60 @@ function metaPanel(cellView) {
       });
     }
 
+
+    function optionLoadCont(optName, optRequired, optInputType, optDefInput) {
+      let thisField = fieldsetOption.cloneNode(true);
+      let thisName = optionName.cloneNode(true);
+      let nameInput = thisName.appendChild(input.cloneNode(true));
+      nameInput.classList.add("option");
+      let noInputName = optionName.cloneNode(true);
+      noInputName.classList.add("option-name");
+      optionInputLoad(optName, nameInput);
+      let thisFieldRequired = optionRequired.cloneNode(true);
+      let requiredSelect = thisFieldRequired.childNodes[1];
+      selectBoolean("opt", cellView, stepOptions, optName, optRequired, requiredSelect);
+      let thisDefaultInput = defaultInput.cloneNode(true);
+      thisDefaultInput.classList.add("option");
+
+      if (optInputType === "xs:string" || optInputType === "xs:integer") {
+        let string = thisDefaultInput.appendChild(input.cloneNode(true));
+        defaultInputLoad(optName, optInputType, optDefInput, string);
+      } else if (optInputType === "xs:boolean") {
+        let bool = selectBool.cloneNode(true);
+        thisDefaultInput.appendChild(bool);
+        defaultInputLoad(optName, optInputType, optDefInput, bool);
+      }
+      let thisBtnDelete = btnDelete.cloneNode(true);
+      optionBtnDelete(thisBtnDelete, optName, thisField);
+      if (step.type !== "xproc.Pipeline") {
+        formOptions.appendChild(thisField);
+        thisField.appendChild(noInputName);
+        noInputName.appendChild(document.createTextNode(optName));
+        thisField.appendChild(thisFieldRequired);
+        thisField.appendChild(thisDefaultInput);
+        requiredSelect.setAttribute('disabled', "disabled");
+      } else {
+        formOptions.appendChild(thisField);
+        thisField.appendChild(thisName);
+        thisField.appendChild(thisFieldRequired);
+        thisField.appendChild(thisDefaultInput);
+        thisField.appendChild(thisBtnDelete);
+      }
+    }
+
     if (btn === false) {
+      console.log("button False!");
       for (let i = 0; i < stepOptions.length; i++) {
         let optName = stepOptions[i].name;
         let optRequired = stepOptions[i].required;
-        let thisField = fieldsetOption.cloneNode(true);
-        let thisName = name.cloneNode(true);
-        thisName.classList.add("option-name");
-        let nameInput = thisName.appendChild(input.cloneNode(true));
-        optionInputLoad(optName, nameInput);
-        let noInputName = name.cloneNode(true);
-        noInputName.classList.add("option-name");
-        //Required Select Settings
-        let thisFieldRequired = optionRequired.cloneNode(true);
-        let requiredSelect = thisFieldRequired.childNodes[1];
-        selectBoolean("opt", cellView, stepOptions, optName, optRequired, requiredSelect);
-        //Delete Button
-        let thisBtnDelete = btnDelete.cloneNode(true);
-        loadBtnDelete(thisBtnDelete, optName, thisField);
-
-        //Initialization
-        if (step.type === "xproc.Pipeline") {
-          formOptions.appendChild(thisField);
-          thisField.appendChild(thisName);
-          thisField.appendChild(thisFieldRequired);
-          thisField.appendChild(thisBtnDelete);
-        } else {
-          formOptions.appendChild(thisField);
-          thisField.appendChild(noInputName);
-          noInputName.appendChild(document.createTextNode(optName));
-          thisField.appendChild(thisFieldRequired);
-          requiredSelect.setAttribute('disabled', "disabled");
-        }
+        let optDefInputType = stepOptions[i].defaultInputType;
+        let optDefInput = stepOptions[i].defaultInput;
+        optionLoadCont(optName, optRequired, optDefInputType, optDefInput);
       }
       //Load when Button is Clicked
     } else if (btn === true) {
       let required = "unset";
-      let thisField = fieldsetOption.cloneNode(true);
-      let thisName = name.cloneNode(true);
-      let nameInput = thisName.appendChild(input.cloneNode(true));
-      optionInputLoad(optionId, nameInput);
-      let thisFieldRequired = optionRequired.cloneNode(true);
-      let requiredSelect = thisFieldRequired.childNodes[1];
-      selectBoolean("opt", cellView, stepOptions, optionId, required, requiredSelect);
-      let thisBtnDelete = btnDelete.cloneNode(true);
-      loadBtnDelete(thisBtnDelete, optionId, thisField);
-      formOptions.appendChild(thisField);
-      thisField.appendChild(thisName);
-      thisField.appendChild(thisFieldRequired);
-      thisField.appendChild(thisBtnDelete);
+      optionLoadCont(optionId, required, inputType);
     }
   }
 

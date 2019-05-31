@@ -503,7 +503,13 @@ font-size: 1em;
   margin: 0;
 }
 .option-name input{
-  font-size: 0.8em;
+  font-size: 0.9em;
+  font-family: 'SourceSans-SemiBold', sans-serif;
+  text-align: center;
+  width: 77%;
+}
+.option input{
+  font-size: 0.9em;
   font-family: 'SourceSans-SemiBold', sans-serif;
   text-align: center;
   width: 77%;

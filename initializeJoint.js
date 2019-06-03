@@ -40,10 +40,7 @@ let btnLSGet = document.getElementById('btnLSGet');
 // let btnLink = document.getElementById('btn_link');
 let btnClearPipeline = document.getElementById('btnClearPipeline');
 let btnOrderPipeline = document.getElementById('btnOrderPipeline');
-let btnScalePaper = document.getElementById('btnScalePaper');
-// let btnExportTest = document.getElementById('btnExportTest');
 let btnSavePipe = document.getElementById('btnSavePipe');
-// let btnPipeDownload = document.getElementById('btnPipeDownload');
 let btnBack = document.getElementById('btnBack');
 let btnForward = document.getElementById('btnForward');
 // let btnInPortAdd = document.getElementById('btnInPortAdd');
@@ -316,9 +313,10 @@ function createPaperBtn(modelId, evt, cellView) {
         model: graphNew,
         width: canvas.offsetWidth,
         height: canvas.offsetHeight,
-        // defaultLink: function (elementView, magnet) {
-        defaultLink: function () {
-          if (btnLink.innerHTML === "Main Link") return devsMainLink.clone();
+        defaultLink: function (cellView) {
+          if (cellView.model.attributes.type === "xproc.Option") {
+            return devsOptionLink.clone();
+          }
           else return devsStandLink.clone();
         },
         snapLinks: true,
@@ -432,6 +430,31 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   });
   paperX.on('cell:pointerdblclick', function (cellView, evt) {
     cellPointerDblClick(cellView, evt);
+  });
+  paperX.on('link:connect', function(linkView, evt, elementViewConnected){
+    console.log(linkView);
+    console.log(evt);
+    console.log(elementViewConnected);
+    let source = linkView.sourceView.model.attributes.type;
+    let sourcePort = linkView.sourceMagnet.attributes["port-group"].nodeValue;
+    let targetPort = linkView.targetMagnet.attributes["port-group"].nodeValue;
+    let target = elementViewConnected.model.attributes.type;
+    if(source === "xproc.Option"){
+      alert("You are not allowed to use an option as source-port!");
+      linkView.remove();
+    }
+    else if (sourcePort === "out" && targetPort === "out" && target !== "xproc.Pipeline"){
+      alert("You are not allowed to connect these two ports!");
+      linkView.remove();
+    }
+    else if(sourcePort === "in" && targetPort === "in" && source !== "xproc.Pipeline"){
+      alert("You are not allowed to connect these two ports!");
+      linkView.remove();
+    }
+    else if(sourcePort === "in" && targetPort === "out" && source !== "xproc.Pipeline" && target === "xproc.Pipeline"){
+      alert("You are not allowed to connect these two ports!");
+      linkView.remove();
+    }
   });
 
 }

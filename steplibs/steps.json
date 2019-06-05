@@ -516,7 +516,90 @@
           "required": true
         }
       ]
+    },
+    {
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pLoad",
+      "inPorts": [
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:load"
+        }
+      },
+      "portData": [
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "href",
+          "required": true
+        },
+        {
+          "name": "dtd-validate",
+          "required": false
+        }
+      ]
+    },
+    {
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pXslt",
+      "inPorts": [
+        "source",
+        "stylesheet"
+      ],
+      "outPorts": [
+        "result",
+        "secondary"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:xslt"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true,
+          "portSequence": true
+        },
+        {
+          "portId": "stylesheet",
+          "portGroup": "in",
+          "portPrimary": false
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        },
+        {
+          "portId": "secondary",
+          "portGroup": "out",
+          "portPrimary": false,
+          "portSequence": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "initial-mode",
+          "required": false
+        },
+        {
+          "name": "template-name",
+          "required": false
+        }
+      ]
     }
+
 
   ],
   "compoundSteps": [

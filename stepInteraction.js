@@ -320,7 +320,6 @@ function metaPanel(cellView) {
   let inputPorts = [];
   let outputPorts = [];
   console.log(step);
-  console.log(cellView.model);
   for (let i = 0; i < portData.length; i++) {
     if (portData[i].portGroup === "in") {
       inputPorts.push(portData[i]);

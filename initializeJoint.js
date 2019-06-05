@@ -1,15 +1,3 @@
-// Reset Function
-// window.addEventListener("load", function () {
-//   let lastGraphState = localStorage.getItem('lastGraphState');
-//   lastGraphState = JSON.parse(lastGraphState);
-//   if (lastGraphState !== undefined) {
-//     graph.fromJSON(lastGraphState);
-//   }
-// });
-// window.addEventListener("unload", function () {
-//   saveLastGraphState();
-// });
-
 // GLOBAL VARIABLES
 let failedId = "";
 let newId = "";
@@ -43,8 +31,6 @@ let btnOrderPipeline = document.getElementById('btnOrderPipeline');
 let btnSavePipe = document.getElementById('btnSavePipe');
 let btnBack = document.getElementById('btnBack');
 let btnForward = document.getElementById('btnForward');
-// let btnInPortAdd = document.getElementById('btnInPortAdd');
-// let btnOutPortAdd = document.getElementById('btnOutPortAdd');
 let btnPaperNew = document.getElementById('btnPaperNew');
 
 let globalPipeline;
@@ -122,15 +108,18 @@ window.onload = function () {
       let data = e.dataTransfer.getData('text');
       let dropElem = document.querySelector('#' + data);
       let dropElemSibl = dropElem.nextSibling;
+      let parent = dropElem.parentElement;
       console.log(dropElem.nextSibling);
+      console.log(parent);
       let placeX = e.layerX - 80;
       let placeY = e.layerY - 20;
       e.target.appendChild(document.getElementById(data));
       stepLoad(dropElem, placeX, placeY);
       if (dropElemSibl !== null) {
         dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
-      } else {
-        document.querySelector("#customUL").appendChild(dropElem);
+      }
+      else {
+        parent.appendChild(dropElem);
       }
     });
   loadPipeline(pipelineId);

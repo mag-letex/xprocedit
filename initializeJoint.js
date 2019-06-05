@@ -55,7 +55,7 @@ let testBtnArray = [];
 let xhr = new XMLHttpRequest();
 let obj;
 let superObj = [];
-xhr.open("GET", "stepLibs/steps.json", true);
+xhr.open("GET", "steplibs/steps.json", true);
 xhr.responseType = "json";
 xhr.send();
 xhr.onload = function (e) {

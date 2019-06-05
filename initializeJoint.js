@@ -443,8 +443,16 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
       alert("You are not allowed to use an option as source-port!");
       linkView.remove();
     }
+    else if (sourcePort === "out" && targetPort === "out" && source == "xproc.Pipeline"){
+      alert("You are only allowed to connect these two ports the other way around!");
+      linkView.remove();
+    }
     else if (sourcePort === "out" && targetPort === "out" && target !== "xproc.Pipeline"){
       alert("You are not allowed to connect these two ports!");
+      linkView.remove();
+    }
+    else if(sourcePort === "in" && targetPort === "in" && target == "xproc.Pipeline"){
+      alert("You are only allowed to connect these two ports the other way around!");
       linkView.remove();
     }
     else if(sourcePort === "in" && targetPort === "in" && source !== "xproc.Pipeline"){
@@ -761,7 +769,7 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
       'ry': 6
     },
     '.label': {
-      text: "XProc-Pipeline",
+      text: "Anonymous Pipeline",
       fill: "#FFF7EC",
       'font-size': '1.4em'
     },

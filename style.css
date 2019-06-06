@@ -638,3 +638,8 @@ font-size: 1em;
 .highlight-class > g > rect {
   stroke: red;
 }
+#downloadlink {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+}

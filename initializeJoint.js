@@ -1040,3 +1040,10 @@ function offsetToLocalPoint(x, y) {
   svgPoint.y = y;
   return svgPoint.matrixTransform(paper.viewport.getCTM().inverse());
 }
+function downloadXml(serialized, id) {
+  let blob = new Blob([serialized], {type:"application/xproc+xml"});
+  let link = document.getElementById(id);
+  let url = URL.createObjectURL(blob);
+  link.href = url;
+  return url;
+}

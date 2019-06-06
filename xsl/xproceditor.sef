@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://ns.saxonica.com/xslt/export" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vv="http://saxon.sf.net/generated-variable" xmlns:java-type="http://saxon.sf.net/java-type" version="30" packageVersion="1" saxonVersion="9.8.0.12" target="JS" targetVersion="1" relocatable="true">
- <co id="0" binds="0 0">
+ <co id="0" binds="0">
   <mode name="Q{}clean" onNo="TC" flags="W" patternSlots="0">
-   <templateRule prec="1" prio="0.5" seq="1" rank="1" minImp="0" slots="0" flags="s" line="60" module="xproceditor.xsl">
+   <templateRule prec="0" prio="0.5" seq="1" rank="1" minImp="0" slots="0" flags="s" line="443" module="xproceditor-noninteractive.xsl">
     <p.withUpper role="match" axis="parent" upFirst="false">
      <p.nodeTest test="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;"/>
      <p.nodeTest test="document-node()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11);"/>
     </p.withUpper>
-    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="62" flags="in">
+    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="445" flags="in">
      <sequence role="content">
       <namespace flags="l">
        <str role="name" val="p"/>
        <str role="select" val="http://www.w3.org/ns/xproc"/>
       </namespace>
-      <applyT line="63" mode="Q{}clean" bSlot="0">
+      <namespace line="446" flags="l">
+       <str role="name" val="c"/>
+       <str role="select" val="http://www.w3.org/ns/xproc-step"/>
+      </namespace>
+      <applyT line="447" mode="Q{}clean" bSlot="0">
        <sequence role="select">
         <axis name="attribute" nodeTest="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
         <axis name="child" nodeTest="( element() | text() | comment() | processing-instruction() )" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===1 || item.nodeType===3 || item.nodeType===7 || item.nodeType===8);"/>
@@ -22,10 +26,10 @@
      </sequence>
     </copy>
    </templateRule>
-   <templateRule prec="1" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="54" module="xproceditor.xsl">
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="437" module="xproceditor-noninteractive.xsl">
     <p.nodeTest role="match" test="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;"/>
-    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="56" flags="in">
-     <applyT role="content" mode="Q{}clean" bSlot="1">
+    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="439" flags="in">
+     <applyT role="content" flags="c" bSlot="-1">
       <sequence role="select">
        <axis name="attribute" nodeTest="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
        <axis name="child" nodeTest="( element() | text() | comment() | processing-instruction() )" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===1 || item.nodeType===3 || item.nodeType===7 || item.nodeType===8);"/>
@@ -33,10 +37,10 @@
      </applyT>
     </copy>
    </templateRule>
-   <templateRule prec="1" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="54" module="xproceditor.xsl">
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="437" module="xproceditor-noninteractive.xsl">
     <p.nodeTest role="match" test="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
-    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="56" flags="in">
-     <applyT role="content" mode="Q{}clean" bSlot="1">
+    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="439" flags="in">
+     <applyT role="content" flags="c" bSlot="-1">
       <sequence role="select">
        <axis name="attribute" nodeTest="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
        <axis name="child" nodeTest="( element() | text() | comment() | processing-instruction() )" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===1 || item.nodeType===3 || item.nodeType===7 || item.nodeType===8);"/>
@@ -47,36 +51,96 @@
   </mode>
  </co>
  <co id="1" vis="PUBLIC" binds="">
-  <globalParam name="Q{}layout" type="xs:string?" line="13" module="xproceditor-noninteractive.xsl" visibility="PUBLIC" jsAcceptor="return SaxonJS.U.Atomic.string.cast(val);" jsCardCheck="function c(n) {return n&lt;=1;};">
-   <str val="yes"/>
+  <globalParam name="Q{}layout" type="xs:string?" line="15" module="xproceditor-noninteractive.xsl" visibility="PUBLIC" jsAcceptor="return SaxonJS.U.Atomic.string.cast(val);" jsCardCheck="function c(n) {return n&lt;=1;};">
+   <str val="false"/>
   </globalParam>
  </co>
  <co id="2" vis="PUBLIC" binds="">
-  <globalParam name="Q{}json" type="item()" line="12" module="xproceditor-noninteractive.xsl" visibility="PUBLIC" flags="i" jsAcceptor="return val;" jsCardCheck="function c(n) {return n==1;};"/>
+  <globalParam name="Q{}json" type="item()" line="14" module="xproceditor-noninteractive.xsl" visibility="PUBLIC" flags="i" jsAcceptor="return val;" jsCardCheck="function c(n) {return n==1;};"/>
  </co>
- <co id="3" binds="2">
-  <globalVariable name="Q{http://saxon.sf.net/generated-variable}gg55549176" type="xs:string?" line="18" module="xproceditor-noninteractive.xsl" visibility="PRIVATE" jsAcceptor="return SaxonJS.U.Atomic.string.cast(val);" jsCardCheck="function c(n) {return n&lt;=1;};">
-   <treat defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="18" as="xs:string" jsTest="return SaxonJS.U.Atomic.string.matches(item);" diag="0|0||fn:unparsed-text">
-    <check card="?" diag="0|0||fn:unparsed-text">
-     <cvUntyped to="xs:string">
-      <data>
-       <gVarRef name="Q{}json" bSlot="0"/>
-      </data>
-     </cvUntyped>
-    </check>
-   </treat>
-  </globalVariable>
+ <co id="3" binds="">
+  <template name="Q{}connections" flags="os" line="282" module="xproceditor-noninteractive.xsl" slots="1">
+   <sequence role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="283">
+    <param name="Q{}connections" slot="0" as="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)*">
+     <empty role="select"/>
+     <treat role="conversion" as="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='devs.StandLink';" diag="8|0|XTTE0590|connections">
+      <supplied slot="0"/>
+     </treat>
+    </param>
+    <forEachGroup line="284" algorithm="by">
+     <varRef role="select" name="connections" slot="0"/>
+     <data role="key">
+      <slash>
+       <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}target)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='target';"/>
+       <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}port)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='port';"/>
+      </slash>
+     </data>
+     <str role="collation" val="http://www.w3.org/2005/xpath-functions/collation/codepoint"/>
+     <compElem role="content" line="285">
+      <str role="name" val="p:input"/>
+      <sequence role="content" line="286">
+       <att name="port" flags="l">
+        <fn name="string-join">
+         <convert from="xs:untypedAtomic" to="xs:string">
+          <data>
+           <slash>
+            <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}target)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='target';"/>
+            <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}port)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='port';"/>
+           </slash>
+          </data>
+         </convert>
+         <str val=" "/>
+        </fn>
+       </att>
+       <forEach line="287">
+        <currentGroup/>
+        <elem xmlns:p="http://www.w3.org/ns/xproc" line="288" name="p:pipe" nsuri="http://www.w3.org/ns/xproc" flags="l" namespaces="c p">
+         <sequence>
+          <att name="step" flags="l">
+           <fn name="string-join">
+            <convert from="xs:untypedAtomic" to="xs:string">
+             <data>
+              <slash>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}source)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='source';"/>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}id)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='id';"/>
+              </slash>
+             </data>
+            </convert>
+            <str val=" "/>
+           </fn>
+          </att>
+          <att name="port" flags="l">
+           <fn name="string-join">
+            <convert from="xs:untypedAtomic" to="xs:string">
+             <data>
+              <slash>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}source)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='source';"/>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}port)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='port';"/>
+              </slash>
+             </data>
+            </convert>
+            <str val=" "/>
+           </fn>
+          </att>
+         </sequence>
+        </elem>
+       </forEach>
+      </sequence>
+     </compElem>
+    </forEachGroup>
+   </sequence>
+  </template>
  </co>
  <co id="4" binds="">
-  <function name="Q{bogo:my}normalize-map-key" line="91" module="xproceditor.xsl" eval="7" flags="pU" as="xs:string" slots="1">
+  <function name="Q{bogo:my}normalize-map-key" line="121" module="xproceditor-noninteractive.xsl" eval="7" flags="pU" as="xs:string" slots="1">
    <arg name="input" as="xs:string"/>
-   <choose role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="94">
+   <choose role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="124">
     <castable as="xs:NCName" emptiable="0">
      <varRef name="input" slot="0"/>
     </castable>
-    <varRef line="95" name="input" slot="0"/>
+    <varRef line="125" name="input" slot="0"/>
     <true/>
-    <fn line="102" name="string-join">
+    <fn line="132" name="string-join">
      <sequence>
       <fn name="replace">
        <fn name="substring">
@@ -104,51 +168,236 @@
   </function>
  </co>
  <co id="5" binds="">
-  <globalVariable name="Q{}serialization-params" type="element(Q{http://www.w3.org/2010/xslt-xquery-serialization}serialization-parameters)" line="125" module="xproceditor.xsl" visibility="PRIVATE" jsAcceptor="function test(item) {function a() {var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';};function b() {function a() {var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';};function b() {return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;};return a()&amp;&amp;b();};return a()&amp;&amp;b();};if (test(val)) {return val;} else {throw SaxonJS.XError('Conversion failed', 'XTTE0590');}" jsCardCheck="function c(n) {return n==1;};">
-   <treat defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="127" as="element(Q{http://www.w3.org/2010/xslt-xquery-serialization}serialization-parameters)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';" diag="3|0|XTTE0570|serialization-params">
-    <elem xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization" name="output:serialization-parameters" nsuri="http://www.w3.org/2010/xslt-xquery-serialization">
-     <elem name="output:indent" nsuri="http://www.w3.org/2010/xslt-xquery-serialization" flags="l">
-      <att name="value" flags="l">
-       <str val="yes"/>
-      </att>
-     </elem>
+  <globalVariable name="Q{}serialization-params" type="element(Q{http://www.w3.org/2010/xslt-xquery-serialization}serialization-parameters)" line="158" module="xproceditor-noninteractive.xsl" visibility="PRIVATE" jsAcceptor="function test(item) {function a() {var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';};function b() {function a() {var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';};function b() {return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;};return a()&amp;&amp;b();};return a()&amp;&amp;b();};if (test(val)) {return val;} else {throw SaxonJS.XError('Conversion failed', 'XTTE0590');}" jsCardCheck="function c(n) {return n==1;};">
+   <treat defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="160" as="element(Q{http://www.w3.org/2010/xslt-xquery-serialization}serialization-parameters)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2010/xslt-xquery-serialization'&amp;&amp;q.local==='serialization-parameters';" diag="3|0|XTTE0570|serialization-params">
+    <elem xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization" name="output:serialization-parameters" nsuri="http://www.w3.org/2010/xslt-xquery-serialization" namespaces="c p">
+     <sequence>
+      <elem name="output:indent" nsuri="http://www.w3.org/2010/xslt-xquery-serialization" flags="l" namespaces="c p">
+       <att name="value" flags="l">
+        <str val="yes"/>
+       </att>
+      </elem>
+      <elem line="161" name="output:omit-xml-declaration" nsuri="http://www.w3.org/2010/xslt-xquery-serialization" flags="l" namespaces="c p">
+       <att name="value" flags="l">
+        <str val="no"/>
+       </att>
+      </elem>
+     </sequence>
     </elem>
    </treat>
   </globalVariable>
  </co>
- <co id="6" binds="7">
+ <co id="6" binds="7 5">
   <mode name="Q{http://saxonica.com/ns/interactiveXSLT}click" onNo="TC" flags="W" patternSlots="0">
-   <templateRule prec="1" prio="0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="19" module="xproceditor.xsl">
+   <templateRule prec="1" prio="0.5" seq="0" rank="0" minImp="0" slots="2" flags="s" line="25" module="xproceditor.xsl">
     <p.nodeSet role="match" type="element()">
-     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="19" name="id">
-      <str val="btn_pipe"/>
+     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="25" name="id">
+      <str val="downloadlink"/>
      </fn>
     </p.nodeSet>
-    <resultDoc role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="20" global="#&#xD;&#xA;#Fri Feb 08 20:35:09 CET 2019&#xD;&#xA;indent=yes&#xD;&#xA;method=xml&#xD;&#xA;" local="#&#xD;&#xA;#Fri Feb 08 20:35:09 CET 2019&#xD;&#xA;method={http\://saxonica.com/ns/interactiveXSLT}replace-content&#xD;&#xA;">
-     <str role="href" val="#xproc_xml"/>
-     <callT role="content" line="21" name="create-xpl" bSlot="0"/>
-    </resultDoc>
+    <let role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="26" var="pipeline" as="document-node(element())" slot="0" eval="7">
+     <treat line="27" as="document-node(element())" jsTest="function e(item) {return item.nodeType===1;};return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9 || item.nodeType===11) &amp;&amp; SaxonJS.U.Axis.child(item).filter(e).next();" diag="3|0|XTTE0570|pipeline">
+      <check card="1" diag="3|0|XTTE0570|pipeline">
+       <callT name="create-xpl" bSlot="0"/>
+      </check>
+     </treat>
+     <let line="35" var="url" as="xs:string" slot="1" eval="7">
+      <treat as="xs:string" jsTest="return SaxonJS.U.Atomic.string.matches(item);" diag="3|0|XTTE0570|url">
+       <check card="1" diag="3|0|XTTE0570|url">
+        <cvUntyped to="xs:string">
+         <data>
+          <ifCall name="Q{http://saxonica.com/ns/interactiveXSLT}call" type="item()?">
+           <check card="1" diag="0|0||ixsl:call">
+            <ifCall name="Q{http://saxonica.com/ns/interactiveXSLT}window" type="item()?"/>
+           </check>
+           <str val="downloadXml"/>
+           <arrayBlock>
+            <fn name="serialize">
+             <varRef name="pipeline" slot="0"/>
+             <gVarRef name="Q{}serialization-params" bSlot="1"/>
+            </fn>
+            <str val="downloadlink"/>
+           </arrayBlock>
+          </ifCall>
+         </data>
+        </cvUntyped>
+       </check>
+      </treat>
+      <message line="36">
+       <sequence role="select">
+        <str val="Download URL: "/>
+        <varRef name="url" slot="1"/>
+       </sequence>
+       <str role="terminate" val="no"/>
+       <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
+      </message>
+     </let>
+    </let>
    </templateRule>
   </mode>
  </co>
- <co id="8" binds="4 4">
+ <co id="8" binds="9 10 0">
+  <template name="Q{}create-xpl-noninteractive" flags="os" line="30" module="xproceditor-noninteractive.xsl" slots="7">
+   <sequence role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="31">
+    <param name="Q{}graph-as-json" slot="0" flags="i" as="xs:string">
+     <treat role="conversion" as="xs:string" jsTest="return SaxonJS.U.Atomic.string.matches(item);" diag="8|0|XTTE0590|graph-as-json">
+      <check card="1" diag="8|0|XTTE0590|graph-as-json">
+       <cvUntyped to="xs:string">
+        <data>
+         <supplied slot="0"/>
+        </data>
+       </cvUntyped>
+      </check>
+     </treat>
+    </param>
+    <param line="32" name="Q{}debug" slot="1" as="xs:boolean">
+     <true role="select"/>
+     <treat role="conversion" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|debug">
+      <check card="1" diag="8|0|XTTE0590|debug">
+       <cvUntyped to="xs:boolean">
+        <data>
+         <supplied slot="1"/>
+        </data>
+       </cvUntyped>
+      </check>
+     </treat>
+    </param>
+    <param line="33" name="Q{}retain-layout" slot="2" as="xs:boolean">
+     <false role="select"/>
+     <treat role="conversion" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|retain-layout">
+      <check card="1" diag="8|0|XTTE0590|retain-layout">
+       <cvUntyped to="xs:boolean">
+        <data>
+         <supplied slot="2"/>
+        </data>
+       </cvUntyped>
+      </check>
+     </treat>
+    </param>
+    <let line="36" var="graph" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}map))" slot="3" eval="7">
+     <treat as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}map))" jsTest="function e(item) {var q=SaxonJS.U.nameOfNode(item); return q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';};return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9 || item.nodeType===11) &amp;&amp; SaxonJS.U.Axis.child(item).filter(e).next();" diag="3|0|XTTE0570|graph">
+      <check card="1" diag="3|0|XTTE0570|graph">
+       <fn name="json-to-xml">
+        <varRef name="graph-as-json" slot="0"/>
+       </fn>
+      </check>
+     </treat>
+     <let line="38" var="simplify-json-representation" as="document-node()" slot="4" eval="7">
+      <doc line="39" validation="preserve">
+       <applyT mode="Q{}simplify-json-representation" bSlot="0">
+        <varRef role="select" name="graph" slot="3"/>
+        <withParam name="Q{}retain-layout" flags="t" as="xs:boolean">
+         <varRef line="40" name="retain-layout" slot="2"/>
+        </withParam>
+       </applyT>
+      </doc>
+      <let line="44" var="xprocify" as="document-node()" slot="5" eval="7">
+       <doc line="45" validation="preserve">
+        <applyT mode="Q{}xprocify" bSlot="1">
+         <varRef role="select" name="simplify-json-representation" slot="4"/>
+        </applyT>
+       </doc>
+       <let line="48" var="clean" as="document-node()" slot="6" eval="7">
+        <doc line="49" validation="preserve">
+         <applyT mode="Q{}clean" bSlot="2">
+          <varRef role="select" name="xprocify" slot="5"/>
+         </applyT>
+        </doc>
+        <sequence line="52">
+         <choose>
+          <varRef name="debug" slot="1"/>
+          <sequence line="53">
+           <message>
+            <sequence role="select">
+             <str val="########JSON GRAPH: "/>
+             <varRef name="graph-as-json" slot="0"/>
+            </sequence>
+            <str role="terminate" val="no"/>
+            <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
+           </message>
+           <message line="54">
+            <sequence role="select">
+             <str val="########XML GRAPH: "/>
+             <fn name="serialize">
+              <varRef name="graph" slot="3"/>
+             </fn>
+            </sequence>
+            <str role="terminate" val="no"/>
+            <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
+           </message>
+           <message line="55">
+            <sequence role="select">
+             <str val="########SIMPLIFY: "/>
+             <fn name="serialize">
+              <varRef name="simplify-json-representation" slot="4"/>
+             </fn>
+            </sequence>
+            <str role="terminate" val="no"/>
+            <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
+           </message>
+           <message line="56">
+            <sequence role="select">
+             <str val="########XPROCIFY: "/>
+             <fn name="serialize">
+              <varRef name="xprocify" slot="5"/>
+             </fn>
+            </sequence>
+            <str role="terminate" val="no"/>
+            <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
+           </message>
+          </sequence>
+         </choose>
+         <varRef line="60" name="clean" slot="6"/>
+        </sequence>
+       </let>
+      </let>
+     </let>
+    </let>
+   </sequence>
+  </template>
+ </co>
+ <co id="11" binds="">
+  <function name="Q{bogo:my}index-of" line="323" module="xproceditor-noninteractive.xsl" eval="7" flags="pU" as="xs:integer" slots="2">
+   <arg name="seq" as="node()*"/>
+   <arg name="srch" as="node()*"/>
+   <check role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="326" card="1" diag="5|0|XTTE0780|my:index-of">
+    <fn name="index-of">
+     <slash>
+      <varRef name="seq" slot="0"/>
+      <fn name="generate-id">
+       <dot type="node()"/>
+      </fn>
+     </slash>
+     <check card="1" diag="0|1||fn:index-of">
+      <slash>
+       <varRef name="srch" slot="1"/>
+       <fn name="generate-id">
+        <dot type="node()"/>
+       </fn>
+      </slash>
+     </check>
+    </fn>
+   </check>
+  </function>
+ </co>
+ <co id="9" binds="4 4">
   <mode name="Q{}simplify-json-representation" onNo="TC" flags="W" patternSlots="0">
-   <templateRule prec="1" prio="1.0" seq="8" rank="3" minImp="0" slots="1" flags="s" line="84" module="xproceditor.xsl">
+   <templateRule prec="0" prio="1.0" seq="4" rank="2" minImp="0" slots="1" flags="s" line="99" module="xproceditor-noninteractive.xsl">
     <p.withPredicate role="match">
      <p.nodeTest test="Q{http://www.w3.org/2005/xpath-functions}*" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.uri==='http://www.w3.org/2005/xpath-functions'"/>
-     <gc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="84" op="=" card="N:1" comp="CCC">
+     <gc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="99" op="=" card="N:1" comp="CCC">
       <literal count="6">
        <str val="size"/>
        <str val="position"/>
        <str val="angle"/>
        <str val="z"/>
-       <str val="attrs"/>
+       <str val="label"/>
        <str val="markup"/>
       </literal>
       <attVal name="Q{}key" chk="0"/>
      </gc>
     </p.withPredicate>
-    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="85">
+    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="100">
      <param name="Q{}retain-layout" slot="0" flags="t" as="xs:boolean?">
       <empty role="select"/>
       <treat role="conversion" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|retain-layout">
@@ -161,42 +410,42 @@
        </check>
       </treat>
      </param>
-     <choose line="86">
+     <choose line="101">
       <varRef name="retain-layout" slot="0"/>
-      <nextMatch line="87" flags="t"/>
+      <nextMatch line="102" flags="t"/>
      </choose>
     </sequence>
    </templateRule>
-   <templateRule prec="1" prio="0.5" seq="7" rank="2" minImp="0" slots="0" flags="s" line="78" module="xproceditor.xsl">
+   <templateRule prec="0" prio="0.5" seq="3" rank="1" minImp="0" slots="0" flags="s" line="92" module="xproceditor-noninteractive.xsl">
     <p.withUpper role="match" axis="parent" upFirst="false">
      <p.withPredicate>
       <p.withPredicate>
        <p.nodeTest test="Q{http://www.w3.org/2005/xpath-functions}*" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.uri==='http://www.w3.org/2005/xpath-functions'"/>
-       <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="78" name="not">
+       <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="92" name="not">
         <or op="or">
          <axis name="self" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
          <axis name="self" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}array)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='array';"/>
         </or>
        </fn>
       </p.withPredicate>
-      <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="78" name="not">
+      <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="92" name="not">
        <axis name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
       </fn>
      </p.withPredicate>
      <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}array)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='array';"/>
     </p.withUpper>
-    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="80" name="value" nsuri="">
+    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="94" name="value" nsuri="http://www.w3.org/2005/xpath-functions" flags="d" namespaces="c p">
      <applyT flags="ci" bSlot="-1">
       <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
      </applyT>
     </elem>
    </templateRule>
-   <templateRule prec="1" prio="0.5" seq="6" rank="2" minImp="0" slots="1" flags="s" line="67" module="xproceditor.xsl">
+   <templateRule prec="0" prio="0.5" seq="1" rank="1" minImp="0" slots="1" flags="s" line="70" module="xproceditor-noninteractive.xsl">
     <p.withPredicate role="match">
      <p.nodeTest test="Q{http://www.w3.org/2005/xpath-functions}*" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.uri==='http://www.w3.org/2005/xpath-functions'"/>
-     <axis defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="67" name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
+     <axis defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="70" name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
     </p.withPredicate>
-    <let role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="68" var="normalized" as="xs:string" slot="0" eval="7">
+    <let role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="71" var="normalized" as="xs:string" slot="0" eval="7">
      <ufCall name="Q{bogo:my}normalize-map-key" tailCall="false" bSlot="0" eval="7">
       <check card="1" diag="0|0||my:normalize-map-key">
        <cvUntyped to="xs:string">
@@ -204,9 +453,9 @@
        </cvUntyped>
       </check>
      </ufCall>
-     <compElem line="69">
+     <compElem line="72">
       <varRef role="name" name="normalized" slot="0"/>
-      <sequence role="content" line="70">
+      <sequence role="content" line="73">
        <choose>
         <fn name="not">
          <gc op="=" card="1:1" comp="CCC">
@@ -214,35 +463,89 @@
           <varRef name="normalized" slot="0"/>
          </gc>
         </fn>
-        <att line="71" name="was" flags="l">
+        <att line="74" name="was" flags="l">
          <convert from="xs:untypedAtomic" to="xs:string">
           <attVal name="Q{}key" chk="0"/>
          </convert>
         </att>
        </choose>
-       <applyT line="73" flags="ci" bSlot="-1">
+       <applyT line="76" flags="ci" bSlot="-1">
         <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
        </applyT>
       </sequence>
      </compElem>
     </let>
    </templateRule>
-   <templateRule prec="0" prio="1.0" seq="2" rank="1" minImp="0" slots="1" flags="s" line="59" module="xproceditor-noninteractive.xsl">
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="64" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;"/>
+    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="66" flags="cin">
+     <applyT role="content" flags="c" bSlot="-1">
+      <sequence role="select">
+       <axis name="attribute" nodeTest="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
+       <axis name="child" nodeTest="( element() | text() | comment() | processing-instruction() )" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===1 || item.nodeType===3 || item.nodeType===7 || item.nodeType===8);"/>
+      </sequence>
+     </applyT>
+    </copy>
+   </templateRule>
+   <templateRule prec="0" prio="0.5" seq="9" rank="1" minImp="0" slots="0" flags="s" line="145" module="xproceditor-noninteractive.xsl">
     <p.withPredicate role="match">
-     <p.nodeTest test="Q{http://www.w3.org/2005/xpath-functions}*" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.uri==='http://www.w3.org/2005/xpath-functions'"/>
-     <gc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="59" op="=" card="N:1" comp="CCC">
-      <literal count="6">
-       <str val="size"/>
-       <str val="position"/>
-       <str val="angle"/>
-       <str val="z"/>
-       <str val="attrs"/>
-       <str val="markup"/>
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}array)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='array';"/>
+     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="145" name="empty">
+      <axis name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
+     </fn>
+    </p.withPredicate>
+    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="147" name="anonymous-array" nsuri="http://www.w3.org/2005/xpath-functions" flags="d" namespaces="c p">
+     <applyT flags="ci" bSlot="-1">
+      <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
+     </applyT>
+    </elem>
+   </templateRule>
+   <templateRule prec="0" prio="1.0" seq="8" rank="2" minImp="0" slots="0" flags="s" line="138" module="xproceditor-noninteractive.xsl">
+    <p.withUpper role="match" axis="parent" upFirst="false">
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
+     <p.nodeTest test="document-node()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11);"/>
+    </p.withUpper>
+    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="140" name="doc" nsuri="http://www.w3.org/2005/xpath-functions" flags="d" namespaces="c p">
+     <applyT flags="ci" bSlot="-1">
+      <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
+     </applyT>
+    </elem>
+   </templateRule>
+   <templateRule prec="0" prio="1.0" seq="7" rank="2" minImp="0" slots="0" flags="s" line="119" module="xproceditor-noninteractive.xsl">
+    <p.withPredicate role="match">
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
+     <gc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="119" op="=" card="N:1" comp="CCC">
+      <literal count="3">
+       <str val="ports"/>
+       <str val="router"/>
+       <str val="connector"/>
       </literal>
       <attVal name="Q{}key" chk="0"/>
      </gc>
     </p.withPredicate>
-    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="60">
+    <empty role="action"/>
+   </templateRule>
+   <templateRule prec="0" prio="1.0" seq="6" rank="2" minImp="0" slots="0" flags="s" line="115" module="xproceditor-noninteractive.xsl">
+    <p.withPredicate role="match">
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
+     <gc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="115" op="=" card="1:1" comp="CCC">
+      <attVal name="Q{}key" chk="0"/>
+      <str val=".label"/>
+     </gc>
+    </p.withPredicate>
+    <applyT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="116" flags="cti" bSlot="-1">
+     <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
+    </applyT>
+   </templateRule>
+   <templateRule prec="0" prio="1.0" seq="5" rank="2" minImp="0" slots="2" flags="s" line="106" module="xproceditor-noninteractive.xsl">
+    <p.withPredicate role="match">
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
+     <gc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="106" op="=" card="1:1" comp="CCC">
+      <attVal name="Q{}key" chk="0"/>
+      <str val="attrs"/>
+     </gc>
+    </p.withPredicate>
+    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="107">
      <param name="Q{}retain-layout" slot="0" flags="t" as="xs:boolean?">
       <empty role="select"/>
       <treat role="conversion" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|retain-layout">
@@ -255,890 +558,760 @@
        </check>
       </treat>
      </param>
-     <choose line="61">
-      <varRef name="retain-layout" slot="0"/>
-      <nextMatch line="62" flags="t"/>
-     </choose>
+     <let line="108" var="label" as="element(Q{http://www.w3.org/2005/xpath-functions}map)?" slot="1" eval="7">
+      <check card="?" diag="3|0|XTTE0570|label">
+       <filter flags="b">
+        <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
+        <gc op="=" card="1:1" comp="CCC">
+         <attVal name="Q{}key" chk="0"/>
+         <str val=".label"/>
+        </gc>
+       </filter>
+      </check>
+      <sequence line="109">
+       <applyT flags="c" bSlot="-1">
+        <varRef role="select" name="label" slot="1"/>
+       </applyT>
+       <choose line="110">
+        <varRef name="retain-layout" slot="0"/>
+        <applyT line="111" flags="ct" bSlot="-1">
+         <except role="select" op="except">
+          <axis name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+          <varRef name="label" slot="1"/>
+         </except>
+        </applyT>
+       </choose>
+      </sequence>
+     </let>
     </sequence>
    </templateRule>
-   <templateRule prec="0" prio="0.5" seq="1" rank="0" minImp="0" slots="0" flags="s" line="53" module="xproceditor-noninteractive.xsl">
-    <p.withUpper role="match" axis="parent" upFirst="false">
+   <templateRule prec="0" prio="1.0" seq="2" rank="2" minImp="0" slots="1" flags="s" line="81" module="xproceditor-noninteractive.xsl">
+    <p.withPredicate role="match">
      <p.withPredicate>
-      <p.withPredicate>
-       <p.nodeTest test="Q{http://www.w3.org/2005/xpath-functions}*" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.uri==='http://www.w3.org/2005/xpath-functions'"/>
-       <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="53" name="not">
-        <or op="or">
-         <axis name="self" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
-         <axis name="self" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}array)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='array';"/>
-        </or>
-       </fn>
-      </p.withPredicate>
-      <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="53" name="not">
+      <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
+      <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="81" name="empty">
        <axis name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
       </fn>
      </p.withPredicate>
-     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}array)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='array';"/>
-    </p.withUpper>
-    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="55" name="value" nsuri="" namespaces="xs my fn output math p">
-     <applyT flags="ci" bSlot="-1">
-      <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
-     </applyT>
-    </elem>
-   </templateRule>
-   <templateRule prec="0" prio="0.5" seq="0" rank="0" minImp="0" slots="1" flags="s" line="42" module="xproceditor-noninteractive.xsl">
-    <p.withPredicate role="match">
-     <p.nodeTest test="Q{http://www.w3.org/2005/xpath-functions}*" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.uri==='http://www.w3.org/2005/xpath-functions'"/>
-     <axis defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="42" name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
+     <filter defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="81" flags="b">
+      <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}string)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='string';"/>
+      <gc op="=" card="1:1" comp="CCC">
+       <attVal name="Q{}key" chk="0"/>
+       <str val="type"/>
+      </gc>
+     </filter>
     </p.withPredicate>
-    <let role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="43" var="normalized" as="xs:string" slot="0" eval="7">
+    <let role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="82" var="normalized" as="xs:string" slot="0" eval="7">
      <ufCall name="Q{bogo:my}normalize-map-key" tailCall="false" bSlot="1" eval="7">
       <check card="1" diag="0|0||my:normalize-map-key">
        <cvUntyped to="xs:string">
-        <attVal name="Q{}key" chk="0"/>
+        <data>
+         <filter flags="b">
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}string)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='string';"/>
+          <gc op="=" card="1:1" comp="CCC">
+           <attVal name="Q{}key" chk="0"/>
+           <str val="type"/>
+          </gc>
+         </filter>
+        </data>
        </cvUntyped>
       </check>
      </ufCall>
-     <compElem line="44">
+     <compElem line="83">
       <varRef role="name" name="normalized" slot="0"/>
-      <sequence role="content" line="45">
+      <sequence role="content" line="84">
        <choose>
         <fn name="not">
-         <gc op="=" card="1:1" comp="CCC">
-          <attVal name="Q{}key" chk="0"/>
+         <gc op="=" card="N:1" comp="CCC">
+          <data>
+           <filter flags="b">
+            <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}string)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='string';"/>
+            <gc op="=" card="1:1" comp="CCC">
+             <attVal name="Q{}key" chk="0"/>
+             <str val="type"/>
+            </gc>
+           </filter>
+          </data>
           <varRef name="normalized" slot="0"/>
          </gc>
         </fn>
-        <att line="46" name="was" flags="l">
-         <convert from="xs:untypedAtomic" to="xs:string">
-          <attVal name="Q{}key" chk="0"/>
-         </convert>
+        <att line="85" name="was" flags="l">
+         <fn name="string-join">
+          <convert from="xs:untypedAtomic" to="xs:string">
+           <data>
+            <filter flags="b">
+             <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}string)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='string';"/>
+             <gc op="=" card="1:1" comp="CCC">
+              <attVal name="Q{}key" chk="0"/>
+              <str val="type"/>
+             </gc>
+            </filter>
+           </data>
+          </convert>
+          <str val=" "/>
+         </fn>
         </att>
        </choose>
-       <applyT line="48" flags="ci" bSlot="-1">
-        <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
+       <applyT line="87" flags="c" bSlot="-1">
+        <except role="select" op="except">
+         <axis name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+         <filter flags="b">
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}string)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='string';"/>
+          <gc op="=" card="1:1" comp="CCC">
+           <attVal name="Q{}key" chk="0"/>
+           <str val="type"/>
+          </gc>
+         </filter>
+        </except>
        </applyT>
       </sequence>
      </compElem>
     </let>
    </templateRule>
-   <templateRule prec="1" prio="0.5" seq="10" rank="2" minImp="0" slots="0" flags="s" line="113" module="xproceditor.xsl">
+   <templateRule prec="0" prio="0.5" seq="10" rank="1" minImp="0" slots="0" flags="s" line="152" module="xproceditor-noninteractive.xsl">
     <p.withPredicate role="match">
-     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}array)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='array';"/>
-     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="113" name="empty">
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
+     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="152" name="empty">
       <axis name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
      </fn>
     </p.withPredicate>
-    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="115" name="anonymous-array" nsuri="">
+    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="154" name="anonymous-map" nsuri="http://www.w3.org/2005/xpath-functions" flags="d" namespaces="c p">
      <applyT flags="ci" bSlot="-1">
       <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
      </applyT>
     </elem>
    </templateRule>
-   <templateRule prec="0" prio="0.5" seq="4" rank="0" minImp="0" slots="0" flags="s" line="88" module="xproceditor-noninteractive.xsl">
-    <p.withPredicate role="match">
-     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}array)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='array';"/>
-     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="88" name="empty">
-      <axis name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
-     </fn>
-    </p.withPredicate>
-    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="90" name="anonymous-array" nsuri="" namespaces="xs my fn output math p">
-     <applyT flags="ci" bSlot="-1">
-      <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="64" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
+    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="66" flags="cin">
+     <applyT role="content" flags="c" bSlot="-1">
+      <sequence role="select">
+       <axis name="attribute" nodeTest="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
+       <axis name="child" nodeTest="( element() | text() | comment() | processing-instruction() )" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===1 || item.nodeType===3 || item.nodeType===7 || item.nodeType===8);"/>
+      </sequence>
      </applyT>
-    </elem>
-   </templateRule>
-   <templateRule prec="1" prio="1.0" seq="9" rank="3" minImp="0" slots="0" flags="s" line="107" module="xproceditor.xsl">
-    <p.withUpper role="match" axis="parent" upFirst="false">
-     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
-     <p.nodeTest test="document-node()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11);"/>
-    </p.withUpper>
-    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="109" name="doc" nsuri="">
-     <applyT flags="ci" bSlot="-1">
-      <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
-     </applyT>
-    </elem>
-   </templateRule>
-   <templateRule prec="1" prio="0.5" seq="11" rank="2" minImp="0" slots="0" flags="s" line="119" module="xproceditor.xsl">
-    <p.withPredicate role="match">
-     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
-     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="119" name="empty">
-      <axis name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
-     </fn>
-    </p.withPredicate>
-    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="121" name="anonymous-map" nsuri="">
-     <applyT flags="ci" bSlot="-1">
-      <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
-     </applyT>
-    </elem>
-   </templateRule>
-   <templateRule prec="0" prio="1.0" seq="3" rank="1" minImp="0" slots="0" flags="s" line="82" module="xproceditor-noninteractive.xsl">
-    <p.withUpper role="match" axis="parent" upFirst="false">
-     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
-     <p.nodeTest test="document-node()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11);"/>
-    </p.withUpper>
-    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="84" name="doc" nsuri="" namespaces="xs my fn output math p">
-     <applyT flags="ci" bSlot="-1">
-      <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
-     </applyT>
-    </elem>
-   </templateRule>
-   <templateRule prec="0" prio="0.5" seq="5" rank="0" minImp="0" slots="0" flags="s" line="94" module="xproceditor-noninteractive.xsl">
-    <p.withPredicate role="match">
-     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';"/>
-     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="94" name="empty">
-      <axis name="attribute" nodeTest="attribute(Q{}key)" jsTest="return item.name==='key'"/>
-     </fn>
-    </p.withPredicate>
-    <elem role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="96" name="anonymous-map" nsuri="" namespaces="xs my fn output math p">
-     <applyT flags="ci" bSlot="-1">
-      <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
-     </applyT>
-    </elem>
+    </copy>
    </templateRule>
   </mode>
  </co>
- <co id="9" binds="10 10 11 10 10 11">
-  <mode name="Q{}xprocify" onNo="TC" flags="W" patternSlots="0">
-   <templateRule prec="1" prio="0.5" seq="2" rank="3" minImp="0" slots="4" flags="s" line="138" module="xproceditor.xsl">
-    <p.withUpper role="match" axis="ancestor" upFirst="false">
-     <p.withPredicate>
-      <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-      <vc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="138" op="eq" comp="CCC">
-       <atomSing card="?" diag="1|0||eq">
-        <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-       </atomSing>
-       <str val="xproc.Pipeline"/>
-      </vc>
-     </p.withPredicate>
-     <p.nodeTest test="document-node()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11);"/>
-    </p.withUpper>
-    <elem xmlns:p="http://www.w3.org/ns/xproc" role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="p=http://www.w3.org/ns/xproc xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization c=http://www.w3.org/ns/xproc-step fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="140" name="p:declare-step" nsuri="http://www.w3.org/ns/xproc" namespaces="c">
-     <let line="142" var="vv:cc-1974740722" as="*:anonymous-map*" slot="0" eval="4">
-      <slash simple="1">
-       <root/>
-       <axis name="descendant" nodeTest="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-      </slash>
-      <sequence line="140">
-       <att name="version" flags="l">
-        <str val="1.0"/>
-       </att>
-       <message line="142">
-        <sequence role="select">
-         <str val="---------------------"/>
-         <varRef name="vv:cc-1974740722" slot="0"/>
-         <str val=" ///"/>
-         <fn name="count">
-          <fn name="key">
-           <str val="Q{http://saxon.sf.net/}kk103"/>
-           <str val="xproc.Option"/>
-           <root/>
-          </fn>
-         </fn>
-         <fn name="distinct-values">
-          <data>
-           <docOrder intra="1">
-            <slash>
-             <varRef name="vv:cc-1974740722" slot="0"/>
-             <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-            </slash>
-           </docOrder>
-          </data>
-         </fn>
-        </sequence>
+ <co id="12" binds="13 14">
+  <template name="Q{}process-subpipeline" flags="os" line="185" module="xproceditor-noninteractive.xsl" slots="3">
+   <let role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="187" var="to-be-processed" as="element()*" slot="0" eval="3">
+    <treat as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|to-be-processed">
+     <filter flags="b">
+      <fn name="key">
+       <str val="step-by-id"/>
+       <data>
+        <slash>
+         <slash simple="1">
+          <treat as="node()" jsTest="return SaxonJS.U.isNode(item);" diag="14|3|XPTY0020|">
+           <dot flags="a"/>
+          </treat>
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}embeds)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='embeds';"/>
+         </slash>
+         <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}value)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='value';"/>
+        </slash>
+       </data>
+      </fn>
+      <gc op="=" card="N:1" comp="CCC">
+       <literal count="3">
+        <str val="xproc.Atomic"/>
+        <str val="xproc.Compound"/>
+        <str val="xproc.Variable"/>
+       </literal>
+       <fn name="local-name">
+        <dot type="node()"/>
+       </fn>
+      </gc>
+     </filter>
+    </treat>
+    <let line="229" var="plan-with-positions" as="element(Q{http://www.w3.org/2005/xpath-functions}plan)" slot="1" eval="7">
+     <treat line="230" as="element(Q{http://www.w3.org/2005/xpath-functions}plan)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan';" diag="3|0|XTTE0570|plan-with-positions">
+      <check card="1" diag="3|0|XTTE0570|plan-with-positions">
+       <applyT mode="Q{}plan-add-position" bSlot="0">
+        <treat role="select" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="191" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}plan))" jsTest="function e(item) {var q=SaxonJS.U.nameOfNode(item); return q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan';};return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9 || item.nodeType===11) &amp;&amp; SaxonJS.U.Axis.child(item).filter(e).next();" diag="3|0|XTTE0570|plan">
+         <doc>
+          <elem name="plan" nsuri="http://www.w3.org/2005/xpath-functions" flags="dl" namespaces="c p">
+           <forEachGroup algorithm="by">
+            <ufCall role="select" name="Q{bogo:my}plan" tailCall="false" bSlot="1" eval="11 4">
+             <sequence>
+              <treat as="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;" diag="0|0||my:plan">
+               <dot flags="a"/>
+              </treat>
+              <varRef name="to-be-processed" slot="0"/>
+             </sequence>
+             <check card="1" diag="0|1||my:plan">
+              <cvUntyped to="xs:string">
+               <data>
+                <slash simple="1">
+                 <treat as="node()" jsTest="return SaxonJS.U.isNode(item);" diag="14|3|XPTY0020|">
+                  <dot flags="a"/>
+                 </treat>
+                 <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+                </slash>
+               </data>
+              </cvUntyped>
+             </check>
+            </ufCall>
+            <attVal role="key" name="Q{}id" chk="0"/>
+            <str role="collation" val="http://www.w3.org/2005/xpath-functions/collation/codepoint"/>
+            <dot role="content" line="192" type="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)"/>
+           </forEachGroup>
+          </elem>
+         </doc>
+        </treat>
+       </applyT>
+      </check>
+     </treat>
+     <let ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="232" var="sorted-plan-items" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}plan))" slot="2" eval="7">
+      <treat line="235" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}plan))" jsTest="function e(item) {var q=SaxonJS.U.nameOfNode(item); return q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan';};return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9 || item.nodeType===11) &amp;&amp; SaxonJS.U.Axis.child(item).filter(e).next();" diag="3|0|XTTE0570|sorted-plan-items">
+       <doc>
+        <elem name="plan" nsuri="http://www.w3.org/2005/xpath-functions" flags="dl" namespaces="c p">
+         <sort>
+          <slash role="select" simple="1">
+           <varRef name="plan-with-positions" slot="1"/>
+           <axis name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+          </slash>
+          <sortKey line="236" comp="CCC">
+           <data role="select">
+            <first>
+             <sequence>
+              <slash>
+               <filter flags="b">
+                <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}sort-before)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='sort-before';"/>
+                <fn name="empty">
+                 <axis module="xproceditor-noninteractive.xsl" line="236" name="following-sibling" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}sort-before)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='sort-before';"/>
+                </fn>
+               </filter>
+               <axis name="attribute" nodeTest="attribute(Q{}pos)" jsTest="return item.name==='pos'"/>
+              </slash>
+              <axis name="attribute" nodeTest="attribute(Q{}pos)" jsTest="return item.name==='pos'"/>
+             </sequence>
+            </first>
+           </data>
+           <str role="order" val="ascending"/>
+           <str role="lang" val=""/>
+           <str role="caseOrder" val="#default"/>
+           <str role="stable" val="yes"/>
+           <str role="collation" val="http://www.w3.org/2005/xpath-functions/collation/codepoint"/>
+          </sortKey>
+          <sortKey line="237" comp="DESC|AtSC|632|http://www.w3.org/2005/xpath-functions/collation/codepoint">
+           <atomSing role="select" card="?" diag="4|0|XTTE1020|xsl:sort/select">
+            <first>
+             <sequence>
+              <slash>
+               <filter flags="b">
+                <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}sort-before)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='sort-before';"/>
+                <fn name="empty">
+                 <axis module="xproceditor-noninteractive.xsl" line="237" name="following-sibling" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}sort-before)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='sort-before';"/>
+                </fn>
+               </filter>
+               <axis name="attribute" nodeTest="attribute(Q{}distance)" jsTest="return item.name==='distance'"/>
+              </slash>
+              <int val="0"/>
+             </sequence>
+            </first>
+           </atomSing>
+           <str role="order" val="descending"/>
+           <str role="lang" val=""/>
+           <str role="caseOrder" val="#default"/>
+           <str role="stable" val="yes"/>
+           <str role="collation" val="http://www.w3.org/2005/xpath-functions/collation/codepoint"/>
+          </sortKey>
+         </sort>
+        </elem>
+       </doc>
+      </treat>
+      <sequence ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="243">
+       <message>
+        <varRef role="select" name="sorted-plan-items" slot="2"/>
         <str role="terminate" val="no"/>
         <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
        </message>
-       <let line="144" var="pipe-id" as="xs:string" slot="1" eval="7">
-        <check card="1" diag="3|0|XTTE0570|pipe-id">
-         <cvUntyped to="xs:string">
-          <data>
-           <axis name="child" nodeTest="*:stepid" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepid'"/>
-          </data>
-         </cvUntyped>
-        </check>
-        <let line="148" var="next-step-id" as="(element() intersect *:id)" slot="2" eval="7">
-         <treat as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|next-step-id">
-          <check card="1" diag="3|0|XTTE0570|next-step-id">
-           <docOrder intra="1">
-            <slash>
-             <docOrder intra="1">
-              <slash>
-               <fn name="key">
-                <str val="connect"/>
-                <varRef name="pipe-id" slot="1"/>
-               </fn>
-               <axis name="child" nodeTest="*:target" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='target'"/>
-              </slash>
-             </docOrder>
-             <axis name="child" nodeTest="*:id" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='id'"/>
-            </slash>
-           </docOrder>
-          </check>
+       <applyT line="245" flags="ct" bSlot="-1">
+        <filter role="select" flags="b">
+         <slash>
+          <slash simple="1">
+           <varRef name="sorted-plan-items" slot="2"/>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}plan)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan';"/>
+          </slash>
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan-item';"/>
+         </slash>
+         <fn name="exists">
+          <axis name="attribute" nodeTest="attribute(Q{}container)" jsTest="return item.name==='container'"/>
+         </fn>
+        </filter>
+        <withParam name="Q{}simplified-graph" flags="t" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}doc))">
+         <treat line="246" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}doc))" jsTest="function e(item) {var q=SaxonJS.U.nameOfNode(item); return q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='doc';};return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9 || item.nodeType===11) &amp;&amp; SaxonJS.U.Axis.child(item).filter(e).next();" diag="8|0|XTTE0590|simplified-graph">
+          <fn name="root">
+           <treat as="node()" jsTest="return SaxonJS.U.isNode(item);" diag="0|0||fn:root">
+            <dot flags="a"/>
+           </treat>
+          </fn>
          </treat>
-         <let line="149" var="vv:v0" as="xs:untypedAtomic" slot="3" eval="13">
-          <data>
-           <varRef name="next-step-id" slot="2"/>
-          </data>
-          <sequence line="150">
-           <applyT mode="Q{}xprocify-ports" bSlot="0">
-            <treat role="select" line="145" as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|pipe-ports">
-             <check card="1" diag="3|0|XTTE0570|pipe-ports">
-              <axis name="child" nodeTest="*:portdata" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portdata'"/>
-             </check>
-            </treat>
-           </applyT>
-           <applyT line="151" mode="Q{}xprocify-ports" bSlot="1">
-            <treat role="select" line="146" as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|pipe-opts">
-             <fn name="key">
-              <str val="options"/>
-              <varRef name="pipe-id" slot="1"/>
-             </fn>
-            </treat>
-            <withParam name="Q{}global" as="xs:boolean">
-             <true/>
-            </withParam>
-           </applyT>
-           <applyT line="154" mode="Q{}xprocify-next" bSlot="2">
-            <filter role="select" line="149" flags="">
-             <fn name="key">
-              <str val="Q{http://saxon.sf.net/}kk103"/>
-              <str val="xproc.Atomic"/>
-              <root/>
-             </fn>
-             <vc op="eq" comp="CCC">
-              <atomSing card="?" diag="1|0||eq">
-               <axis name="child" nodeTest="*:stepid" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepid'"/>
-              </atomSing>
-              <varRef name="vv:v0" slot="3"/>
-             </vc>
-            </filter>
-           </applyT>
-          </sequence>
-         </let>
-        </let>
-       </let>
-      </sequence>
-     </let>
-    </elem>
-   </templateRule>
-   <templateRule prec="1" prio="-10.0" seq="3" rank="2" minImp="0" slots="0" flags="s" line="219" module="xproceditor.xsl">
-    <p.nodeTest role="match" test="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;"/>
-    <applyT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="220" flags="ct" bSlot="-1">
-     <axis role="select" name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
-    </applyT>
-   </templateRule>
-   <templateRule prec="0" prio="0.5" seq="0" rank="1" minImp="0" slots="3" flags="s" line="113" module="xproceditor-noninteractive.xsl">
-    <p.withUpper role="match" axis="ancestor" upFirst="false">
-     <p.withPredicate>
-      <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-      <vc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="113" op="eq" comp="CCC">
-       <atomSing card="?" diag="1|0||eq">
-        <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-       </atomSing>
-       <str val="xproc.Pipeline"/>
-      </vc>
-     </p.withPredicate>
-     <p.nodeTest test="document-node()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11);"/>
-    </p.withUpper>
-    <elem xmlns:p="http://www.w3.org/ns/xproc" role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="p=http://www.w3.org/ns/xproc xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="115" name="p:declare-step" nsuri="http://www.w3.org/ns/xproc" namespaces="p c xs my fn output math">
-     <sequence>
-      <att name="version" flags="l">
-       <str val="1.0"/>
-      </att>
-      <let line="116" var="pipe-id" as="xs:ID" slot="0" eval="7">
-       <check card="1" diag="3|0|XTTE0570|pipe-id">
-        <cvUntyped to="xs:ID">
-         <data>
-          <axis name="child" nodeTest="*:stepId" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepId'"/>
-         </data>
-        </cvUntyped>
-       </check>
-       <let line="119" var="next-step-id" as="(element() intersect *:id)" slot="1" eval="7">
-        <treat as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|next-step-id">
-         <check card="1" diag="3|0|XTTE0570|next-step-id">
-          <docOrder intra="1">
-           <slash>
-            <docOrder intra="1">
-             <slash>
-              <fn name="key">
-               <str val="connect"/>
-               <varRef name="pipe-id" slot="0"/>
-              </fn>
-              <axis name="child" nodeTest="*:target" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='target'"/>
-             </slash>
-            </docOrder>
-            <axis name="child" nodeTest="*:id" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='id'"/>
-           </slash>
-          </docOrder>
-         </check>
-        </treat>
-        <let line="120" var="vv:v0" as="xs:untypedAtomic" slot="2" eval="13">
-         <data>
-          <varRef name="next-step-id" slot="1"/>
-         </data>
-         <sequence line="121">
-          <applyT mode="Q{}xprocify-ports" bSlot="3">
-           <treat role="select" line="117" as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|pipe-ports">
-            <check card="1" diag="3|0|XTTE0570|pipe-ports">
-             <axis name="child" nodeTest="*:portData" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portData'"/>
-            </check>
-           </treat>
-          </applyT>
-          <applyT line="122" mode="Q{}xprocify-ports" bSlot="4">
-           <treat role="select" line="118" as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|pipe-opts">
-            <fn name="key">
-             <str val="options"/>
-             <varRef name="pipe-id" slot="0"/>
-            </fn>
-           </treat>
-           <withParam name="Q{}global" as="xs:boolean">
-            <true/>
-           </withParam>
-          </applyT>
-          <applyT line="125" mode="Q{}xprocify-next" bSlot="5">
-           <filter role="select" line="120" flags="">
-            <fn name="key">
-             <str val="Q{http://saxon.sf.net/}kk103"/>
-             <str val="xproc.Atomic"/>
-             <root/>
-            </fn>
-            <vc op="eq" comp="CCC">
-             <atomSing card="?" diag="1|0||eq">
-              <axis name="child" nodeTest="*:stepId" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepId'"/>
-             </atomSing>
-             <varRef name="vv:v0" slot="2"/>
-            </vc>
-           </filter>
-          </applyT>
-         </sequence>
-        </let>
-       </let>
-      </let>
-     </sequence>
-    </elem>
-   </templateRule>
-   <templateRule prec="0" prio="-10.0" seq="1" rank="0" minImp="0" slots="0" flags="s" line="190" module="xproceditor-noninteractive.xsl">
-    <p.nodeTest role="match" test="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;"/>
-    <applyT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="191" flags="ct" bSlot="-1">
-     <axis role="select" name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
-    </applyT>
-   </templateRule>
-   <templateRule prec="1" prio="-10.0" seq="3" rank="2" minImp="0" slots="0" flags="s" line="219" module="xproceditor.xsl">
-    <p.nodeTest role="match" test="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
-    <applyT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="220" flags="ct" bSlot="-1">
-     <axis role="select" name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
-    </applyT>
-   </templateRule>
-   <templateRule prec="0" prio="-10.0" seq="1" rank="0" minImp="0" slots="0" flags="s" line="190" module="xproceditor-noninteractive.xsl">
-    <p.nodeTest role="match" test="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
-    <applyT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="191" flags="ct" bSlot="-1">
-     <axis role="select" name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
-    </applyT>
-   </templateRule>
-  </mode>
- </co>
- <co id="11" binds="12 11 12 10 11">
-  <mode name="Q{}xprocify-next" onNo="TC" flags="W" patternSlots="0">
-   <templateRule prec="1" prio="0.5" seq="1" rank="1" minImp="0" slots="3" flags="s" line="160" module="xproceditor.xsl">
-    <p.withPredicate role="match">
-     <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-     <gc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="160" op="=" card="M:N" comp="CCC">
-      <data>
-       <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-      </data>
-      <literal count="2">
-       <str val="xproc.Atomic"/>
-       <str val="xproc.Compound"/>
-      </literal>
-     </gc>
-    </p.withPredicate>
-    <let role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="163" var="step-id" as="xs:string" slot="0" eval="7">
-     <check card="1" diag="3|0|XTTE0570|step-id">
-      <cvUntyped to="xs:string">
-       <data>
-        <axis name="child" nodeTest="*:stepid" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepid'"/>
-       </data>
-      </cvUntyped>
-     </check>
-     <let line="167" var="next-step-id" as="(element() intersect *:id)" slot="1" eval="7">
-      <treat as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|next-step-id">
-       <check card="1" diag="3|0|XTTE0570|next-step-id">
-        <docOrder intra="1">
-         <slash>
-          <docOrder intra="1">
-           <slash>
-            <fn name="key">
-             <str val="connect"/>
-             <varRef name="step-id" slot="0"/>
-            </fn>
-            <axis name="child" nodeTest="*:target" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='target'"/>
-           </slash>
-          </docOrder>
-          <axis name="child" nodeTest="*:id" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='id'"/>
-         </slash>
-        </docOrder>
-       </check>
-      </treat>
-      <let line="168" var="vv:v0" as="xs:untypedAtomic" slot="2" eval="13">
-       <data>
-        <varRef name="next-step-id" slot="1"/>
-       </data>
-       <sequence line="170">
-        <compElem>
-         <fn role="name" line="162" name="lower-case">
-          <fn name="replace">
-           <fn name="replace">
-            <check card="?" diag="0|0||fn:replace">
-             <cvUntyped to="xs:string">
-              <data>
-               <axis name="child" nodeTest="*:steptype" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='steptype'"/>
-              </data>
-             </cvUntyped>
-            </check>
-            <str val="([A-Z])"/>
-            <str val="-$1"/>
-            <str val=""/>
-           </fn>
-           <str val="^p-"/>
-           <str val="p:"/>
-           <str val=""/>
-          </fn>
-         </fn>
-         <sequence role="content" line="171">
-          <att name="name" flags="l">
-           <varRef name="step-id" slot="0"/>
-          </att>
-          <applyT line="172" mode="Q{}xprocify-opts" bSlot="0">
-           <treat role="select" line="165" as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|step-opts">
-            <fn name="key">
-             <str val="options"/>
-             <varRef name="step-id" slot="0"/>
-            </fn>
-           </treat>
-          </applyT>
-         </sequence>
-        </compElem>
-        <applyT line="177" mode="Q{}xprocify-next" flags="t" bSlot="1">
-         <filter role="select" line="168" flags="">
-          <fn name="key">
-           <str val="Q{http://saxon.sf.net/}kk104"/>
-           <literal count="2">
-            <str val="xproc.Atomic"/>
-            <str val="xproc.Compound"/>
-           </literal>
-           <root/>
-          </fn>
-          <vc op="eq" comp="CCC">
-           <atomSing card="?" diag="1|0||eq">
-            <axis name="child" nodeTest="*:stepid" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepid'"/>
-           </atomSing>
-           <varRef name="vv:v0" slot="2"/>
-          </vc>
-         </filter>
-        </applyT>
-       </sequence>
-      </let>
-     </let>
-    </let>
-   </templateRule>
-   <templateRule prec="0" prio="0.5" seq="0" rank="0" minImp="0" slots="3" flags="s" line="131" module="xproceditor-noninteractive.xsl">
-    <p.withPredicate role="match">
-     <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-     <gc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="131" op="=" card="M:N" comp="CCC">
-      <data>
-       <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-      </data>
-      <literal count="2">
-       <str val="xproc.Atomic"/>
-       <str val="xproc.Compound"/>
-      </literal>
-     </gc>
-    </p.withPredicate>
-    <let role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="134" var="step-id" as="xs:ID" slot="0" eval="7">
-     <check card="1" diag="3|0|XTTE0570|step-id">
-      <cvUntyped to="xs:ID">
-       <data>
-        <axis name="child" nodeTest="*:stepId" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepId'"/>
-       </data>
-      </cvUntyped>
-     </check>
-     <let line="138" var="next-step-id" as="(element() intersect *:id)" slot="1" eval="7">
-      <treat as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|next-step-id">
-       <check card="1" diag="3|0|XTTE0570|next-step-id">
-        <docOrder intra="1">
-         <slash>
-          <docOrder intra="1">
-           <slash>
-            <fn name="key">
-             <str val="connect"/>
-             <varRef name="step-id" slot="0"/>
-            </fn>
-            <axis name="child" nodeTest="*:target" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='target'"/>
-           </slash>
-          </docOrder>
-          <axis name="child" nodeTest="*:id" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='id'"/>
-         </slash>
-        </docOrder>
-       </check>
-      </treat>
-      <let line="139" var="vv:v0" as="xs:untypedAtomic" slot="2" eval="13">
-       <data>
-        <varRef name="next-step-id" slot="1"/>
-       </data>
-       <sequence line="141">
-        <compElem>
-         <fn role="name" line="133" name="lower-case">
-          <fn name="replace">
-           <fn name="replace">
-            <check card="?" diag="0|0||fn:replace">
-             <cvUntyped to="xs:string">
-              <data>
-               <axis name="child" nodeTest="*:stepType" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepType'"/>
-              </data>
-             </cvUntyped>
-            </check>
-            <str val="([A-Z])"/>
-            <str val="-$1"/>
-            <str val=""/>
-           </fn>
-           <str val="^p-"/>
-           <str val="p:"/>
-           <str val=""/>
-          </fn>
-         </fn>
-         <sequence role="content" line="142">
-          <att name="name" flags="l">
-           <varRef name="step-id" slot="0"/>
-          </att>
-          <applyT line="143" mode="Q{}xprocify-opts" bSlot="2">
-           <treat role="select" line="136" as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|step-opts">
-            <fn name="key">
-             <str val="options"/>
-             <varRef name="step-id" slot="0"/>
-            </fn>
-           </treat>
-          </applyT>
-          <applyT line="144" mode="Q{}xprocify-ports" bSlot="3">
-           <treat role="select" line="135" as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|step-ports">
-            <check card="1" diag="3|0|XTTE0570|step-ports">
-             <axis name="child" nodeTest="*:portData" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portData'"/>
-            </check>
-           </treat>
-           <withParam name="Q{}pipe-step-name" flags="t" as="xs:string">
-            <check line="137" card="1" diag="3|0|XTTE0570|prev-step-id">
-             <cvUntyped to="xs:string">
-              <data>
-               <docOrder intra="1">
-                <slash>
-                 <docOrder intra="1">
-                  <slash>
-                   <fn name="key">
-                    <str val="connect"/>
-                    <varRef name="step-id" slot="0"/>
-                   </fn>
-                   <axis name="child" nodeTest="*:source" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='source'"/>
-                  </slash>
-                 </docOrder>
-                 <axis name="child" nodeTest="*:id" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='id'"/>
-                </slash>
-               </docOrder>
-              </data>
-             </cvUntyped>
-            </check>
-           </withParam>
-          </applyT>
-         </sequence>
-        </compElem>
-        <applyT line="148" mode="Q{}xprocify-next" flags="t" bSlot="4">
-         <filter role="select" line="139" flags="">
-          <fn name="key">
-           <str val="Q{http://saxon.sf.net/}kk104"/>
-           <literal count="2">
-            <str val="xproc.Atomic"/>
-            <str val="xproc.Compound"/>
-           </literal>
-           <root/>
-          </fn>
-          <vc op="eq" comp="CCC">
-           <atomSing card="?" diag="1|0||eq">
-            <axis name="child" nodeTest="*:stepId" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='stepId'"/>
-           </atomSing>
-           <varRef name="vv:v0" slot="2"/>
-          </vc>
-         </filter>
-        </applyT>
-       </sequence>
-      </let>
-     </let>
-    </let>
-   </templateRule>
-  </mode>
- </co>
- <co id="12" binds="">
-  <mode name="Q{}xprocify-opts" onNo="TC" flags="W" patternSlots="0">
-   <templateRule prec="1" prio="0.5" seq="1" rank="1" minImp="0" slots="1" flags="s" line="205" module="xproceditor.xsl">
-    <p.withPredicate role="match">
-     <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-     <vc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="205" op="eq" comp="CCC">
-      <atomSing card="?" diag="1|0||eq">
-       <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-      </atomSing>
-      <str val="xproc.Option"/>
-     </vc>
-    </p.withPredicate>
-    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="206">
-     <param name="Q{}global" slot="0" as="xs:boolean">
-      <false role="select"/>
-      <treat role="conversion" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|global">
-       <check card="1" diag="8|0|XTTE0590|global">
-        <cvUntyped to="xs:boolean">
-         <data>
-          <supplied slot="0"/>
-         </data>
-        </cvUntyped>
-       </check>
-      </treat>
-     </param>
-     <choose line="207">
-      <vc op="ne" onEmpty="1" comp="CCC">
-       <atomSing card="?" diag="1|0||eq">
-        <axis name="child" nodeTest="*:optionvalue" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionvalue'"/>
-       </atomSing>
-       <str val="unset"/>
-      </vc>
-      <choose line="209">
-       <varRef name="global" slot="0"/>
-       <elem xmlns:p="http://www.w3.org/ns/xproc" line="210" name="p:option" nsuri="http://www.w3.org/ns/xproc">
-        <sequence>
-         <att name="name" flags="l">
-          <fn name="string-join">
-           <convert from="xs:untypedAtomic" to="xs:string">
-            <data>
-             <axis name="child" nodeTest="*:optionname" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionname'"/>
-            </data>
-           </convert>
-           <str val=" "/>
-          </fn>
-         </att>
-         <att name="value" flags="l">
-          <fn name="string-join">
-           <convert from="xs:untypedAtomic" to="xs:string">
-            <data>
-             <axis name="child" nodeTest="*:optionvalue" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionvalue'"/>
-            </data>
-           </convert>
-           <str val=" "/>
-          </fn>
-         </att>
-        </sequence>
-       </elem>
-       <true/>
-       <compAtt line="213">
-        <fn role="name" name="string-join">
-         <convert from="xs:untypedAtomic" to="xs:string">
-          <data>
-           <axis name="child" nodeTest="*:optionname" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionname'"/>
-          </data>
-         </convert>
-         <str val=" "/>
-        </fn>
-        <fn role="select" name="string-join">
-         <convert from="xs:untypedAtomic" to="xs:string">
-          <data>
-           <axis name="child" nodeTest="*:optionvalue" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionvalue'"/>
-          </data>
-         </convert>
-         <str val=" "/>
-        </fn>
-       </compAtt>
-      </choose>
-     </choose>
-    </sequence>
-   </templateRule>
-   <templateRule prec="0" prio="0.5" seq="0" rank="0" minImp="0" slots="1" flags="s" line="176" module="xproceditor-noninteractive.xsl">
-    <p.withPredicate role="match">
-     <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-     <vc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="176" op="eq" comp="CCC">
-      <atomSing card="?" diag="1|0||eq">
-       <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-      </atomSing>
-      <str val="xproc.Option"/>
-     </vc>
-    </p.withPredicate>
-    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="177">
-     <param name="Q{}global" slot="0" as="xs:boolean">
-      <false role="select"/>
-      <treat role="conversion" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|global">
-       <check card="1" diag="8|0|XTTE0590|global">
-        <cvUntyped to="xs:boolean">
-         <data>
-          <supplied slot="0"/>
-         </data>
-        </cvUntyped>
-       </check>
-      </treat>
-     </param>
-     <choose line="178">
-      <vc op="ne" onEmpty="1" comp="CCC">
-       <atomSing card="?" diag="1|0||eq">
-        <axis name="child" nodeTest="*:optionValue" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionValue'"/>
-       </atomSing>
-       <str val="unset"/>
-      </vc>
-      <choose line="180">
-       <varRef name="global" slot="0"/>
-       <elem xmlns:p="http://www.w3.org/ns/xproc" line="181" name="p:option" nsuri="http://www.w3.org/ns/xproc" namespaces="xs my fn output math p">
-        <sequence>
-         <att name="name" flags="l">
-          <fn name="string-join">
-           <convert from="xs:untypedAtomic" to="xs:string">
-            <data>
-             <axis name="child" nodeTest="*:optionName" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionName'"/>
-            </data>
-           </convert>
-           <str val=" "/>
-          </fn>
-         </att>
-         <att name="value" flags="l">
-          <fn name="string-join">
-           <convert from="xs:untypedAtomic" to="xs:string">
-            <data>
-             <axis name="child" nodeTest="*:optionValue" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionValue'"/>
-            </data>
-           </convert>
-           <str val=" "/>
-          </fn>
-         </att>
-        </sequence>
-       </elem>
-       <true/>
-       <compAtt line="184">
-        <fn role="name" name="string-join">
-         <convert from="xs:untypedAtomic" to="xs:string">
-          <data>
-           <axis name="child" nodeTest="*:optionName" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionName'"/>
-          </data>
-         </convert>
-         <str val=" "/>
-        </fn>
-        <fn role="select" name="string-join">
-         <convert from="xs:untypedAtomic" to="xs:string">
-          <data>
-           <axis name="child" nodeTest="*:optionValue" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='optionValue'"/>
-          </data>
-         </convert>
-         <str val=" "/>
-        </fn>
-       </compAtt>
-      </choose>
-     </choose>
-    </sequence>
-   </templateRule>
-  </mode>
- </co>
- <co id="7" binds="8 9 0">
-  <template name="Q{}create-xpl" flags="os" line="25" module="xproceditor.xsl" slots="4">
-   <let role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="29" var="graph" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}map))" slot="0" eval="7">
-    <treat as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}map))" jsTest="function e(item) {var q=SaxonJS.U.nameOfNode(item); return q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='map';};return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9 || item.nodeType===11) &amp;&amp; SaxonJS.U.Axis.child(item).filter(e).next();" diag="3|0|XTTE0570|graph">
-     <check card="1" diag="3|0|XTTE0570|graph">
-      <fn name="json-to-xml">
-       <treat as="xs:string" jsTest="return SaxonJS.U.Atomic.string.matches(item);" diag="0|0||fn:json-to-xml">
-        <check card="?" diag="0|0||fn:json-to-xml">
-         <cvUntyped to="xs:string">
-          <data>
-           <ifCall name="Q{http://saxonica.com/ns/interactiveXSLT}eval" type="item()*">
-            <str val="JSON.stringify(graphX.toJSON())"/>
-           </ifCall>
-          </data>
-         </cvUntyped>
-        </check>
-       </treat>
-      </fn>
-     </check>
-    </treat>
-    <let line="31" var="simplify-json-representation" as="document-node()" slot="1" eval="7">
-     <doc line="32" validation="preserve">
-      <applyT mode="Q{}simplify-json-representation" bSlot="0">
-       <varRef role="select" name="graph" slot="0"/>
-       <withParam name="Q{}retain-layout" flags="t" as="xs:boolean">
-        <treat line="34" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|retain-layout">
-         <check card="1" diag="8|0|XTTE0590|retain-layout">
-          <cvUntyped to="xs:boolean">
-           <data>
-            <ifCall name="Q{http://saxonica.com/ns/interactiveXSLT}get" type="item()*">
-             <check card="?" diag="0|0||ixsl:get">
-              <fn name="id">
-               <str val="layout-checkbox"/>
-               <check card="1" diag="0|1||fn:id">
-                <ifCall name="Q{http://saxonica.com/ns/interactiveXSLT}page" type="document-node()?"/>
-               </check>
-              </fn>
-             </check>
-             <str val="checked"/>
-            </ifCall>
-           </data>
-          </cvUntyped>
-         </check>
-        </treat>
-       </withParam>
-      </applyT>
-     </doc>
-     <let line="38" var="xprocify" as="document-node()" slot="2" eval="7">
-      <doc line="39" validation="preserve">
-       <applyT mode="Q{}xprocify" bSlot="1">
-        <varRef role="select" name="simplify-json-representation" slot="1"/>
+        </withParam>
        </applyT>
-      </doc>
-      <let line="42" var="clean" as="document-node()" slot="3" eval="7">
-       <doc line="43" validation="preserve">
-        <applyT mode="Q{}clean" bSlot="2">
-         <varRef role="select" name="xprocify" slot="2"/>
-        </applyT>
-       </doc>
-       <sequence line="46">
-        <message>
-         <sequence role="select">
-          <str val="########SIMPLIFY: "/>
-          <varRef name="simplify-json-representation" slot="1"/>
-         </sequence>
-         <str role="terminate" val="no"/>
-         <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
-        </message>
-        <message line="48">
-         <sequence role="select">
-          <str val="########XPROCIFY: "/>
-          <varRef name="xprocify" slot="2"/>
-         </sequence>
-         <str role="terminate" val="no"/>
-         <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
-        </message>
-        <varRef line="50" name="clean" slot="3"/>
-       </sequence>
-      </let>
+      </sequence>
      </let>
     </let>
    </let>
   </template>
  </co>
- <co id="10" binds="">
-  <mode name="Q{}xprocify-ports" onNo="TC" flags="W" patternSlots="0">
-   <templateRule prec="1" prio="0.5" seq="1" rank="1" minImp="0" slots="3" flags="s" line="182" module="xproceditor.xsl">
+ <co id="15" binds="">
+  <globalVariable name="Q{}xproc-version" type="xs:decimal" line="18" module="xproceditor-noninteractive.xsl" visibility="PRIVATE" jsAcceptor="return SaxonJS.U.Atomic.decimal.cast(val);" jsCardCheck="function c(n) {return n==1;};">
+   <dec val="1"/>
+  </globalVariable>
+ </co>
+ <co id="16" binds="">
+  <function name="Q{bogo:my}portData-for-linkEnd" line="356" module="xproceditor-noninteractive.xsl" eval="7" flags="pU" as="element(Q{http://www.w3.org/2005/xpath-functions}anonymous-map)?" slots="2">
+   <arg name="source-or-target" as="element()"/>
+   <let role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="360" var="vv:v0" as="xs:untypedAtomic*" slot="1" eval="4">
+    <data>
+     <slash simple="1">
+      <varRef name="source-or-target" slot="0"/>
+      <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}port)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='port';"/>
+     </slash>
+    </data>
+    <check card="?" diag="5|0|XTTE0780|my:portData-for-linkEnd">
+     <filter line="359" flags="b">
+      <slash>
+       <slash simple="1">
+        <treat as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|step">
+         <check card="?" diag="3|0|XTTE0570|step">
+          <fn name="key">
+           <str val="step-by-id"/>
+           <data>
+            <slash simple="1">
+             <varRef name="source-or-target" slot="0"/>
+             <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}id)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='id';"/>
+            </slash>
+           </data>
+           <fn name="root">
+            <varRef name="source-or-target" slot="0"/>
+           </fn>
+          </fn>
+         </check>
+        </treat>
+        <axis line="360" name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portData)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portData';"/>
+       </slash>
+       <axis line="360" name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}anonymous-map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='anonymous-map';"/>
+      </slash>
+      <gc line="360" op="=" card="M:N" comp="CCC">
+       <data>
+        <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portId';"/>
+       </data>
+       <varRef name="vv:v0" slot="1"/>
+      </gc>
+     </filter>
+    </check>
+   </let>
+  </function>
+ </co>
+ <co id="10" binds="12 3 17">
+  <mode name="Q{}xprocify" onNo="TC" flags="W" patternSlots="0">
+   <templateRule prec="0" prio="-10.0" seq="6" rank="0" minImp="0" slots="0" flags="s" line="433" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;"/>
+    <applyT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="434" flags="ct" bSlot="-1">
+     <axis role="select" name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+    </applyT>
+   </templateRule>
+   <templateRule prec="0" prio="0.0" seq="1" rank="1" minImp="0" slots="0" flags="s" line="178" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="element(Q{http://www.w3.org/2005/xpath-functions}xproc.Pipeline)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='xproc.Pipeline';"/>
+    <callT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="179" name="process-subpipeline" bSlot="0" flags="t"/>
+   </templateRule>
+   <templateRule prec="0" prio="0.0" seq="5" rank="1" minImp="0" slots="1" flags="s" line="400" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="element(Q{http://www.w3.org/2005/xpath-functions}xproc.Option)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='xproc.Option';"/>
+    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="401">
+     <param name="Q{}global" slot="0" as="xs:boolean">
+      <false role="select"/>
+      <treat role="conversion" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|global">
+       <check card="1" diag="8|0|XTTE0590|global">
+        <cvUntyped to="xs:boolean">
+         <data>
+          <supplied slot="0"/>
+         </data>
+        </cvUntyped>
+       </check>
+      </treat>
+     </param>
+     <choose line="403">
+      <vc op="ne" onEmpty="1" comp="CCC">
+       <atomSing card="?" diag="1|0||eq">
+        <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionValue)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionValue';"/>
+       </atomSing>
+       <str val="unset"/>
+      </vc>
+      <choose line="405">
+       <varRef name="global" slot="0"/>
+       <choose line="407">
+        <fn name="matches">
+         <check card="?" diag="0|0||fn:matches">
+          <cvUntyped to="xs:string">
+           <data>
+            <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionValue)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionValue';"/>
+           </data>
+          </cvUntyped>
+         </check>
+         <str val="^\{([^}]+)\}$"/>
+         <str val=""/>
+        </fn>
+        <elem xmlns:p="http://www.w3.org/ns/xproc" line="408" name="p:option" nsuri="http://www.w3.org/ns/xproc" namespaces="c p">
+         <sequence>
+          <att name="name" flags="l">
+           <fn name="string-join">
+            <convert from="xs:untypedAtomic" to="xs:string">
+             <data>
+              <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionName)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionName';"/>
+             </data>
+            </convert>
+            <str val=" "/>
+           </fn>
+          </att>
+          <att line="409" name="select" flags="l">
+           <fn name="replace">
+            <check card="?" diag="0|0||fn:replace">
+             <cvUntyped to="xs:string">
+              <data>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionValue)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionValue';"/>
+              </data>
+             </cvUntyped>
+            </check>
+            <str val="^\{([^}]+)\}$"/>
+            <str val="$1"/>
+            <str val=""/>
+           </fn>
+          </att>
+         </sequence>
+        </elem>
+        <true/>
+        <elem xmlns:p="http://www.w3.org/ns/xproc" line="413" name="p:option" nsuri="http://www.w3.org/ns/xproc" namespaces="c p">
+         <sequence>
+          <att name="name" flags="l">
+           <fn name="string-join">
+            <convert from="xs:untypedAtomic" to="xs:string">
+             <data>
+              <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionName)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionName';"/>
+             </data>
+            </convert>
+            <str val=" "/>
+           </fn>
+          </att>
+          <att name="select" flags="l">
+           <fn name="concat">
+            <str val="'"/>
+            <atomSing card="?" diag="0|1||fn:concat">
+             <dot type="element(Q{http://www.w3.org/2005/xpath-functions}xproc.Option)"/>
+            </atomSing>
+            <str val="'"/>
+           </fn>
+          </att>
+         </sequence>
+        </elem>
+       </choose>
+       <fn line="419" name="matches">
+        <check card="?" diag="0|0||fn:matches">
+         <cvUntyped to="xs:string">
+          <data>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionValue)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionValue';"/>
+          </data>
+         </cvUntyped>
+        </check>
+        <str val="^\{([^}]+)\}$"/>
+        <str val=""/>
+       </fn>
+       <elem xmlns:p="http://www.w3.org/ns/xproc" line="420" name="p:with-option" nsuri="http://www.w3.org/ns/xproc" namespaces="c p">
+        <sequence>
+         <att name="name" flags="l">
+          <fn name="string-join">
+           <convert from="xs:untypedAtomic" to="xs:string">
+            <data>
+             <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionName)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionName';"/>
+            </data>
+           </convert>
+           <str val=" "/>
+          </fn>
+         </att>
+         <att line="421" name="select" flags="l">
+          <fn name="replace">
+           <check card="?" diag="0|0||fn:replace">
+            <cvUntyped to="xs:string">
+             <data>
+              <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionValue)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionValue';"/>
+             </data>
+            </cvUntyped>
+           </check>
+           <str val="^\{([^}]+)\}$"/>
+           <str val="$1"/>
+           <str val=""/>
+          </fn>
+         </att>
+        </sequence>
+       </elem>
+       <true/>
+       <compAtt line="425">
+        <fn role="name" name="string-join">
+         <convert from="xs:untypedAtomic" to="xs:string">
+          <data>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionName)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionName';"/>
+          </data>
+         </convert>
+         <str val=" "/>
+        </fn>
+        <fn role="select" name="string-join">
+         <convert from="xs:untypedAtomic" to="xs:string">
+          <data>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}optionValue)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='optionValue';"/>
+          </data>
+         </convert>
+         <str val=" "/>
+        </fn>
+       </compAtt>
+      </choose>
+     </choose>
+    </sequence>
+   </templateRule>
+   <templateRule prec="0" prio="0.0" seq="0" rank="1" minImp="0" slots="0" flags="s" line="174" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="element(Q{http://www.w3.org/2005/xpath-functions}doc)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='doc';"/>
+    <applyT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="175" flags="ct" bSlot="-1">
+     <slash role="select">
+      <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}cells)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='cells';"/>
+      <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}xproc.Pipeline)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='xproc.Pipeline';"/>
+     </slash>
+    </applyT>
+   </templateRule>
+   <templateRule prec="0" prio="0.5" seq="3" rank="2" minImp="0" slots="2" flags="s" line="262" module="xproceditor-noninteractive.xsl">
+    <p.withPredicate role="match">
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan-item';"/>
+     <fn defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="262" name="empty">
+      <axis name="attribute" nodeTest="attribute(Q{}container)" jsTest="return item.name==='container'"/>
+     </fn>
+    </p.withPredicate>
+    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="263">
+     <param name="Q{}simplified-graph" slot="0" flags="ti" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}doc))">
+      <treat role="conversion" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}doc))" jsTest="function e(item) {var q=SaxonJS.U.nameOfNode(item); return q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='doc';};return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9 || item.nodeType===11) &amp;&amp; SaxonJS.U.Axis.child(item).filter(e).next();" diag="8|0|XTTE0590|simplified-graph">
+       <check card="1" diag="8|0|XTTE0590|simplified-graph">
+        <supplied slot="0"/>
+       </check>
+      </treat>
+     </param>
+     <let line="264" var="corresponding" as="element()" slot="1" eval="7">
+      <treat as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|corresponding">
+       <check card="1" diag="3|0|XTTE0570|corresponding">
+        <fn name="key">
+         <str val="step-by-id"/>
+         <attVal name="Q{}id" chk="0"/>
+         <varRef name="simplified-graph" slot="0"/>
+        </fn>
+       </check>
+      </treat>
+      <sequence line="265">
+       <compElem>
+        <fn role="name" name="string-join">
+         <convert from="xs:anyAtomicType" to="xs:string">
+          <data>
+           <first>
+            <sequence>
+             <slash simple="1">
+              <varRef name="corresponding" slot="1"/>
+              <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}text)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='text';"/>
+             </slash>
+             <str val="p:declare-step"/>
+            </sequence>
+           </first>
+          </data>
+         </convert>
+         <str val=" "/>
+        </fn>
+        <sequence role="content" line="266">
+         <att name="name" flags="l">
+          <fn name="string-join">
+           <convert from="xs:untypedAtomic" to="xs:string">
+            <data>
+             <slash simple="1">
+              <varRef name="corresponding" slot="1"/>
+              <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+             </slash>
+            </data>
+           </convert>
+           <str val=" "/>
+          </fn>
+         </att>
+         <applyT line="267" flags="c" bSlot="-1">
+          <fn role="select" name="key">
+           <str val="options"/>
+           <data>
+            <slash simple="1">
+             <varRef name="corresponding" slot="1"/>
+             <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+            </slash>
+           </data>
+           <varRef name="simplified-graph" slot="0"/>
+          </fn>
+         </applyT>
+         <applyT line="268" flags="c" bSlot="-1">
+          <slash role="select" simple="1">
+           <varRef name="corresponding" slot="1"/>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portData)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portData';"/>
+          </slash>
+         </applyT>
+         <callT line="269" name="connections" bSlot="1">
+          <withParam name="Q{}connections" flags="c" as="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)*">
+           <treat line="271" as="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='devs.StandLink';" diag="8|0|XTTE0590|connections">
+            <filter flags="b">
+             <fn name="key">
+              <str val="connect-target"/>
+              <data>
+               <slash simple="1">
+                <varRef name="corresponding" slot="1"/>
+                <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+               </slash>
+              </data>
+              <varRef name="simplified-graph" slot="0"/>
+             </fn>
+             <fn name="not">
+              <ufCall name="Q{bogo:my}is-primary-connection" tailCall="false" bSlot="2" eval="7">
+               <treat as="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='devs.StandLink';" diag="0|0||my:is-primary-connection">
+                <dot type="node()"/>
+               </treat>
+              </ufCall>
+             </fn>
+            </filter>
+           </treat>
+          </withParam>
+         </callT>
+        </sequence>
+       </compElem>
+       <choose line="276">
+        <and op="and">
+         <fn name="empty">
+          <slash>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}connection)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='connection';"/>
+           <axis name="attribute" nodeTest="attribute(Q{}primary)" jsTest="return item.name==='primary'"/>
+          </slash>
+         </fn>
+         <gc op="=" card="N:1" comp="CCC">
+          <data>
+           <slash>
+            <filter flags="b">
+             <slash>
+              <slash simple="1">
+               <varRef name="corresponding" slot="1"/>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portData)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portData';"/>
+              </slash>
+              <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}anonymous-map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='anonymous-map';"/>
+             </slash>
+             <gc op="=" card="N:1" comp="CCC">
+              <data>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portGroup)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portGroup';"/>
+              </data>
+              <str val="out"/>
+             </gc>
+            </filter>
+            <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portPrimary)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portPrimary';"/>
+           </slash>
+          </data>
+          <str val="true"/>
+         </gc>
+        </and>
+        <elem xmlns:p="http://www.w3.org/ns/xproc" name="p:sink" nsuri="http://www.w3.org/ns/xproc" namespaces="c p">
+         <empty/>
+        </elem>
+       </choose>
+       <applyT line="279" flags="ct" bSlot="-1">
+        <first role="select">
+         <axis name="following-sibling" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+        </first>
+       </applyT>
+      </sequence>
+     </let>
+    </sequence>
+   </templateRule>
+   <templateRule prec="0" prio="0.5" seq="2" rank="2" minImp="0" slots="2" flags="s" line="250" module="xproceditor-noninteractive.xsl">
+    <p.withPredicate role="match">
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan-item';"/>
+     <axis defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="250" name="attribute" nodeTest="attribute(Q{}container)" jsTest="return item.name==='container'"/>
+    </p.withPredicate>
+    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="251">
+     <param name="Q{}simplified-graph" slot="0" flags="ti" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}doc))">
+      <treat role="conversion" as="document-node(element(Q{http://www.w3.org/2005/xpath-functions}doc))" jsTest="function e(item) {var q=SaxonJS.U.nameOfNode(item); return q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='doc';};return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9 || item.nodeType===11) &amp;&amp; SaxonJS.U.Axis.child(item).filter(e).next();" diag="8|0|XTTE0590|simplified-graph">
+       <check card="1" diag="8|0|XTTE0590|simplified-graph">
+        <supplied slot="0"/>
+       </check>
+      </treat>
+     </param>
+     <let line="252" var="corresponding" as="element()" slot="1" eval="7">
+      <treat as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|corresponding">
+       <check card="1" diag="3|0|XTTE0570|corresponding">
+        <fn name="key">
+         <str val="step-by-id"/>
+         <attVal name="Q{}id" chk="0"/>
+         <varRef name="simplified-graph" slot="0"/>
+        </fn>
+       </check>
+      </treat>
+      <compElem line="253">
+       <fn role="name" name="string-join">
+        <convert from="xs:anyAtomicType" to="xs:string">
+         <data>
+          <first>
+           <sequence>
+            <slash simple="1">
+             <varRef name="corresponding" slot="1"/>
+             <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}text)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='text';"/>
+            </slash>
+            <str val="p:declare-step"/>
+           </sequence>
+          </first>
+         </data>
+        </convert>
+        <str val=" "/>
+       </fn>
+       <sequence role="content" line="254">
+        <applyT flags="c" bSlot="-1">
+         <slash role="select" simple="1">
+          <varRef name="corresponding" slot="1"/>
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portData)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portData';"/>
+         </slash>
+        </applyT>
+        <applyT line="255" flags="c" bSlot="-1">
+         <fn role="select" name="key">
+          <str val="options"/>
+          <data>
+           <slash simple="1">
+            <varRef name="corresponding" slot="1"/>
+            <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+           </slash>
+          </data>
+          <varRef name="simplified-graph" slot="0"/>
+         </fn>
+         <withParam name="Q{}global" as="xs:boolean">
+          <fn line="256" name="exists">
+           <slash simple="1">
+            <varRef name="corresponding" slot="1"/>
+            <axis name="self" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}xproc.Pipeline)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='xproc.Pipeline';"/>
+           </slash>
+          </fn>
+         </withParam>
+        </applyT>
+        <applyT line="258" flags="c" bSlot="-1">
+         <first role="select">
+          <axis name="following-sibling" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+         </first>
+        </applyT>
+       </sequence>
+      </compElem>
+     </let>
+    </sequence>
+   </templateRule>
+   <templateRule prec="0" prio="1.0" seq="4" rank="3" minImp="0" slots="3" flags="s" line="377" module="xproceditor-noninteractive.xsl">
     <p.withUpper role="match" axis="parent" upFirst="false">
-     <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
+     <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}anonymous-map)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='anonymous-map';"/>
      <p.withUpper axis="parent" upFirst="false">
-      <p.nodeTest test="*:portdata" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portdata'"/>
-      <p.withPredicate>
-       <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-       <vc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="182" op="eq" comp="CCC">
-        <atomSing card="?" diag="1|0||eq">
-         <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-        </atomSing>
-        <str val="xproc.Pipeline"/>
-       </vc>
-      </p.withPredicate>
+      <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}portData)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portData';"/>
+      <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}xproc.Pipeline)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='xproc.Pipeline';"/>
      </p.withUpper>
     </p.withUpper>
-    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="183">
+    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="378">
      <param name="Q{}pipe-step-name" slot="0" flags="t" as="xs:string?">
       <empty role="select"/>
       <treat role="conversion" as="xs:string" jsTest="return SaxonJS.U.Atomic.string.matches(item);" diag="8|0|XTTE0590|pipe-step-name">
@@ -1151,7 +1324,7 @@
        </check>
       </treat>
      </param>
-     <message line="184">
+     <message line="379">
       <sequence role="select">
        <str val="-----"/>
        <varRef name="pipe-step-name" slot="0"/>
@@ -1159,29 +1332,29 @@
       <str role="terminate" val="no"/>
       <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
      </message>
-     <let line="187" var="port-primary" as="xs:string?" slot="1" eval="7">
+     <let line="382" var="port-primary" as="xs:string?" slot="1" eval="7">
       <check card="?" diag="3|0|XTTE0570|port-primary">
        <cvUntyped to="xs:string">
         <data>
-         <axis name="child" nodeTest="*:portprimary" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portprimary'"/>
+         <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portPrimary)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portPrimary';"/>
         </data>
        </cvUntyped>
       </check>
-      <let line="188" var="port-sequence" as="xs:string?" slot="2" eval="7">
+      <let line="383" var="port-sequence" as="xs:string?" slot="2" eval="7">
        <check card="?" diag="3|0|XTTE0570|port-sequence">
         <cvUntyped to="xs:string">
          <data>
-          <axis name="child" nodeTest="*:portsequence" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portsequence'"/>
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portSequence)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portSequence';"/>
          </data>
         </cvUntyped>
        </check>
-       <compElem line="189">
+       <compElem line="384">
         <choose role="name">
          <vc op="eq" onEmpty="0" comp="CCC">
-          <check line="185" card="1" diag="3|0|XTTE0570|port-type">
+          <check line="380" card="1" diag="3|0|XTTE0570|port-type">
            <cvUntyped to="xs:string">
             <data>
-             <axis name="child" nodeTest="*:portgroup" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portgroup'"/>
+             <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portGroup)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portGroup';"/>
             </data>
            </cvUntyped>
           </check>
@@ -1191,32 +1364,32 @@
          <true/>
          <str val="p:output"/>
         </choose>
-        <sequence role="content" line="190">
+        <sequence role="content" line="385">
          <att name="port" flags="l">
           <fn name="string-join">
            <convert from="xs:untypedAtomic" to="xs:string">
             <data>
-             <axis line="186" name="child" nodeTest="*:portid" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portid'"/>
+             <axis line="381" name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portId';"/>
             </data>
            </convert>
            <str val=" "/>
           </fn>
          </att>
-         <choose line="191">
+         <choose line="386">
           <varRef name="port-primary" slot="1"/>
-          <att line="192" name="primary" flags="l">
+          <att line="387" name="primary" flags="l">
            <varRef name="port-primary" slot="1"/>
           </att>
          </choose>
-         <choose line="194">
+         <choose line="389">
           <varRef name="port-sequence" slot="2"/>
-          <att line="195" name="sequence" flags="l">
+          <att line="390" name="sequence" flags="l">
            <varRef name="port-sequence" slot="2"/>
           </att>
          </choose>
-         <choose line="197">
+         <choose line="392">
           <varRef name="pipe-step-name" slot="0"/>
-          <elem xmlns:p="http://www.w3.org/ns/xproc" line="198" name="p:pipe" nsuri="http://www.w3.org/ns/xproc" flags="l">
+          <elem xmlns:p="http://www.w3.org/ns/xproc" line="393" name="p:pipe" nsuri="http://www.w3.org/ns/xproc" flags="l" namespaces="c p">
            <sequence>
             <att name="step" flags="l">
              <varRef name="pipe-step-name" slot="0"/>
@@ -1233,119 +1406,485 @@
      </let>
     </sequence>
    </templateRule>
-   <templateRule prec="0" prio="0.5" seq="0" rank="0" minImp="0" slots="3" flags="s" line="153" module="xproceditor-noninteractive.xsl">
-    <p.withUpper role="match" axis="parent" upFirst="false">
-     <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-     <p.withUpper axis="parent" upFirst="false">
-      <p.nodeTest test="*:portData" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portData'"/>
-      <p.withPredicate>
-       <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-       <vc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="153" op="eq" comp="CCC">
-        <atomSing card="?" diag="1|0||eq">
-         <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-        </atomSing>
-        <str val="xproc.Pipeline"/>
-       </vc>
-      </p.withPredicate>
-     </p.withUpper>
-    </p.withUpper>
-    <sequence role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="154">
-     <param name="Q{}pipe-step-name" slot="0" flags="ti" as="xs:string">
-      <treat role="conversion" as="xs:string" jsTest="return SaxonJS.U.Atomic.string.matches(item);" diag="8|0|XTTE0590|pipe-step-name">
-       <check card="1" diag="8|0|XTTE0590|pipe-step-name">
-        <cvUntyped to="xs:string">
-         <data>
-          <supplied slot="0"/>
-         </data>
-        </cvUntyped>
-       </check>
-      </treat>
-     </param>
-     <message line="155">
-      <sequence role="select">
-       <str val="-----"/>
-       <varRef name="pipe-step-name" slot="0"/>
-      </sequence>
-      <str role="terminate" val="no"/>
-      <str role="error" val="Q{http://www.w3.org/2005/xqt-errors}XTMM9000"/>
-     </message>
-     <let line="158" var="port-primary" as="xs:string?" slot="1" eval="7">
-      <check card="?" diag="3|0|XTTE0570|port-primary">
-       <cvUntyped to="xs:string">
-        <data>
-         <axis name="child" nodeTest="*:portPrimary" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portPrimary'"/>
-        </data>
-       </cvUntyped>
-      </check>
-      <let line="159" var="port-sequence" as="xs:string?" slot="2" eval="7">
-       <check card="?" diag="3|0|XTTE0570|port-sequence">
-        <cvUntyped to="xs:string">
-         <data>
-          <axis name="child" nodeTest="*:portSequence" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portSequence'"/>
-         </data>
-        </cvUntyped>
-       </check>
-       <compElem line="160">
-        <choose role="name">
-         <vc op="eq" onEmpty="0" comp="CCC">
-          <check line="156" card="1" diag="3|0|XTTE0570|port-type">
-           <cvUntyped to="xs:string">
-            <data>
-             <axis name="child" nodeTest="*:portGroup" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portGroup'"/>
-            </data>
-           </cvUntyped>
-          </check>
-          <str val="in"/>
-         </vc>
-         <str val="p:input"/>
-         <true/>
-         <str val="p:output"/>
-        </choose>
-        <sequence role="content" line="161">
-         <att name="port" flags="l">
-          <fn name="string-join">
-           <convert from="xs:untypedAtomic" to="xs:string">
-            <data>
-             <axis line="157" name="child" nodeTest="*:portId" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='portId'"/>
-            </data>
-           </convert>
-           <str val=" "/>
-          </fn>
-         </att>
-         <choose line="162">
-          <varRef name="port-primary" slot="1"/>
-          <att line="163" name="primary" flags="l">
-           <varRef name="port-primary" slot="1"/>
-          </att>
-         </choose>
-         <choose line="165">
-          <varRef name="port-sequence" slot="2"/>
-          <att line="166" name="sequence" flags="l">
-           <varRef name="port-sequence" slot="2"/>
-          </att>
-         </choose>
-         <choose line="168">
-          <varRef name="pipe-step-name" slot="0"/>
-          <elem xmlns:p="http://www.w3.org/ns/xproc" line="169" name="p:pipe" nsuri="http://www.w3.org/ns/xproc" flags="l" namespaces="xs my fn output math p">
-           <sequence>
-            <att name="step" flags="l">
-             <varRef name="pipe-step-name" slot="0"/>
-            </att>
-            <att name="port" flags="l">
-             <str val="result"/>
-            </att>
-           </sequence>
-          </elem>
-         </choose>
-        </sequence>
-       </compElem>
-      </let>
-     </let>
-    </sequence>
+   <templateRule prec="0" prio="-10.0" seq="6" rank="0" minImp="0" slots="0" flags="s" line="433" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
+    <applyT role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="434" flags="ct" bSlot="-1">
+     <axis role="select" name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+    </applyT>
    </templateRule>
   </mode>
  </co>
- <co id="13" binds="">
+ <co id="17" binds="16 16">
+  <function name="Q{bogo:my}is-primary-connection" line="363" module="xproceditor-noninteractive.xsl" eval="7" flags="pU" as="xs:boolean" slots="1">
+   <arg name="connection" as="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)"/>
+   <and role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="367" op="and">
+    <gc op="=" card="N:1" comp="CCC">
+     <data>
+      <slash simple="1">
+       <ufCall name="Q{bogo:my}portData-for-linkEnd" tailCall="false" bSlot="0" eval="4">
+        <check card="1" diag="0|0||my:portData-for-linkEnd">
+         <slash simple="1">
+          <varRef name="connection" slot="0"/>
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}target)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='target';"/>
+         </slash>
+        </check>
+       </ufCall>
+       <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portPrimary)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portPrimary';"/>
+      </slash>
+     </data>
+     <str val="true"/>
+    </gc>
+    <gc op="=" card="N:1" comp="CCC">
+     <data>
+      <slash simple="1">
+       <ufCall name="Q{bogo:my}portData-for-linkEnd" tailCall="false" bSlot="1" eval="4">
+        <check card="1" diag="0|0||my:portData-for-linkEnd">
+         <slash simple="1">
+          <varRef name="connection" slot="0"/>
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}source)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='source';"/>
+         </slash>
+        </check>
+       </ufCall>
+       <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}portPrimary)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='portPrimary';"/>
+      </slash>
+     </data>
+     <str val="true"/>
+    </gc>
+   </and>
+  </function>
+ </co>
+ <co id="18" binds="18">
+  <function name="Q{bogo:my}plan-distance" line="305" module="xproceditor-noninteractive.xsl" eval="3" flags="pU" as="element(Q{http://www.w3.org/2005/xpath-functions}sort-before)*" slots="3">
+   <arg name="plan-item" as="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)"/>
+   <arg name="distance" as="xs:integer"/>
+   <let role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="309" var="connected-to" as="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)" slot="2" eval="7">
+    <treat as="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan-item';" diag="3|0|XTTE0570|connected-to">
+     <check card="1" diag="3|0|XTTE0570|connected-to">
+      <fn name="key">
+       <str val="plan-by-id"/>
+       <data>
+        <slash>
+         <filter flags="b">
+          <slash simple="1">
+           <varRef name="plan-item" slot="0"/>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}connection)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='connection';"/>
+          </slash>
+          <fn name="exists">
+           <axis name="attribute" nodeTest="attribute(Q{}primary)" jsTest="return item.name==='primary'"/>
+          </fn>
+         </filter>
+         <axis name="attribute" nodeTest="attribute(Q{}target)" jsTest="return item.name==='target'"/>
+        </slash>
+       </data>
+       <fn name="root">
+        <varRef name="plan-item" slot="0"/>
+       </fn>
+      </fn>
+     </check>
+    </treat>
+    <sequence ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="310">
+     <elem name="sort-before" nsuri="http://www.w3.org/2005/xpath-functions" flags="d" namespaces="c p">
+      <sequence>
+       <att name="target" flags="l">
+        <convert from="xs:untypedAtomic" to="xs:string">
+         <data>
+          <slash simple="1">
+           <varRef name="connected-to" slot="2"/>
+           <axis name="attribute" nodeTest="attribute(Q{}id)" jsTest="return item.name==='id'"/>
+          </slash>
+         </data>
+        </convert>
+       </att>
+       <att name="distance" flags="l">
+        <convert from="xs:integer" to="xs:string">
+         <varRef name="distance" slot="1"/>
+        </convert>
+       </att>
+       <att line="311" name="pos" flags="l">
+        <convert from="xs:integer" to="xs:string">
+         <check ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="326" card="1" diag="5|0|XTTE0780|my:index-of">
+          <fn name="index-of">
+           <slash>
+            <slash ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="311">
+             <slash simple="1">
+              <varRef name="plan-item" slot="0"/>
+              <axis name="parent" nodeTest="(element()|document-node())" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11||item.nodeType===1);"/>
+             </slash>
+             <axis name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+            </slash>
+            <fn name="generate-id">
+             <dot type="element()"/>
+            </fn>
+           </slash>
+           <slash>
+            <varRef ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="311" name="connected-to" slot="2"/>
+            <fn name="generate-id">
+             <dot type="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)"/>
+            </fn>
+           </slash>
+          </fn>
+         </check>
+        </convert>
+       </att>
+       <choose line="312">
+        <fn name="exists">
+         <slash simple="1">
+          <varRef name="connected-to" slot="2"/>
+          <axis name="attribute" nodeTest="attribute(Q{}container)" jsTest="return item.name==='container'"/>
+         </slash>
+        </fn>
+        <att line="313" name="pos" flags="l">
+         <convert from="xs:integer" to="xs:string">
+          <arith op="+" calc="i+i">
+           <fn name="count">
+            <slash>
+             <slash simple="1">
+              <varRef name="plan-item" slot="0"/>
+              <axis name="parent" nodeTest="(element()|document-node())" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11||item.nodeType===1);"/>
+             </slash>
+             <axis name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+            </slash>
+           </fn>
+           <int val="1"/>
+          </arith>
+         </convert>
+        </att>
+       </choose>
+      </sequence>
+     </elem>
+     <choose ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="316">
+      <fn name="exists">
+       <filter flags="b">
+        <slash simple="1">
+         <filter flags="b">
+          <varRef name="connected-to" slot="2"/>
+          <fn name="empty">
+           <axis name="attribute" nodeTest="attribute(Q{}container)" jsTest="return item.name==='container'"/>
+          </fn>
+         </filter>
+         <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}connection)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='connection';"/>
+        </slash>
+        <fn name="exists">
+         <axis name="attribute" nodeTest="attribute(Q{}primary)" jsTest="return item.name==='primary'"/>
+        </fn>
+       </filter>
+      </fn>
+      <ufCall line="317" name="Q{bogo:my}plan-distance" tailCall="false" bSlot="0" eval="6 7">
+       <varRef name="connected-to" slot="2"/>
+       <arith op="+" calc="i+i">
+        <varRef name="distance" slot="1"/>
+        <int val="1"/>
+       </arith>
+      </ufCall>
+     </choose>
+    </sequence>
+   </let>
+  </function>
+ </co>
+ <co id="13" binds="18">
+  <mode name="Q{}plan-add-position" onNo="TC" flags="W" patternSlots="0">
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="64" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;"/>
+    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="66" flags="cin">
+     <applyT role="content" flags="c" bSlot="-1">
+      <sequence role="select">
+       <axis name="attribute" nodeTest="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
+       <axis name="child" nodeTest="( element() | text() | comment() | processing-instruction() )" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===1 || item.nodeType===3 || item.nodeType===7 || item.nodeType===8);"/>
+      </sequence>
+     </applyT>
+    </copy>
+   </templateRule>
+   <templateRule prec="0" prio="0.0" seq="1" rank="1" minImp="0" slots="0" flags="s" line="294" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan-item';"/>
+    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="296" flags="cin">
+     <sequence role="content">
+      <applyT flags="c" bSlot="-1">
+       <axis role="select" name="attribute" nodeTest="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
+      </applyT>
+      <att line="297" name="pos" flags="l">
+       <convert from="xs:integer" to="xs:string">
+        <check line="326" card="1" diag="5|0|XTTE0780|my:index-of">
+         <fn name="index-of">
+          <slash>
+           <slash line="297">
+            <axis name="parent" nodeTest="(element()|document-node())" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11||item.nodeType===1);"/>
+            <axis name="child" nodeTest="element()" jsTest="return item.nodeType===1;"/>
+           </slash>
+           <fn name="generate-id">
+            <dot type="element()"/>
+           </fn>
+          </slash>
+          <slash>
+           <dot line="297" type="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)"/>
+           <fn name="generate-id">
+            <dot type="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)"/>
+           </fn>
+          </slash>
+         </fn>
+        </check>
+       </convert>
+      </att>
+      <choose line="298">
+       <fn name="exists">
+        <filter flags="b">
+         <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}connection)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='connection';"/>
+         <fn name="exists">
+          <axis name="attribute" nodeTest="attribute(Q{}primary)" jsTest="return item.name==='primary'"/>
+         </fn>
+        </filter>
+       </fn>
+       <ufCall line="299" name="Q{bogo:my}plan-distance" tailCall="false" bSlot="0" eval="7 0">
+        <dot type="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)"/>
+        <int val="1"/>
+       </ufCall>
+      </choose>
+      <applyT line="301" flags="ci" bSlot="-1">
+       <axis role="select" name="child" nodeTest="node()" jsTest="return true;"/>
+      </applyT>
+     </sequence>
+    </copy>
+   </templateRule>
+   <templateRule prec="0" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="64" module="xproceditor-noninteractive.xsl">
+    <p.nodeTest role="match" test="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
+    <copy role="action" defaultElementNS="http://www.w3.org/1999/xhtml" ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="66" flags="cin">
+     <applyT role="content" flags="c" bSlot="-1">
+      <sequence role="select">
+       <axis name="attribute" nodeTest="attribute()" jsTest="return SaxonJS.U.isAttr(item)"/>
+       <axis name="child" nodeTest="( element() | text() | comment() | processing-instruction() )" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===1 || item.nodeType===3 || item.nodeType===7 || item.nodeType===8);"/>
+      </sequence>
+     </applyT>
+    </copy>
+   </templateRule>
+  </mode>
+ </co>
+ <co id="7" binds="8">
+  <template name="Q{}create-xpl" flags="os" line="39" module="xproceditor.xsl" slots="0">
+   <callT role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ ixsl=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="40" name="create-xpl-noninteractive" bSlot="0" flags="t">
+    <withParam name="Q{}graph-as-json" flags="c" as="xs:string">
+     <treat line="42" as="xs:string" jsTest="return SaxonJS.U.Atomic.string.matches(item);" diag="8|0|XTTE0590|graph-as-json">
+      <check card="1" diag="8|0|XTTE0590|graph-as-json">
+       <cvUntyped to="xs:string">
+        <data>
+         <ifCall name="Q{http://saxonica.com/ns/interactiveXSLT}eval" type="item()*">
+          <str val="JSON.stringify(graphX.toJSON())"/>
+         </ifCall>
+        </data>
+       </cvUntyped>
+      </check>
+     </treat>
+    </withParam>
+    <withParam name="Q{}retain-layout" flags="t" as="xs:boolean">
+     <treat line="44" as="xs:boolean" jsTest="return SaxonJS.U.Atomic.boolean.matches(item);" diag="8|0|XTTE0590|retain-layout">
+      <check card="1" diag="8|0|XTTE0590|retain-layout">
+       <cvUntyped to="xs:boolean">
+        <data>
+         <ifCall name="Q{http://saxonica.com/ns/interactiveXSLT}get" type="item()*">
+          <check card="?" diag="0|0||ixsl:get">
+           <fn name="id">
+            <str val="layout-checkbox"/>
+            <check card="1" diag="0|1||fn:id">
+             <ifCall name="Q{http://saxonica.com/ns/interactiveXSLT}page" type="document-node()?"/>
+            </check>
+           </fn>
+          </check>
+          <str val="checked"/>
+         </ifCall>
+        </data>
+       </cvUntyped>
+      </check>
+     </treat>
+    </withParam>
+   </callT>
+  </template>
+ </co>
+ <co id="19" vis="PUBLIC" binds="">
+  <globalParam name="Q{}debug" type="xs:string?" line="16" module="xproceditor-noninteractive.xsl" visibility="PUBLIC" jsAcceptor="return SaxonJS.U.Atomic.string.cast(val);" jsCardCheck="function c(n) {return n&lt;=1;};">
+   <str val="true"/>
+  </globalParam>
+ </co>
+ <co id="20" binds="">
+  <globalVariable name="Q{}subpipeline-element-names" type="xs:string+" line="183" module="xproceditor-noninteractive.xsl" visibility="PRIVATE" jsAcceptor="return SaxonJS.U.Atomic.string.cast(val);" jsCardCheck="function c(n) {return n&gt;=1;};">
+   <literal count="3">
+    <str val="xproc.Atomic"/>
+    <str val="xproc.Compound"/>
+    <str val="xproc.Variable"/>
+   </literal>
+  </globalVariable>
+ </co>
+ <co id="21" binds="2">
+  <globalVariable name="Q{http://saxon.sf.net/generated-variable}gg294625819" type="xs:string?" line="24" module="xproceditor-noninteractive.xsl" visibility="PRIVATE" jsAcceptor="return SaxonJS.U.Atomic.string.cast(val);" jsCardCheck="function c(n) {return n&lt;=1;};">
+   <treat defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="24" as="xs:string" jsTest="return SaxonJS.U.Atomic.string.matches(item);" diag="0|0||fn:unparsed-text">
+    <check card="?" diag="0|0||fn:unparsed-text">
+     <cvUntyped to="xs:string">
+      <data>
+       <gVarRef name="Q{}json" bSlot="0"/>
+      </data>
+     </cvUntyped>
+    </check>
+   </treat>
+  </globalVariable>
+ </co>
+ <co id="14" binds="17 14">
+  <function name="Q{bogo:my}plan" line="329" module="xproceditor-noninteractive.xsl" eval="3" flags="pU" as="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)*" slots="2">
+   <arg name="immediates" as="element()*"/>
+   <arg name="container-id" as="xs:string"/>
+   <sequence role="body" defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="332">
+    <forEach>
+     <varRef name="immediates" slot="0"/>
+     <elem ns="=http://www.w3.org/2005/xpath-functions xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="333" name="plan-item" nsuri="http://www.w3.org/2005/xpath-functions" flags="d" namespaces="c p">
+      <sequence>
+       <att name="id" flags="l">
+        <fn name="string-join">
+         <convert from="xs:untypedAtomic" to="xs:string">
+          <data>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+          </data>
+         </convert>
+         <str val=" "/>
+        </fn>
+       </att>
+       <choose line="334">
+        <gc op="=" card="N:1" comp="CCC">
+         <data>
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+         </data>
+         <varRef name="container-id" slot="1"/>
+        </gc>
+        <att line="335" name="container" flags="l">
+         <str val="true"/>
+        </att>
+       </choose>
+       <forEach line="337">
+        <fn name="key">
+         <str val="connect"/>
+         <data>
+          <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+         </data>
+        </fn>
+        <elem line="338" name="connection" nsuri="http://www.w3.org/2005/xpath-functions" flags="dl" namespaces="c p">
+         <sequence>
+          <att name="target" flags="l">
+           <fn name="string-join">
+            <convert from="xs:untypedAtomic" to="xs:string">
+             <data>
+              <slash>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}target)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='target';"/>
+               <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}id)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='id';"/>
+              </slash>
+             </data>
+            </convert>
+            <str val=" "/>
+           </fn>
+          </att>
+          <choose line="339">
+           <ufCall name="Q{bogo:my}is-primary-connection" tailCall="false" bSlot="0" eval="7">
+            <treat as="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='devs.StandLink';" diag="0|0||my:is-primary-connection">
+             <dot type="node()"/>
+            </treat>
+           </ufCall>
+           <att line="340" name="primary" flags="l">
+            <str val="true"/>
+           </att>
+          </choose>
+          <choose line="342">
+           <gc op="=" card="N:1" comp="CCC">
+            <data>
+             <slash>
+              <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}target)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='target';"/>
+              <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}id)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='id';"/>
+             </slash>
+            </data>
+            <varRef name="container-id" slot="1"/>
+           </gc>
+           <att line="343" name="container" flags="l">
+            <str val="true"/>
+           </att>
+          </choose>
+         </sequence>
+        </elem>
+       </forEach>
+      </sequence>
+     </elem>
+    </forEach>
+    <choose line="349">
+     <fn name="exists">
+      <varRef name="immediates" slot="0"/>
+     </fn>
+     <ufCall line="352" name="Q{bogo:my}plan" tailCall="false" bSlot="1" eval="4 6">
+      <treat as="element()" jsTest="return item.nodeType===1;" diag="0|0||my:plan">
+       <fn name="key">
+        <str val="step-by-id"/>
+        <data>
+         <docOrder intra="1">
+          <slash>
+           <docOrder intra="1">
+            <slash>
+             <treat line="351" as="element()" jsTest="return item.nodeType===1;" diag="3|0|XTTE0570|next">
+              <filter flags="b">
+               <fn name="key">
+                <str val="connect"/>
+                <data>
+                 <docOrder intra="0">
+                  <slash>
+                   <filter flags="b">
+                    <varRef name="immediates" slot="0"/>
+                    <fn name="not">
+                     <gc op="=" card="N:1" comp="CCC">
+                      <data>
+                       <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+                      </data>
+                      <varRef name="container-id" slot="1"/>
+                     </gc>
+                    </fn>
+                   </filter>
+                   <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+                  </slash>
+                 </docOrder>
+                </data>
+                <check card="1" diag="0|2||fn:key">
+                 <fn name="root">
+                  <first>
+                   <varRef name="immediates" slot="0"/>
+                  </first>
+                 </fn>
+                </check>
+               </fn>
+               <fn name="not">
+                <gc op="=" card="N:1" comp="CCC">
+                 <data>
+                  <slash>
+                   <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}target)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='target';"/>
+                   <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}id)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='id';"/>
+                  </slash>
+                 </data>
+                 <varRef name="container-id" slot="1"/>
+                </gc>
+               </fn>
+              </filter>
+             </treat>
+             <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}target)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='target';"/>
+            </slash>
+           </docOrder>
+           <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}id)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='id';"/>
+          </slash>
+         </docOrder>
+        </data>
+        <check card="1" diag="0|2||fn:key">
+         <fn name="root">
+          <first>
+           <varRef name="immediates" slot="0"/>
+          </first>
+         </fn>
+        </check>
+       </fn>
+      </treat>
+      <varRef name="container-id" slot="1"/>
+     </ufCall>
+    </choose>
+   </sequence>
+  </function>
+ </co>
+ <co id="22" binds="">
   <mode onNo="TC" flags="dW" patternSlots="0">
    <templateRule prec="1" prio="-0.5" seq="0" rank="0" minImp="0" slots="0" flags="s" line="17" module="xproceditor.xsl">
     <p.nodeTest role="match" test="document-node()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; (item.nodeType===9||item.nodeType===11);"/>
@@ -1354,51 +1893,41 @@
   </mode>
  </co>
  <overridden/>
- <key name="Q{http://saxon.sf.net/}kk103" line="0" binds="" flags="u">
-  <p.nodeSet type="*:anonymous-map">
-   <axis defaultElementNS="http://www.w3.org/1999/xhtml" ns="p=http://www.w3.org/ns/xproc xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="120" name="descendant" nodeTest="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-  </p.nodeSet>
-  <atomSing defaultElementNS="http://www.w3.org/1999/xhtml" ns="p=http://www.w3.org/ns/xproc xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="120" card="?" diag="1|0||eq">
-   <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-  </atomSing>
+ <key name="Q{}plan-by-id" line="321" module="xproceditor-noninteractive.xsl" binds="" flags="u">
+  <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}plan-item)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='plan-item';"/>
+  <attVal defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="321" name="Q{}id" chk="0"/>
  </key>
- <key name="Q{http://saxon.sf.net/}kk104" line="0" binds="" flags="u">
-  <p.nodeSet type="*:anonymous-map">
-   <axis defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="139" name="descendant" nodeTest="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-  </p.nodeSet>
-  <data defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="139">
-   <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
+ <key name="Q{}step-by-id" line="172" module="xproceditor-noninteractive.xsl" binds="" flags="u">
+  <p.withPredicate>
+   <p.nodeTest test="element()" jsTest="return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1;"/>
+   <axis defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="172" name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
+  </p.withPredicate>
+  <data defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="172">
+   <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}stepId)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='stepId';"/>
   </data>
  </key>
- <key name="Q{}connect" line="111" module="xproceditor-noninteractive.xsl" binds="" flags="u">
-  <p.withPredicate>
-   <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-   <vc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="111" op="eq" comp="CCC">
-    <atomSing card="?" diag="1|0||eq">
-     <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-    </atomSing>
-    <str val="devs.StandLink"/>
-   </vc>
-  </p.withPredicate>
-  <data defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="111">
+ <key name="Q{}connect" line="170" module="xproceditor-noninteractive.xsl" binds="" flags="u">
+  <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='devs.StandLink';"/>
+  <data defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="170">
    <slash>
-    <axis name="child" nodeTest="*:source" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='source'"/>
-    <axis name="child" nodeTest="*:id" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='id'"/>
+    <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}source)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='source';"/>
+    <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}id)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='id';"/>
    </slash>
   </data>
  </key>
- <key name="Q{}options" line="110" module="xproceditor-noninteractive.xsl" binds="" flags="u">
-  <p.withPredicate>
-   <p.nodeTest test="*:anonymous-map" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='anonymous-map'"/>
-   <vc defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="110" op="eq" comp="CCC">
-    <atomSing card="?" diag="1|0||eq">
-     <axis name="child" nodeTest="*:type" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='type'"/>
-    </atomSing>
-    <str val="xproc.Option"/>
-   </vc>
-  </p.withPredicate>
-  <data defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="110">
-   <axis name="child" nodeTest="*:parent" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1&amp;&amp;q.local==='parent'"/>
+ <key name="Q{}connect-target" line="171" module="xproceditor-noninteractive.xsl" binds="" flags="u">
+  <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}devs.StandLink)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='devs.StandLink';"/>
+  <data defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="171">
+   <slash>
+    <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}target)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='target';"/>
+    <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}id)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='id';"/>
+   </slash>
+  </data>
+ </key>
+ <key name="Q{}options" line="169" module="xproceditor-noninteractive.xsl" binds="" flags="u">
+  <p.nodeTest test="element(Q{http://www.w3.org/2005/xpath-functions}xproc.Option)" jsTest="var q=SaxonJS.U.nameOfNode(item); return SaxonJS.U.isNode(item) &amp;&amp; item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='xproc.Option';"/>
+  <data defaultElementNS="http://www.w3.org/1999/xhtml" ns="xsl=~ output=http://www.w3.org/2010/xslt-xquery-serialization p=http://www.w3.org/ns/xproc c=http://www.w3.org/ns/xproc-step fn=~ xs=~ math=http://www.w3.org/2005/xpath-functions/math my=bogo:my" line="169">
+   <axis name="child" nodeTest="element(Q{http://www.w3.org/2005/xpath-functions}parent)" jsTest="var q=SaxonJS.U.nameOfNode(item); return item.nodeType===1 &amp;&amp; q.uri==='http://www.w3.org/2005/xpath-functions'&amp;&amp;q.local==='parent';"/>
   </data>
  </key>
  <output>
@@ -1408,4 +1937,4 @@
  </output>
  <decimalFormat/>
 </package>
-<?Σ 41f18260?>
+<?Σ 114f9cb8?>

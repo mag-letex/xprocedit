@@ -180,10 +180,16 @@ fieldset{
 
 #pipeExport {
   border: 0.13em dashed #b8efd9;
-  padding: 0.13em;
+  padding: 0.16em 0.28em 0.35em 0.28em;
   color: gold;
   align-self: center;
   /*display: inherit;*/
+}
+#pipeExport input{
+  width: 1em;
+  height: 1em;
+  outline: none;
+  vertical-align: middle;
 }
 #pipeDownload{
   border: 0.13em dashed #b8efd9;
@@ -197,6 +203,12 @@ fieldset{
   background-color: #ba462e;
   color: gold;
   font-weight: bold;
+  text-decoration: none;
+  cursor: default;
+  border: 2px solid;
+}
+.btnExp a{
+  cursor: default;
 }
 
 .btnExp:hover {

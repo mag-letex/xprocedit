@@ -116,6 +116,7 @@ window.onload = function () {
       e.target.appendChild(document.getElementById(data));
       stepLoad(dropElem, placeX, placeY);
       if (dropElemSibl !== null) {
+        console.log("Hey");
         dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
       }
       else {

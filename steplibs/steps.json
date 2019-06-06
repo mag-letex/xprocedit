@@ -29,21 +29,26 @@
       "stepOption": [
         {
           "name": "match",
-          "required": true
+          "required": true,
+          "defaultInputType": "XSLT Pattern"
         },
         {
           "name": "attribute-name",
-          "required": true
+          "required": true,
+          "defaultInputType": "QName"
         },
         {
-          "name": "attribute-prefix"
+          "name": "attribute-prefix",
+          "defaultInputType": "NCName"
         },
         {
-          "name": "attribute-namespace"
+          "name": "attribute-namespace",
+          "defaultInputType": "anyURI"
         },
         {
           "name": "attribute-value",
-          "required": true
+          "required": true,
+          "defaultInputType": "string"
         }
       ]
     },
@@ -76,11 +81,13 @@
       "stepOption": [
         {
           "name": "all",
-          "required": false
+          "required": false,
+          "defaultInputType": "boolean"
         },
         {
           "name": "relative",
-          "required": true
+          "required": true,
+          "defaultInputType": "boolean"
         }
       ]
     },
@@ -118,7 +125,8 @@
       "stepOption": [
         {
           "name": "fail-if-not-equal",
-          "required": false
+          "required": false,
+          "defaultInputType": "boolean"
         }
       ]
     },
@@ -152,7 +160,8 @@
       "stepOption": [
         {
           "name": "limit",
-          "select": 0
+          "select": 0,
+          "defaultInputType": "integer"
         }
       ]
     },
@@ -185,7 +194,8 @@
       "stepOption": [
         {
           "name": "match",
-          "required": true
+          "required": true,
+          "defaultInputType": "XSLT Pattern"
         }
       ]
     },
@@ -213,10 +223,12 @@
           "required": true
         },
         {
-          "name": "include-filter"
+          "name": "include-filter",
+          "defaultInputType": "RegEx"
         },
         {
-          "name": "exclude-filter"
+          "name": "exclude-filter",
+          "defaultInputType": "RegEx"
         }
       ]
     },
@@ -250,13 +262,16 @@
       "stepOption": [
         {
           "name": "code",
-          "required": true
+          "required": true,
+          "defaultInputType": "QName"
         },
         {
-          "name": "code-prefix"
+          "name": "code-prefix",
+          "defaultInputType": "NCName"
         },
         {
-          "name": "code-namespace"
+          "name": "code-namespace",
+          "defaultInputType": "anyURI"
         }
       ]
     },
@@ -289,47 +304,59 @@
       "stepOption": [
         {
           "name": "cdata-section-elements",
-          "select": ""
+          "select": "",
+          "defaultInputType": "ListOfQNames"
         },
         {
-          "name": "doctype-public"
+          "name": "doctype-public",
+          "defaultInputType": "string"
         },
         {
-          "name": "doctype-system"
+          "name": "doctype-system",
+          "defaultInputType": "anyURI"
         },
         {
           "name": "escape-uri-attributes",
-          "select": false
+          "select": false,
+          "defaultInputType": "boolean"
         },
         {
           "name": "include-content-type",
-          "select": true
+          "select": true,
+          "defaultInputType": "boolean"
         },
         {
           "name": "indent",
-          "select": false
+          "select": false,
+          "defaultInputType": "boolean"
         },
         {
-          "name": "media-type"
+          "name": "media-type",
+          "defaultInputType": "string"
         },
         {
           "name": "method",
-          "select": "xml"
+          "select": "xml",
+          "defaultInputType": "QName"
         },
         {
           "name": "omit-xml-declaration",
-          "select": true
+          "select": true,
+          "defaultInputType": "boolean"
         },
         {
           "name": "standalone",
-          "select": "omit"
+          "select": "omit",
+          "defaultInputType": "ListTrueFalseOmit"
         },
         {
-          "name": "undeclare-prefixes"
+          "name": "undeclare-prefixes",
+          "defaultInputType": "boolean"
         },
         {
           "name": "version",
-          "select": "1.0"
+          "select": "1.0",
+          "defaultInputType": "string"
         }
       ]
     },
@@ -361,7 +388,8 @@
       "stepOption": [
         {
           "name": "select",
-          "required": true
+          "required": true,
+          "defaultInputType": "XPath"
         }
       ]
     },
@@ -393,58 +421,73 @@
       ],
       "stepOption": [
         {
-          "name": "byte-order-mark"
+          "name": "byte-order-mark",
+          "defaultInputType": "boolean"
         },
         {
           "name": "cdata-section-elements",
-          "select": ""
+          "select": "",
+          "defaultInputType": "ListOfQNames"
         },
         {
-          "name": "doctype-public"
+          "name": "doctype-public",
+          "defaultInputType": "string"
         },
         {
-          "name": "doctype-system"
+          "name": "doctype-system",
+          "defaultInputType": "anyURI"
         },
         {
-          "name": "encoding"
+          "name": "encoding",
+          "defaultInputType": "string"
         },
         {
           "name": "escape-uri-attributes",
-          "select": false
+          "select": false,
+          "defaultInputType": "boolean"
         },
         {
           "name": "include-content-type",
-          "select": true
+          "select": true,
+          "defaultInputType": "boolean"
         },
         {
           "name": "indent",
-          "select": false
+          "select": false,
+          "defaultInputType": "boolean"
         },
         {
-          "name": "media-type"
+          "name": "media-type",
+          "defaultInputType": "string"
         },
         {
           "name": "method",
-          "select": "xml"
+          "select": "xml",
+          "defaultInputType": "QName"
         },
         {
           "name": "normalization-form",
-          "select": "none"
+          "select": "none",
+          "defaultInputType": "NormalizationForm"
         },
         {
           "name": "omit-xml-declaration",
-          "select": true
+          "select": true,
+          "defaultInputType": "boolean"
         },
         {
           "name": "standalone",
-          "select": "omit"
+          "select": "omit",
+          "defaultInputType": "ListTrueFalseOmit"
         },
         {
-          "name": "undeclare-prefixes"
+          "name": "undeclare-prefixes",
+          "defaultInputType": "boolean"
         },
         {
           "name": "version",
-          "select": "1.0"
+          "select": "1.0",
+          "defaultInputType": "string"
         }
       ]
     },
@@ -509,11 +552,13 @@
       "stepOption": [
         {
           "name": "match",
-          "select": "/*"
+          "select": "/*",
+          "defaultInputType": "XSLT Pattern"
         },
         {
           "name": "position",
-          "required": true
+          "required": true,
+          "defaultInputType": "ListFirstLastChildBeforeAfter"
         }
       ]
     },
@@ -540,11 +585,13 @@
       "stepOption": [
         {
           "name": "href",
-          "required": true
+          "required": true,
+          "defaultInputType": "anyURI"
         },
         {
           "name": "dtd-validate",
-          "required": false
+          "required": false,
+          "defaultInputType": "boolean"
         }
       ]
     },
@@ -591,11 +638,23 @@
       "stepOption": [
         {
           "name": "initial-mode",
-          "required": false
+          "required": false,
+          "defaultInputType": "QName"
         },
         {
           "name": "template-name",
-          "required": false
+          "required": false,
+          "defaultInputType": "QName"
+        },
+        {
+          "name": "output-base-uri",
+          "required": false,
+          "defaultInputType": "anyURI"
+        },
+        {
+          "name": "version",
+          "required": false,
+          "defaultInputType": "string"
         }
       ]
     }

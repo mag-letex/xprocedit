@@ -141,6 +141,7 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
 function cellPointerDblClick(cellView, evt) {
   let modelType = cellView.model.attributes.type;
   let modelId = cellView.model.attributes.stepId;
+  console.log(modelId);
   if (modelType === "xproc.Compound") {
     createPaperBtn(modelId, evt, cellView);
     globalPipeline = modelId;
@@ -230,10 +231,31 @@ const optTrue = option.cloneNode();
 optTrue.appendChild(document.createTextNode("true"));
 const optFalse = option.cloneNode();
 optFalse.appendChild(document.createTextNode("false"));
+const optOmit = option.cloneNode();
+optOmit.appendChild(document.createTextNode("omit"));
+const optFirstChild = option.cloneNode();
+optFirstChild.appendChild(document.createTextNode("first-child"));
+const optLastChild = option.cloneNode();
+optLastChild.appendChild(document.createTextNode("last-child"));
+const optBefore = option.cloneNode();
+optBefore.appendChild(document.createTextNode("before"));
+const optAfter = option.cloneNode();
+optAfter.appendChild(document.createTextNode("after"));
 const selectBool = select.cloneNode(true);
-selectBool.appendChild(optUnset);
-selectBool.appendChild(optTrue);
-selectBool.appendChild(optFalse);
+selectBool.appendChild(optUnset.cloneNode(true));
+selectBool.appendChild(optTrue.cloneNode(true));
+selectBool.appendChild(optFalse.cloneNode(true));
+const listTrueFalseOmit = select.cloneNode(true);
+listTrueFalseOmit.appendChild(optUnset.cloneNode(true));
+listTrueFalseOmit.appendChild(optTrue.cloneNode(true));
+listTrueFalseOmit.appendChild(optFalse.cloneNode(true));
+listTrueFalseOmit.appendChild(optOmit.cloneNode(true));
+const listFirstLastChildBeforeAfter = select.cloneNode(true);
+listFirstLastChildBeforeAfter.appendChild(optUnset.cloneNode(true))
+listFirstLastChildBeforeAfter.appendChild(optFirstChild.cloneNode(true))
+listFirstLastChildBeforeAfter.appendChild(optLastChild.cloneNode(true))
+listFirstLastChildBeforeAfter.appendChild(optBefore.cloneNode(true))
+listFirstLastChildBeforeAfter.appendChild(optAfter.cloneNode(true))
 const optString = option.cloneNode();
 optString.appendChild(document.createTextNode("xs:string"));
 const optInteger = option.cloneNode();

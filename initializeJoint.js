@@ -116,6 +116,7 @@ window.onload = function () {
       e.target.appendChild(document.getElementById(data));
       stepLoad(dropElem, placeX, placeY);
       if (dropElemSibl !== null) {
+        console.log("Hey");
         dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
       }
       else {
@@ -156,7 +157,7 @@ let devsStandLink = new devsLink({
   router: {name: 'manhattan'},
   connector: {name: 'rounded'},
   attrs: {
-    '.connection': {fill: '#7decff', stroke: '#7decff', 'stroke-width': 4},
+    '.connection': {fill: '#142529', stroke: '#142529', 'stroke-width': 4},
     '.marker-target': {fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z'},
   }
 });
@@ -256,7 +257,6 @@ btnPaperNew.addEventListener('click', function (evt) {
   createPaperBtn(newPipelineId, evt, newCellView);
   globalPipeline = newPipelineId;
 });
-
 function createPaperBtn(modelId, evt, cellView) {
   //CREATE BUTTON
   let newBtn = document.createElement('button');
@@ -288,9 +288,12 @@ function createPaperBtn(modelId, evt, cellView) {
     checkArr.push(btnAll[i].innerText);
   }
   let check = checkArr.includes(modelId);
+  console.log(checkArr);
+  console.log(check);
   if (check === false) {
     btnPaperNew.parentNode.insertBefore(newBtn, btnPaperNew);
     testBtnArray.push(btnId);
+    checkArr.push(modelId);
     newBtn.addEventListener('click', function () {
       switchPaper(evt, paperId, btnId, paperNew, graphNew);
       globalPipeline = modelId;
@@ -351,9 +354,9 @@ function createPaperBtn(modelId, evt, cellView) {
         }
       });
 
-    paperNew.on('cell:pointerdblclick', function (cellView, evt) {
-      cellPointerDblClick(cellView, evt);
-    });
+    // paperNew.on('cell:pointerdblclick', function (cellView, evt) {
+    //   cellPointerDblClick(cellView, evt);
+    // });
     let stepPipeWidth = canvas.offsetWidth - (canvas.offsetWidth * 10 / 100);
     let stepPipeHeight = canvas.offsetHeight - (canvas.offsetHeight * 10 / 100);
     let stepColor;
@@ -366,6 +369,8 @@ function createPaperBtn(modelId, evt, cellView) {
     graphNew.addCell(cellView.model.clone()
       .resize(stepPipeWidth, stepPipeHeight)
       .prop('stepId', modelId)
+      .prop('type', "xproc.Pipeline")
+      // .prop('stepGroup', "xproc.Pipeline")
       .prop('id', modelId)
       .position(50, 30)
       .attr({
@@ -383,6 +388,7 @@ function createPaperBtn(modelId, evt, cellView) {
 
 // Paper-Switch-Panel
 function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
+
   let btnText = document.querySelector('#' + btnId);
   let elem = btnText.innerText;
   // Declare all variables
@@ -403,12 +409,16 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   btn.classList.add("active");
   paperIdGlobal = paperId;
   if (paperIdGlobal === "paper1") {
+    console.log("Pape 1");
     paperX = paper;
     graphX = graph;
   } else {
+    console.log("Pape 2");
+    console.log(paperNew);
     paperX = paperNew;
     graphX = graphNew;
   }
+  console.log(paperNew);
   let cell = paperX.findViewByModel(elem);
   if (cell !== undefined) {
     metaPanel(cell);
@@ -432,7 +442,7 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
       alert("You are not allowed to use an option as source-port!");
       linkView.remove();
     }
-    else if (sourcePort === "out" && targetPort === "out" && source == "xproc.Pipeline"){
+    else if (sourcePort === "out" && targetPort === "out" && source === "xproc.Pipeline"){
       alert("You are only allowed to connect these two ports the other way around!");
       linkView.remove();
     }
@@ -440,7 +450,7 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
       alert("You are not allowed to connect these two ports!");
       linkView.remove();
     }
-    else if(sourcePort === "in" && targetPort === "in" && target == "xproc.Pipeline"){
+    else if(sourcePort === "in" && targetPort === "in" && target === "xproc.Pipeline"){
       alert("You are only allowed to connect these two ports the other way around!");
       linkView.remove();
     }

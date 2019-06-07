@@ -1,6 +1,8 @@
 // Load Steps into Paper
 function stepLoad(elem, placeX, placeY) {
   getId();
+  console.log("Heyheyhey");
+  console.log(elem);
   let id = elem.id;
   let stepIdNum = newId;
   let stepId = "" + id + "_" + stepIdNum;
@@ -32,6 +34,7 @@ function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
   graphX.addCell(newCell);
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.embed(newCell);
+  currentPipeline.attributes.stepEmbeds.push(stepId);
   if (superObj[i].stepOption !== undefined) {
     let stepOptionArray = superObj[i].stepOption;
     let stepOptionPosY = placeY + 100;
@@ -71,6 +74,7 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
   graphX.addCell(newCell);
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.embed(newCell);
+  currentPipeline.attributes.stepEmbeds.push(stepId);
   if (superObj[i].stepOption !== undefined) {
     let stepOptionArray = superObj[i].stepOption;
     let stepOptionPosY = placeY + 100;
@@ -193,13 +197,24 @@ paper.on('element:pointerdown', function (cellView) {
 });
 document.addEventListener('keydown', function (e) {
   if (e.which === 46) {
-    if (oldCellView.model.attributes.type !== "xproc.Pipeline") {
+    let id = oldCellView.model.attributes.id;
+    let btn = "btn-" + oldCellView.model.attributes.id;
+    let type = oldCellView.model.attributes.type;
+    let checkArr = testBtnArray.includes('' + btn);
+    if (type !== "xproc.Pipeline") {
       let connectedLinks = graphX.getConnectedLinks(oldCellView.model);
       let embeds = oldCellView.model.getEmbeddedCells();
-      console.log(connectedLinks);
-      console.log("DELETE");
       graphX.removeCells(embeds);
       graphX.removeCells(connectedLinks);
+      if (type !== "xproc.Pipeline" && checkArr === true) {
+        deletePaper(id);
+        document.getElementById('' + btn).remove();
+        for (let i = 0; i < testBtnArray.length; i++) {
+          if (testBtnArray[i] === btn) {
+            testBtnArray.splice(i, 1);
+          }
+        }
+      }
       oldCellView.remove();
       oldCellView = null;
     }
@@ -409,6 +424,8 @@ function metaPanel(cellView) {
     stepName = this.value;
     stepType = type;
     cellView.model.attr({".label": {text: label}});
+    cellView.model.attributes.stepPrefix = prfx;
+    cellView.model.attributes.stepName = nm;
   }
 
   selectPrefix.addEventListener('change', function () {
@@ -701,11 +718,21 @@ function metaPanel(cellView) {
   }
 
   function optionValueLoad(dataId, input, cellView) {
+    let optName = cellView.model.attributes.optionName;
+    let parentId = cellView.model.attributes.parent;
+    let parent = graphX.getCell(parentId);
+    console.log(parent);
+    let parentOptions = parent.attributes.stepOption;
     input.setAttribute('type', 'text');
     input.setAttribute('option', dataId);
     input.setAttribute('placeholder', dataId);
     input.addEventListener('change', function () {
       cellView.model.attributes.optionValue = this.value;
+      for (let i = 0; i < parentOptions.length; i++) {
+        if (parentOptions[i].name === optName) {
+          parentOptions[i].value = this.value;
+        }
+      }
     });
   }
 
@@ -722,8 +749,6 @@ function metaPanel(cellView) {
         formOptions.removeChild(field);
       });
     }
-
-
     function optionLoadCont(optName, optRequired, optInputType, optDefInput) {
       let thisField = fieldsetOption.cloneNode(true);
       let thisName = optionName.cloneNode(true);
@@ -737,15 +762,19 @@ function metaPanel(cellView) {
       selectBoolean("opt", cellView, stepOptions, optName, optRequired, requiredSelect);
       let thisDefaultInput = defaultInput.cloneNode(true);
       thisDefaultInput.classList.add("option");
-
-      if (optInputType === "xs:string" || optInputType === "xs:integer") {
-        let string = thisDefaultInput.appendChild(input.cloneNode(true));
-        defaultInputLoad(optName, optInputType, optDefInput, string);
-      } else if (optInputType === "xs:boolean") {
-        let bool = selectBool.cloneNode(true);
-        thisDefaultInput.appendChild(bool);
-        defaultInputLoad(optName, optInputType, optDefInput, bool);
-      }
+      let thisInputLoad = function () {
+        // if (optInputType === "xs:string" || optInputType === "xs:integer") {
+        if (optInputType === "xs:boolean" || optInputType === "boolean") {
+          let bool = selectBool.cloneNode(true);
+          thisDefaultInput.appendChild(bool);
+          defaultInputLoad(optName, optInputType, optDefInput, bool);
+        }
+        else if (optInputType !== "xs:boolean") {
+          let string = thisDefaultInput.appendChild(input.cloneNode(true));
+          defaultInputLoad(optName, optInputType, optDefInput, string);
+        }
+      };
+      thisInputLoad();
       let thisBtnDelete = btnDelete.cloneNode(true);
       optionBtnDelete(thisBtnDelete, optName, thisField);
       if (step.type !== "xproc.Pipeline") {
@@ -765,11 +794,11 @@ function metaPanel(cellView) {
     }
 
     if (btn === false) {
-      console.log("button False!");
       for (let i = 0; i < stepOptions.length; i++) {
         let optName = stepOptions[i].name;
         let optRequired = stepOptions[i].required;
         let optDefInputType = stepOptions[i].defaultInputType;
+        console.log(optDefInputType);
         let optDefInput = stepOptions[i].defaultInput;
         optionLoadCont(optName, optRequired, optDefInputType, optDefInput);
       }
@@ -805,6 +834,7 @@ function metaPanel(cellView) {
     formOptions.appendChild(fieldsetOptionAdd);
     createOptionContent(null, false);
   } else if (step.type === "xproc.Option") {
+    console.log("Option Here!");
     let name = label.cloneNode(true);
     name.classList.add("option-value");
     name.appendChild(document.createTextNode("Value: "));
@@ -816,11 +846,11 @@ function metaPanel(cellView) {
     let nameInput = thisName.appendChild(input.cloneNode(true));
     optionValueLoad(optValue, nameInput, cellView);
     formOptions.appendChild(thisName);
-    let fieldRequired = optionRequired.cloneNode(true);
-    let thisFieldRequired = fieldRequired.cloneNode(true);
-    let requiredSelect = thisFieldRequired.childNodes[1];
-    selectBoolean("opt", cellView, stepOptions, optName, optRequired, requiredSelect);
-    formOptions.appendChild(fieldRequired);
+    // let fieldRequired = optionRequired.cloneNode(true);
+    // let thisFieldRequired = fieldRequired.cloneNode(true);
+    // let requiredSelect = thisFieldRequired.childNodes[1];
+    // selectBoolean("opt", cellView, stepOptions, optName, optRequired, requiredSelect);
+    // formOptions.appendChild(fieldRequired);
   } else {
     // Info
     let type = document.createElement('h3');

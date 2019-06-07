@@ -132,6 +132,20 @@ btnForward.addEventListener('click', function () {
   getNextGraphState();
 });
 
+function allPipelines(){
+  let graphArray = [];
+  for (let i=0; i< testBtnArray.length; i++){
+    let btnId = testBtnArray[i];
+    let btn = document.getElementById(btnId);
+    btn.click();
+    let graphJSON = graphX.toJSON();
+    let graphCells = graphJSON.cells;
+    graphArray.push(graphCells);
+    document.getElementById(testBtnArray[0]).click();
+  }
+  return graphArray;
+}
+
 // FALLBACK-STATES
 function saveLastGraphState() {
   let graphJSONstring = JSON.stringify(graphX.toJSON());

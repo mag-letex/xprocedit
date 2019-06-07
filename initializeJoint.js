@@ -7,6 +7,9 @@ let paperX;
 let graphX;
 let currentCell;
 
+let globalPipeline;
+let testGraph = [];
+let testBtnArray = [];
 function getId() {
   let z1 = Math.random().toString().substring(2);
   let z2 = Math.random().toString().substring(2);
@@ -22,20 +25,16 @@ function getId() {
 }
 
 //BUTTON-INITIALIZATION
-let btnJSON = document.getElementById('btn_json');
-let btnLSClear = document.getElementById('btnLSClear');
-let btnLSGet = document.getElementById('btnLSGet');
-// let btnLink = document.getElementById('btn_link');
-let btnClearPipeline = document.getElementById('btnClearPipeline');
-let btnOrderPipeline = document.getElementById('btnOrderPipeline');
-let btnSavePipe = document.getElementById('btnSavePipe');
-let btnBack = document.getElementById('btnBack');
-let btnForward = document.getElementById('btnForward');
-let btnPaperNew = document.getElementById('btnPaperNew');
+const btnJSON = document.getElementById('btn_json');
+const btnLSClear = document.getElementById('btnLSClear');
+const btnLSGet = document.getElementById('btnLSGet');
+const btnClearPipeline = document.getElementById('btnClearPipeline');
+const btnOrderPipeline = document.getElementById('btnOrderPipeline');
+const btnSavePipe = document.getElementById('btnSavePipe');
+const btnBack = document.getElementById('btnBack');
+const btnForward = document.getElementById('btnForward');
+const btnPaperNew = document.getElementById('btnPaperNew');
 
-let globalPipeline;
-let testGraph = [];
-let testBtnArray = [];
 
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
@@ -678,6 +677,7 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
     stepId: "unset",
     stepPrefix: "unset",
     stepName: "unset",
+    stepEmbeds: [],
     portData: [
       {
         portId: "unset",
@@ -689,11 +689,6 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
       }
     ],
     stepOption: []
-    //   {
-    //     name: "unset",
-    //     required: "unset"
-    //   }
-    // ]
   }, joint.shapes.xproc.toolElementCompound.prototype.defaults)
 });
 

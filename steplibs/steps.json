@@ -744,7 +744,7 @@
     },
     {
       "stepGroup": "xproc.Compound",
-      "stepType": "pTryCatch",
+      "stepType": "pTry",
       "inPorts": [
         "source"
       ],
@@ -753,7 +753,7 @@
       ],
       "attrs": {
         ".label": {
-          "text": "p:try-catch"
+          "text": "p:try"
         }
       },
       "portData": [

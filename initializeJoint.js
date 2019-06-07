@@ -109,14 +109,11 @@ window.onload = function () {
       let dropElem = document.querySelector('#' + data);
       let dropElemSibl = dropElem.nextSibling;
       let parent = dropElem.parentElement;
-      console.log(dropElem.nextSibling);
-      console.log(parent);
       let placeX = e.layerX - 80;
       let placeY = e.layerY - 20;
       e.target.appendChild(document.getElementById(data));
       stepLoad(dropElem, placeX, placeY);
       if (dropElemSibl !== null) {
-        console.log("Hey");
         dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
       }
       else {
@@ -386,6 +383,11 @@ function createPaperBtn(modelId, evt, cellView) {
   }
 }
 
+function deletePaper(paperId){
+  let paperToDelete = "paper-" + paperId;
+  document.getElementById('' + paperToDelete).remove();
+}
+
 // Paper-Switch-Panel
 function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
 
@@ -409,16 +411,12 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
   btn.classList.add("active");
   paperIdGlobal = paperId;
   if (paperIdGlobal === "paper1") {
-    console.log("Pape 1");
     paperX = paper;
     graphX = graph;
   } else {
-    console.log("Pape 2");
-    console.log(paperNew);
     paperX = paperNew;
     graphX = graphNew;
   }
-  console.log(paperNew);
   let cell = paperX.findViewByModel(elem);
   if (cell !== undefined) {
     metaPanel(cell);

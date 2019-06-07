@@ -192,14 +192,26 @@ paper.on('element:pointerdown', function (cellView) {
   }
 });
 document.addEventListener('keydown', function (e) {
+  console.log("Hey");
   if (e.which === 46) {
-    if (oldCellView.model.attributes.type !== "xproc.Pipeline") {
+    let id = oldCellView.model.attributes.id;
+    let btn = "btn-" + oldCellView.model.attributes.id;
+    let type = oldCellView.model.attributes.type;
+    let checkArr = testBtnArray.includes('' + btn);
+    if (type !== "xproc.Pipeline") {
       let connectedLinks = graphX.getConnectedLinks(oldCellView.model);
       let embeds = oldCellView.model.getEmbeddedCells();
-      console.log(connectedLinks);
-      console.log("DELETE");
       graphX.removeCells(embeds);
       graphX.removeCells(connectedLinks);
+      if (type !== "xproc.Pipeline" && checkArr === true) {
+        deletePaper(id);
+        document.getElementById('' + btn).remove();
+        for (let i = 0; i < testBtnArray.length; i++) {
+          if (testBtnArray[i] === btn) {
+            testBtnArray.splice(i, 1);
+          }
+        }
+      }
       oldCellView.remove();
       oldCellView = null;
     }
@@ -765,7 +777,6 @@ function metaPanel(cellView) {
     }
 
     if (btn === false) {
-      console.log("button False!");
       for (let i = 0; i < stepOptions.length; i++) {
         let optName = stepOptions[i].name;
         let optRequired = stepOptions[i].required;

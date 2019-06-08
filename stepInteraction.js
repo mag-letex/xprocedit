@@ -636,7 +636,7 @@ function metaPanel(cellView) {
   let selectRequired = selectBool.cloneNode(true);
   optionRequired.appendChild(selectRequired);
   let defaultInput = label.cloneNode(true);
-  defaultInput.appendChild(document.createTextNode("value: "));
+  defaultInput.appendChild(document.createTextNode("default Input: "));
   let fieldsetOptionAdd = fieldset.cloneNode();
   let optionTypes = selectOptionType.cloneNode(true);
   fieldsetOptionAdd.appendChild(optionTypes);

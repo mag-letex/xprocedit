@@ -315,6 +315,12 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
       <xsl:next-match/>
     </xsl:if>
   </xsl:template>
+  
+  <xsl:template match="p:for-each/p:input" mode="clean">
+    <p:iteration-source>
+      <xsl:apply-templates mode="#current"/>
+    </p:iteration-source>
+  </xsl:template>
     
   
   

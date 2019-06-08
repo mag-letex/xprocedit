@@ -321,6 +321,8 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
       <xsl:apply-templates mode="#current"/>
     </p:iteration-source>
   </xsl:template>
+  
+  <xsl:template match="p:*/@*[. = 'unset']" mode="clean"/>
     
   
   

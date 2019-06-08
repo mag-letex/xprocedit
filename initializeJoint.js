@@ -8,6 +8,8 @@ let graphX;
 let currentCell;
 
 let globalPipeline;
+let paperArr = [];
+let graphArr = [];
 let testGraph = [];
 let testBtnArray = [];
 function getId() {
@@ -35,6 +37,73 @@ const btnBack = document.getElementById('btnBack');
 const btnForward = document.getElementById('btnForward');
 const btnPaperNew = document.getElementById('btnPaperNew');
 
+
+// Canvas/JointJS-Paper Initialization
+let canvas = document.querySelector('#papers');
+let graph = new joint.dia.Graph,
+  paper = new joint.dia.Paper({
+    el: $('#paper1'),
+    model: graph,
+    // width: 938,
+    // height: 854,
+    width: canvas.offsetWidth,
+    height: canvas.offsetHeight,
+    defaultLink: function (cellView) {
+      if (cellView.model.attributes.type === "xproc.Option") {
+        return devsOptionLink.clone();
+      }
+      else return devsStandLink.clone();
+    },
+    snapLinks: true,
+    linkPinning: false,
+    gridSize: 15,
+    drawGrid: {
+      name: 'mesh',
+      args: [
+        {color: 'black', thickness: 1} // settings for the primary mesh
+        // { color: 'green', scaleFactor: 5, thickness: 5 } //settings for the secondary mesh
+      ]
+    },
+    // drawGrid:true,
+    embeddingMode: true,
+    highlighting: {
+      'default': {
+        name: 'stroke',
+        options: {
+          padding: 6
+        }
+      },
+      'embedding': {
+        name: 'addClass',
+        options: {
+          className: 'highlighted-parent'
+        }
+      }
+    },
+    validateEmbedding: function (childView, parentView) {
+      return parentView.model instanceof joint.shapes.xproc.Compound;
+    },
+    validateConnection: function (sourceView, sourceMagnet, targetView, targetMagnet) {
+      let sourceGroup = sourceMagnet.getAttribute('port-group');
+      let targetGroup = targetMagnet.parentElement.getAttribute('port-group');
+      if (sourceGroup !== targetGroup) {
+        return true;
+      }
+    },
+    interactive: function (cellView) {
+      if (cellView.model.attributes.type === "xproc.Option") {
+        return {
+          linkMove: true,
+          labelMove: true,
+          elementMove: false,
+          addLinkFromMagnet: true
+        };
+      } else return true;
+    }
+    // Missing Code
+  });
+paperArr.push(paper);
+graphArr.push(paper);
 
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
@@ -86,6 +155,8 @@ window.addEventListener("drop", function (e) {
   e.preventDefault();
 }, false);
 
+
+
 // Step - Load
 window.onload = function () {
   getId();
@@ -98,7 +169,7 @@ window.onload = function () {
   defaultBtn = document.getElementById(btnId);
   globalPipeline = pipelineId;
   defaultBtn.addEventListener('click', function (event) {
-    switchPaper(event, 'paper1', btnId);
+    switchPaper(event, 'paper1', btnId, paper, graph);
     globalPipeline = pipelineId;
   });
   defaultBtn.click();
@@ -179,70 +250,7 @@ let devsOptionLink = new devsLink({
 });
 devsOptionLink.set('z', 1);
 
-// Canvas/JointJS-Paper Initialization
-let canvas = document.querySelector('#papers');
-let graph = new joint.dia.Graph,
-  paper = new joint.dia.Paper({
-    el: $('#paper1'),
-    model: graph,
-    // width: 938,
-    // height: 854,
-    width: canvas.offsetWidth,
-    height: canvas.offsetHeight,
-    defaultLink: function (cellView) {
-      if (cellView.model.attributes.type === "xproc.Option") {
-        return devsOptionLink.clone();
-      }
-      else return devsStandLink.clone();
-    },
-    snapLinks: true,
-    linkPinning: false,
-    gridSize: 15,
-    drawGrid: {
-      name: 'mesh',
-      args: [
-        {color: 'black', thickness: 1} // settings for the primary mesh
-        // { color: 'green', scaleFactor: 5, thickness: 5 } //settings for the secondary mesh
-      ]
-    },
-    // drawGrid:true,
-    embeddingMode: true,
-    highlighting: {
-      'default': {
-        name: 'stroke',
-        options: {
-          padding: 6
-        }
-      },
-      'embedding': {
-        name: 'addClass',
-        options: {
-          className: 'highlighted-parent'
-        }
-      }
-    },
-    validateEmbedding: function (childView, parentView) {
-      return parentView.model instanceof joint.shapes.xproc.Compound;
-    },
-    validateConnection: function (sourceView, sourceMagnet, targetView, targetMagnet) {
-      let sourceGroup = sourceMagnet.getAttribute('port-group');
-      let targetGroup = targetMagnet.parentElement.getAttribute('port-group');
-      if (sourceGroup !== targetGroup) {
-        return true;
-      }
-    },
-    interactive: function (cellView) {
-      if (cellView.model.attributes.type === "xproc.Option") {
-        return {
-          linkMove: true,
-          labelMove: true,
-          elementMove: false,
-          addLinkFromMagnet: true
-        };
-      } else return true;
-    }
-    // Missing Code
-  });
+
 
 // Create New Paper (Button)
 btnPaperNew.addEventListener('click', function (evt) {
@@ -280,12 +288,11 @@ function createPaperBtn(modelId, evt, cellView) {
     stepLoad(dropElem, placeX, placeY);
     dropElemSibl.parentNode.insertBefore(dropElem, dropElemSibl);
   });
+
   for (let i = 0; i < btnAll.length; i++) {
     checkArr.push(btnAll[i].innerText);
   }
   let check = checkArr.includes(modelId);
-  console.log(checkArr);
-  console.log(check);
   if (check === false) {
     btnPaperNew.parentNode.insertBefore(newBtn, btnPaperNew);
     testBtnArray.push(btnId);
@@ -349,7 +356,8 @@ function createPaperBtn(modelId, evt, cellView) {
           }
         }
       });
-
+paperArr.push(paperNew);
+graphArr.push(graphNew);
     // paperNew.on('cell:pointerdblclick', function (cellView, evt) {
     //   cellPointerDblClick(cellView, evt);
     // });
@@ -366,7 +374,6 @@ function createPaperBtn(modelId, evt, cellView) {
       .resize(stepPipeWidth, stepPipeHeight)
       .prop('stepId', modelId)
       .prop('type', "xproc.Pipeline")
-      // .prop('stepGroup', "xproc.Pipeline")
       .prop('id', modelId)
       .position(50, 30)
       .attr({
@@ -378,7 +385,16 @@ function createPaperBtn(modelId, evt, cellView) {
     );
     switchPaper(evt, paperId, btnId, paperNew, graphNew);
   } else if (check === true) {
-    switchPaper(evt, paperId, btnId);
+    let paperJump;
+    let graphJump;
+    for(let i=0; i < paperArr.length; i++){
+      if (paperArr[i].el.id === paperId){
+        console.log(paperId);
+        paperJump = paperArr[i];
+        graphJump = graphArr[i];
+      }
+    }
+    switchPaper(evt, paperId, btnId, paperJump, graphJump);
   }
 }
 
@@ -388,8 +404,7 @@ function deletePaper(paperId){
 }
 
 // Paper-Switch-Panel
-function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
-
+function switchPaper(evt, paperId, btnId, pp, grph) {
   let btnText = document.querySelector('#' + btnId);
   let elem = btnText.innerText;
   // Declare all variables
@@ -413,8 +428,8 @@ function switchPaper(evt, paperId, btnId, paperNew, graphNew) {
     paperX = paper;
     graphX = graph;
   } else {
-    paperX = paperNew;
-    graphX = graphNew;
+    paperX = pp;
+    graphX = grph;
   }
   let cell = paperX.findViewByModel(elem);
   if (cell !== undefined) {

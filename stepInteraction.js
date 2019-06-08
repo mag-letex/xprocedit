@@ -1,8 +1,6 @@
 // Load Steps into Paper
 function stepLoad(elem, placeX, placeY) {
   getId();
-  console.log("Heyheyhey");
-  console.log(elem);
   let id = elem.id;
   let stepIdNum = newId;
   let stepId = "" + id + "_" + stepIdNum;
@@ -145,7 +143,6 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
 function cellPointerDblClick(cellView, evt) {
   let modelType = cellView.model.attributes.type;
   let modelId = cellView.model.attributes.stepId;
-  console.log(modelId);
   if (modelType === "xproc.Compound") {
     createPaperBtn(modelId, evt, cellView);
     globalPipeline = modelId;
@@ -638,7 +635,7 @@ function metaPanel(cellView) {
   let selectRequired = selectBool.cloneNode(true);
   optionRequired.appendChild(selectRequired);
   let defaultInput = label.cloneNode(true);
-  defaultInput.appendChild(document.createTextNode("value: "));
+  defaultInput.appendChild(document.createTextNode("default Input: "));
   let fieldsetOptionAdd = fieldset.cloneNode();
   let optionTypes = selectOptionType.cloneNode(true);
   fieldsetOptionAdd.appendChild(optionTypes);
@@ -798,7 +795,6 @@ function metaPanel(cellView) {
         let optName = stepOptions[i].name;
         let optRequired = stepOptions[i].required;
         let optDefInputType = stepOptions[i].defaultInputType;
-        console.log(optDefInputType);
         let optDefInput = stepOptions[i].defaultInput;
         optionLoadCont(optName, optRequired, optDefInputType, optDefInput);
       }
@@ -834,8 +830,8 @@ function metaPanel(cellView) {
     formOptions.appendChild(fieldsetOptionAdd);
     createOptionContent(null, false);
   } else if (step.type === "xproc.Option") {
-    console.log("Option Here!");
     let name = label.cloneNode(true);
+    name.classList.add("option");
     name.classList.add("option-value");
     name.appendChild(document.createTextNode("Value: "));
     let h3Option = h3.cloneNode(true);

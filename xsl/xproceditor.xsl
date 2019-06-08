@@ -40,7 +40,7 @@
   <xsl:template name="create-xpl">
     <xsl:call-template name="create-xpl-noninteractive">
       <xsl:with-param name="graph-as-json" as="xs:string"
-        select="ixsl:eval('JSON.stringify(graphX.toJSON())')"/>
+        select="ixsl:eval('JSON.stringify(allPipelines())')"/>
       <xsl:with-param name="retain-layout" select="ixsl:get(id('layout-checkbox',ixsl:page()), 'checked')" 
           as="xs:boolean" tunnel="yes"/>
     </xsl:call-template>

@@ -143,7 +143,6 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
 function cellPointerDblClick(cellView, evt) {
   let modelType = cellView.model.attributes.type;
   let modelId = cellView.model.attributes.stepId;
-  console.log(modelId);
   if (modelType === "xproc.Compound") {
     createPaperBtn(modelId, evt, cellView);
     globalPipeline = modelId;

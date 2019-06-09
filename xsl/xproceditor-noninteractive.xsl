@@ -254,6 +254,7 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     <xsl:element name="{($corresponding/fn:text, 'p:declare-step')[1]}">
       <xsl:if test="empty($corresponding/fn:text)">
         <xsl:attribute name="version" select="$xproc-version"/>
+        <xsl:attribute name="name" select="$corresponding/fn:stepId"/>
       </xsl:if>
       <xsl:apply-templates select="$corresponding/fn:portData" mode="#current"/>
       <xsl:apply-templates select="key('options', $corresponding/fn:stepId, $simplified-graph)
@@ -281,7 +282,7 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
       </xsl:call-template>
       <xsl:if test="$corresponding/fn:text = 'p:xslt' and $xproc-version = '1.0'">
         <!-- preliminary -->
-        <p:input port="parameter"><p:empty/></p:input>
+        <p:input port="parameters"><p:empty/></p:input>
       </xsl:if>
       <xsl:variable name="subpipeline" as="element(fn:xproc.Pipeline)?" 
       select="key('step-by-id', @id, $simplified-graph)/self::fn:xproc.Pipeline"/>

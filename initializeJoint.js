@@ -3,6 +3,7 @@ let failedId = "";
 let newId = "";
 let idGlobal = [];
 let paperIdGlobal;
+let btnIdGlobal;
 let paperX;
 let graphX;
 let currentCell;
@@ -360,21 +361,22 @@ function createPaperBtn(modelId, evt, cellView) {
       });
 paperArr.push(paperNew);
 graphArr.push(graphNew);
-    // paperNew.on('cell:pointerdblclick', function (cellView, evt) {
-    //   cellPointerDblClick(cellView, evt);
-    // });
     let stepPipeWidth = canvas.offsetWidth - (canvas.offsetWidth * 10 / 100);
     let stepPipeHeight = canvas.offsetHeight - (canvas.offsetHeight * 10 / 100);
     let stepColor;
+    let scope;
     let stepType = cellView.model.toJSON().type;
     if (stepType === "xproc.Compound") {
       stepColor = '#85dfff';
+      scope = 2;
     } else {
       stepColor = '#58ada4';
+      scope = 0;
     }
     graphNew.addCell(cellView.model.clone()
       .resize(stepPipeWidth, stepPipeHeight)
       .prop('stepId', modelId)
+      .prop('stepScope', scope)
       .prop('type', "xproc.Pipeline")
       .prop('id', modelId)
       .position(50, 30)
@@ -426,6 +428,7 @@ function switchPaper(evt, paperId, btnId, pp, grph) {
   let btn = document.getElementById(btnId);
   btn.classList.add("active");
   paperIdGlobal = paperId;
+  btnIdGlobal = btnId;
   if (paperIdGlobal === "paper1") {
     paperX = paper;
     graphX = graph;
@@ -578,6 +581,7 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
       }
     },
     stepGroup: "xproc.Atomic",
+    stepScope: 1,
     stepName: "unset",
     stepType: "unset",
     stepId: "unset",
@@ -691,6 +695,7 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
       }
     },
     stepGroup: "xproc.Compound",
+    stepScope: 1,
     stepType: "unset",
     stepId: "unset",
     stepPrefix: "unset",
@@ -866,6 +871,7 @@ function loadPipeline(pipelineId, num) {
   newPipeline.prop('id', pipelineId)
     .prop('stepId', pipelineId)
     .prop('stepName', num)
+    .prop('stepScope', 0)
     .attr({'.word2': {text: num}});
   newPipeline.addInPort("source");
   newPipeline.addOutPort("result");

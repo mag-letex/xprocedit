@@ -360,7 +360,9 @@ function metaPanel(cellView) {
   //Step-Information
   currentCell = cellView;
   let step = cellView.model.toJSON();
+  let stepScope = cellView.model.attributes.stepScope;
   let stepType = cellView.model.attributes.stepType;
+  let stepGroup = cellView.model.attributes.stepGroup;
   let stepPrefix = cellView.model.attributes.stepPrefix;
   let stepName = cellView.model.attributes.stepName;
   let portData = cellView.model.attributes.portData;
@@ -449,7 +451,18 @@ function metaPanel(cellView) {
     }
   }
 
-  function mainInput(nm, prfx) {
+  function switchButtonSave(type){
+    console.log("Hello Function!");
+    let thisBtn = document.getElementById("" + btnIdGlobal);
+    console.log(thisBtn);
+    console.log(step.stepId);
+    thisBtn.innerHTML = type;
+    let btnName = "btn-" + type;
+    thisBtn.setAttribute('id', btnName);
+    btnIdGlobal = btnName;
+  }
+
+  function mainInput(nm, prfx, btn) {
     let nmCap = nm.charAt(0).toUpperCase() + nm.slice(1);
     let type = "" + prfx + nmCap;
     let label = "" + prfx + ":" + nm;
@@ -458,15 +471,20 @@ function metaPanel(cellView) {
     cellView.model.attributes.stepPrefix = prfx;
     cellView.model.attributes.stepType = type;
     cellView.model.attributes.stepId = "" + type + "_" + stepName;
+    cellView.model.attributes.id = "" + type + "_" + stepName;
+    if (btn === true){
+    switchButtonSave("" + type + "_" + stepName);
+    }
+
   }
 
   selectPrefix.addEventListener('change', function () {
     prefix = this.value;
-    mainInput("unset", prefix);
+    mainInput("unset", prefix, true);
   });
   inputType.addEventListener('change', function () {
     let name = this.value;
-    mainInput(name, prefix);
+    mainInput(name, prefix, true);
   });
   inputType.addEventListener('keyup', function (e) {
     if (e.which !== 13) {
@@ -479,13 +497,14 @@ function metaPanel(cellView) {
       console.log(inputName);
       alert("Please choose another Name. This one already exists.");
       inputName.value = "";
-      // inputName.textContent = "";
-      // inputName.setAttribute('placeholder', "");
     }
     else{
+      let tp = cellView.model.attributes.stepType;
+      let thisName = "" + tp + "_" + this.value;
     cellView.model.attributes.stepName = this.value;
     cellView.model.attr({".word2": {text: this.value}});
     cellView.model.attributes.stepId = "" + stepType + "_" + this.value;
+    switchButtonSave("" + thisName);
     }
   });
 
@@ -640,7 +659,7 @@ function metaPanel(cellView) {
       let thisBtnDelete = btnDelete.cloneNode(true);
       portBtnDelete(thisBtnDelete, port, thisField);
 
-      if (step.type !== "xproc.Pipeline") {
+      if (stepScope > 0 ) {
         formPorts.appendChild(thisField);
         thisField.appendChild(noName);
         thisField.appendChild(thisFieldPrimary);
@@ -823,7 +842,7 @@ function metaPanel(cellView) {
       thisInputLoad();
       let thisBtnDelete = btnDelete.cloneNode(true);
       optionBtnDelete(thisBtnDelete, optName, thisField);
-      if (step.type !== "xproc.Pipeline") {
+      if (stepScope > 0) {
         formOptions.appendChild(thisField);
         thisField.appendChild(noInputName);
         noInputName.appendChild(document.createTextNode(optName));
@@ -855,7 +874,7 @@ function metaPanel(cellView) {
   }
 
   //Push Meta-Elements
-  if (step.type === "xproc.Pipeline") {
+  if (step.type === "xproc.Pipeline" && stepScope === 0) {
     // Info
     metaInfo.appendChild(formInfo);
     formInfo.appendChild(fieldsetInfo);
@@ -892,7 +911,7 @@ function metaPanel(cellView) {
     let nameInput = thisName.appendChild(input.cloneNode(true));
     optionValueLoad(optValue, nameInput, cellView);
     formOptions.appendChild(thisName);
-  } else {
+  } else if ((step.type === "xproc.Atomic" || step.type === "xproc.Compound") && stepScope === 1) {
     // Info
     let type = document.createElement('h3');
     type.appendChild(document.createTextNode(stepType));
@@ -900,6 +919,28 @@ function metaPanel(cellView) {
     metaInfo.appendChild(formInfo);
     formInfo.appendChild(fieldsetInfo);
     fieldsetInfo.appendChild(labelName);
+    // Ports
+    metaPorts.appendChild(divPortsHead);
+    divPortsHead.appendChild(h3PortsInput);
+    divPortsHead.appendChild(h3PortsOutput);
+    metaPorts.appendChild(divInput);
+    divInput.appendChild(formInput);
+    createPortContent(null, false, inputPorts, formInput, "in");
+    metaPorts.appendChild(divOutput);
+    divOutput.appendChild(formOutput);
+    createPortContent(null, false, outputPorts, formOutput, "out");
+    // Options
+    metaOptions.appendChild(formOptions);
+    createOptionContent(null, false);
+  }
+  else if (stepGroup === "xproc.Compound" && stepScope === 2){
+    // Info
+    let type = document.createElement('h3');
+    type.appendChild(document.createTextNode(stepType));
+    let name = document.createElement('h4');
+    name.appendChild(document.createTextNode(stepName));
+    metaInfo.appendChild(type);
+    metaInfo.appendChild(name);
     // Ports
     metaPorts.appendChild(divPortsHead);
     divPortsHead.appendChild(h3PortsInput);

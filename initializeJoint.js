@@ -26,6 +26,8 @@ function getId() {
   } else return alert("No Element-IDs left!");
 }
 
+
+
 //BUTTON-INITIALIZATION
 const btnJSON = document.getElementById('btn_json');
 const btnLSClear = document.getElementById('btnLSClear');
@@ -190,7 +192,7 @@ window.onload = function () {
         parent.appendChild(dropElem);
       }
     });
-  loadPipeline(pipelineId);
+  loadPipeline(pipelineId, newId);
   // Initialization SaxonJS
   SaxonJS.transform({
     sourceLocation: "xsl/xproceditor.sef",
@@ -576,6 +578,7 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
       }
     },
     stepGroup: "xproc.Atomic",
+    stepName: "unset",
     stepType: "unset",
     stepId: "unset",
     portData: [
@@ -846,7 +849,7 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
   ]
 });
 
-function loadPipeline(pipelineId) {
+function loadPipeline(pipelineId, num) {
   getId();
   graphX.clear();
   let newPipeline = new joint.shapes.xproc.Pipeline({
@@ -861,7 +864,9 @@ function loadPipeline(pipelineId) {
   });
   globalPipeline = pipelineId;
   newPipeline.prop('id', pipelineId)
-    .prop('stepId', pipelineId);
+    .prop('stepId', pipelineId)
+    .prop('stepName', num)
+    .attr({'.word2': {text: num}});
   newPipeline.addInPort("source");
   newPipeline.addOutPort("result");
   graphX.addCell(newPipeline);

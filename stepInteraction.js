@@ -1,3 +1,19 @@
+function stepNameCheck(val) {
+  let checkSum;
+  let graphCells = graphX.getCells();
+  for (let i = 0; i < graphCells.length; i++) {
+    if (graphCells[i].attributes.stepName === val) {
+      checkSum = true;
+      console.log(checkSum);
+      return checkSum;
+    }
+    else{
+      checkSum = false;
+    }
+  }
+  // console.log(checkSum);
+}
+
 // Load Steps into Paper
 function stepLoad(elem, placeX, placeY) {
   getId();
@@ -27,6 +43,7 @@ function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
   let newCell = new joint.shapes.xproc.Atomic(superObj[i])
     .prop('id', stepId)
     .prop('stepId', stepId)
+    .prop('stepName', stepIdNum)
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
   graphX.addCell(newCell);
@@ -67,6 +84,7 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
   let newCell = new joint.shapes.xproc.Compound(superObj[i])
     .prop('id', stepId)
     .prop('stepId', stepId)
+    .prop('stepName', stepIdNum)
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
   graphX.addCell(newCell);
@@ -106,6 +124,7 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
   let newCell = new joint.shapes.xproc.Custom(superObj[i])
     .prop('id', stepId)
     .prop('stepId', stepId)
+    .prop('stepName', stepIdNum)
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
   graphX.addCell(newCell);
@@ -224,7 +243,7 @@ const metaInfo = document.querySelector('#metaInfo');
 const metaPorts = document.querySelector('#metaPorts');
 const metaOptions = document.querySelector('#metaOptions');
 let prefix = "unset";
-let name = "unset";
+// let name = "unset";
 
 //Form Elements
 const form = document.createElement('form');
@@ -370,20 +389,35 @@ function metaPanel(cellView) {
   }
   // Info-DIV
   let formInfo = form.cloneNode();
-  let fieldsetName = fieldset.cloneNode();
-  let legendName = fieldsetName.appendChild(legend.cloneNode());
-  legendName.appendChild(document.createTextNode("Name"));
+  let fieldsetInfo = fieldset.cloneNode();
+  let legendInfo = fieldsetInfo.appendChild(legend.cloneNode());
+  legendInfo.appendChild(document.createTextNode(""));
+  let labelType = label.cloneNode();
+  labelType.appendChild(document.createTextNode("Type: "));
+  let inputType = labelType.appendChild(input.cloneNode());
+  inputType.setAttribute('type', 'text');
+  inputType.classList.add("inputTypeInfo");
+  if (stepType === "pipeline") {
+    inputType.setAttribute('placeholder', "unset");
+  } else {
+    let input = stepType.slice(1).toLowerCase();
+    inputType.setAttribute('value', input)
+    // inputType.setAttribute('value', "");
+    // inputType.setAttribute('value', "unset");
+  }
+
   let labelName = label.cloneNode();
-  labelName.appendChild(document.createTextNode("Type: "));
+  labelName.appendChild(document.createTextNode("Name: "));
   let inputName = labelName.appendChild(input.cloneNode());
   inputName.setAttribute('type', 'text');
   inputName.classList.add("inputNameInfo");
-  if (stepName === "unset") {
-    inputName.setAttribute('value', "");
+  let isNum = /^\d+$/.test("" + stepName);
+  if (isNum === true) {
+    inputName.setAttribute('placeholder', stepName);
   } else {
-    inputName.setAttribute('value', name);
+    inputName.setAttribute('value', stepName);
   }
-  inputName.setAttribute('placeholder', stepType);
+
   // Prefix Select
   let labelPrefix = label.cloneNode();
   labelPrefix.appendChild(document.createTextNode("Prefix: "));
@@ -416,27 +450,42 @@ function metaPanel(cellView) {
   }
 
   function mainInput(nm, prfx) {
-    let type = "" + prfx + "-" + nm;
+    let nmCap = nm.charAt(0).toUpperCase() + nm.slice(1);
+    let type = "" + prfx + nmCap;
     let label = "" + prfx + ":" + nm;
-    stepName = this.value;
-    stepType = type;
+    label = label.toLowerCase();
     cellView.model.attr({".label": {text: label}});
     cellView.model.attributes.stepPrefix = prfx;
-    cellView.model.attributes.stepName = nm;
+    cellView.model.attributes.stepType = type;
+    cellView.model.attributes.stepId = "" + type + "_" + stepName;
   }
 
   selectPrefix.addEventListener('change', function () {
     prefix = this.value;
+    mainInput("unset", prefix);
+  });
+  inputType.addEventListener('change', function () {
+    let name = this.value;
     mainInput(name, prefix);
+  });
+  inputType.addEventListener('keyup', function (e) {
+    if (e.which !== 13) {
+      let name = this.value;
+      mainInput(name, prefix);
+    }
   });
   inputName.addEventListener('change', function () {
-    name = this.value;
-    mainInput(name, prefix);
-  });
-  inputName.addEventListener('keyup', function (e) {
-    if (e.which !== 13) {
-      name = this.value;
-      mainInput(name, prefix);
+    if (stepNameCheck(this.value) === true){
+      console.log(inputName);
+      alert("Please choose another Name. This one already exists.");
+      inputName.value = "";
+      // inputName.textContent = "";
+      // inputName.setAttribute('placeholder', "");
+    }
+    else{
+    cellView.model.attributes.stepName = this.value;
+    cellView.model.attr({".word2": {text: this.value}});
+    cellView.model.attributes.stepId = "" + stepType + "_" + this.value;
     }
   });
 
@@ -746,6 +795,7 @@ function metaPanel(cellView) {
         formOptions.removeChild(field);
       });
     }
+
     function optionLoadCont(optName, optRequired, optInputType, optDefInput) {
       let thisField = fieldsetOption.cloneNode(true);
       let thisName = optionName.cloneNode(true);
@@ -765,8 +815,7 @@ function metaPanel(cellView) {
           let bool = selectBool.cloneNode(true);
           thisDefaultInput.appendChild(bool);
           defaultInputLoad(optName, optInputType, optDefInput, bool);
-        }
-        else if (optInputType !== "xs:boolean") {
+        } else if (optInputType !== "xs:boolean") {
           let string = thisDefaultInput.appendChild(input.cloneNode(true));
           defaultInputLoad(optName, optInputType, optDefInput, string);
         }
@@ -809,9 +858,10 @@ function metaPanel(cellView) {
   if (step.type === "xproc.Pipeline") {
     // Info
     metaInfo.appendChild(formInfo);
-    formInfo.appendChild(fieldsetName);
-    fieldsetName.appendChild(labelPrefix);
-    fieldsetName.appendChild(labelName);
+    formInfo.appendChild(fieldsetInfo);
+    fieldsetInfo.appendChild(labelPrefix);
+    fieldsetInfo.appendChild(labelType);
+    fieldsetInfo.appendChild(labelName);
     // Ports
     metaPorts.appendChild(divPortsHead);
     divPortsHead.appendChild(h3PortsInput);
@@ -842,20 +892,14 @@ function metaPanel(cellView) {
     let nameInput = thisName.appendChild(input.cloneNode(true));
     optionValueLoad(optValue, nameInput, cellView);
     formOptions.appendChild(thisName);
-    // let fieldRequired = optionRequired.cloneNode(true);
-    // let thisFieldRequired = fieldRequired.cloneNode(true);
-    // let requiredSelect = thisFieldRequired.childNodes[1];
-    // selectBoolean("opt", cellView, stepOptions, optName, optRequired, requiredSelect);
-    // formOptions.appendChild(fieldRequired);
   } else {
     // Info
     let type = document.createElement('h3');
-    let id = document.createElement('p');
-    let idNum = cellView.model.attributes.attrs[".word2"].text;
-    id.appendChild(document.createTextNode(idNum));
     type.appendChild(document.createTextNode(stepType));
     metaInfo.appendChild(type);
-    metaInfo.appendChild(id);
+    metaInfo.appendChild(formInfo);
+    formInfo.appendChild(fieldsetInfo);
+    fieldsetInfo.appendChild(labelName);
     // Ports
     metaPorts.appendChild(divPortsHead);
     divPortsHead.appendChild(h3PortsInput);

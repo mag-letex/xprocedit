@@ -494,9 +494,9 @@ font-size: 1em;
   max-height: 29vh;
   overflow: auto;
 }
-.inputNameInfo{
-  text-align: center;
-}
+/*.inputNameInfo{*/
+  /*text-align: center;*/
+/*}*/
 
 .port-name {
   font-size: 1.2em;

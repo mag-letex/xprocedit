@@ -243,7 +243,7 @@ const metaInfo = document.querySelector('#metaInfo');
 const metaPorts = document.querySelector('#metaPorts');
 const metaOptions = document.querySelector('#metaOptions');
 let prefix = "unset";
-// let name = "unset";
+let type = "unset";
 
 //Form Elements
 const form = document.createElement('form');
@@ -370,7 +370,7 @@ function metaPanel(cellView) {
   let outPorts = cellView.model.attributes.outPorts;
   let stepOptions = cellView.model.attributes.stepOption;
   let optName = cellView.model.attributes.optionName;
-  let optRequired = cellView.model.attributes.optionRequired;
+  // let optRequired = cellView.model.attributes.optionRequired;
   let optValue = cellView.model.attributes.optionValue;
   let inputPorts = [];
   let outputPorts = [];
@@ -453,43 +453,66 @@ function metaPanel(cellView) {
 
   function switchButtonSave(type){
     console.log("Hello Function!");
+      let index;
+    for (let i=0; i<testBtnArray.length; i++){
+      if (testBtnArray[i] === btnIdGlobal){
+        index = i;
+      }
+    }
     let thisBtn = document.getElementById("" + btnIdGlobal);
-    console.log(thisBtn);
-    console.log(step.stepId);
     thisBtn.innerHTML = type;
     let btnName = "btn-" + type;
     thisBtn.setAttribute('id', btnName);
+    paperX.el.id = "paper-" + type;
+    globalPipeline = type;
+    testBtnArray[index] = btnName;
     btnIdGlobal = btnName;
   }
 
-  function mainInput(nm, prfx, btn) {
-    let nmCap = nm.charAt(0).toUpperCase() + nm.slice(1);
-    let type = "" + prfx + nmCap;
-    let label = "" + prfx + ":" + nm;
+  function mainInput(tp, prfx, nm, btn) {
+    let tpCap = tp.charAt(0).toUpperCase() + tp.slice(1);
+    let type = "" + prfx + tpCap;
+    let label = "" + prfx + ":" + tp;
     label = label.toLowerCase();
+    let id = "" + cellView.model.attributes.stepType + "_" + stepName;
+    let thisElem = graphX.getCell(id);
+    // let string = "" + type + "_" + stepName;
+    let string = "" + type + "_" + nm;
+    // let string = "bla";
+    // graphX.getCell(cellView.model.id).prop('id', "" + type + "_" + stepName);
     cellView.model.attr({".label": {text: label}});
     cellView.model.attributes.stepPrefix = prfx;
     cellView.model.attributes.stepType = type;
-    cellView.model.attributes.stepId = "" + type + "_" + stepName;
-    cellView.model.attributes.id = "" + type + "_" + stepName;
+    cellView.model.attributes.stepId = string;
+    cellView.model.attributes.id = string;
+    cellView.el.attributes[0].value = string;
+    cellView.model.id = string;
+    thisElem.prop('id', string);
+    console.log(cellView);
+    console.log(cellView.model);
+    // cellView.el.id = "" + type + "_" + stepName;
+    // cellView.model.prop('id', "" + type + "_" + stepName);
+    // cellView.model.prop('model-id', "" + type + "_" + stepName);
+    // cellView.el.setAttribute('model-id', "" + type + "_" + stepName);
+    // cellView.el.attributes[0]["model-id"] = "" + type + "_" + stepName;
     if (btn === true){
-    switchButtonSave("" + type + "_" + stepName);
+    switchButtonSave(string);
     }
-
   }
 
-  selectPrefix.addEventListener('change', function () {
+  selectPrefix.addEventListener('change', function (evt) {
+    console.log(this.value);
     prefix = this.value;
-    mainInput("unset", prefix, true);
+    mainInput(type, prefix, stepName, true);
   });
   inputType.addEventListener('change', function () {
-    let name = this.value;
-    mainInput(name, prefix, true);
+    let type = this.value;
+    mainInput(type, prefix, stepName, true);
   });
   inputType.addEventListener('keyup', function (e) {
     if (e.which !== 13) {
-      let name = this.value;
-      mainInput(name, prefix);
+      let type = this.value;
+      mainInput(type, prefix, stepName);
     }
   });
   inputName.addEventListener('change', function () {

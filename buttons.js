@@ -33,15 +33,12 @@ btnClearPipeline.addEventListener('click', function () {
   loadPipeline(id);
 });
 
-// btnScalePaper.addEventListener('click', function () {
-// });
 
 btnOrderPipeline.addEventListener('click', function(){
   paperX.scaleContentToFit({padding: 20});
   let cells = graphX.getCells();
   let pipe = graphX.getCell(globalPipeline);
   console.log(paperX);
-  // paperX.scaleContentToFit();
   let paperHeight = paperX.el.clientHeight - 50;
   let paperWidth = paperX.el.clientWidth - 50;
   let paperSX = paperX.scale().sx;

@@ -4,26 +4,20 @@ let newId = "";
 let idGlobal = [];
 let paperIdGlobal;
 let btnIdGlobal;
-// let btnIndexGlobal;
 let paperX;
 let graphX;
 let currentCell;
 
+function globalCell(view){
+  currentCell = view;
+}
+
 let globalPipeline;
+let globalPipeModel;
 let paperArr = [];
 let graphArr = [];
 let testGraph = [];
 let testBtnArray = [];
-
-function eventFire(el, etype){
-  if (el.fireEvent) {
-    el.fireEvent('on' + etype);
-  } else {
-    var evObj = document.createEvent('Events');
-    evObj.initEvent(etype, true, false);
-    el.dispatchEvent(evObj);
-  }
-}
 
 function getId() {
   let z1 = Math.random().toString().substring(2);
@@ -112,7 +106,8 @@ let graph = new joint.dia.Graph,
   });
 paperArr.push(paper);
 graphArr.push(paper);
-
+paperX = paper;
+graphX = graph;
 //GET STEP-LIBRARIES
 let xhr = new XMLHttpRequest();
 let obj;
@@ -172,18 +167,15 @@ window.onload = function () {
   let defaultBtn = document.getElementById("btnDefaultOpen");
   let thisPaper = document.getElementById("paper1");
   thisPaper.setAttribute('id', "paper-" + pipelineId);
-  console.log(thisPaper.id);
   testBtnArray.push(btnId);
   defaultBtn.id = btnId;
   defaultBtn.innerHTML = pipelineId;
   defaultBtn = document.getElementById(btnId);
   globalPipeline = pipelineId;
-  console.log(paperX);
+  loadPipeline(pipelineId, newId);
   defaultBtn.addEventListener('click', function (event) {
     let thisBtn = event.target.id;
     let thisPaper = thisBtn.replace("btn", "paper");
-    console.log(thisBtn);
-    console.log(thisPaper);
     switchPaper(event, thisPaper, thisBtn, paper, graph);
     globalPipeline = pipelineId;
   });
@@ -204,9 +196,6 @@ window.onload = function () {
         parent.appendChild(dropElem);
       }
     });
-  loadPipeline(pipelineId, newId);
-  check = paperX.findViewByModel(globalPipeline).el;
-  console.log(check);
   // Initialization SaxonJS
   SaxonJS.transform({
     sourceLocation: "xsl/xproceditor.sef",
@@ -271,9 +260,10 @@ devsOptionLink.set('z', 1);
 btnPaperNew.addEventListener('click', function (evt) {
   getId();
   let oldPipeline = graphX.getCell(globalPipeline);
-  let newCellView = paperX.findViewByModel(oldPipeline);
-  let newPipelineId = "newPipeline" + "_" + newId;
+  let newCellView = paperX.findViewByModel(currentCell.model);
+  console.log(oldPipeline);
   console.log(newCellView);
+  let newPipelineId = "newPipeline" + "_" + newId;
   createPaperBtn(newPipelineId, evt, newCellView, newId);
   globalPipeline = newPipelineId;
 });
@@ -318,7 +308,7 @@ function createPaperBtn(modelId, evt, cellView, nm) {
     newBtn.addEventListener('click', function (evt) {
       let thisBtn = evt.target.id;
       let thisPaper = thisBtn.replace("btn", "paper");
-      switchPaper(evt, thisPaper, thisBtn, paperNew, graphNew);
+      switchPaper(evt, thisPaper, thisBtn, paperNew, graphNew, cellView);
       globalPipeline = modelId;
     });
     paperCont.appendChild(newPaper);
@@ -404,7 +394,7 @@ function createPaperBtn(modelId, evt, cellView, nm) {
         ".word2": {text: nm, y: 60, x: stepPipeWidth / 2}
       })
     );
-    switchPaper(evt, paperId, btnId, paperNew, graphNew);
+    switchPaper(evt, paperId, btnId, paperNew, graphNew, cellView);
   } else if (check === true) {
     let paperJump;
     let graphJump;
@@ -415,7 +405,7 @@ function createPaperBtn(modelId, evt, cellView, nm) {
         graphJump = graphArr[i];
       }
     }
-    switchPaper(evt, paperId, btnId, paperJump, graphJump);
+    switchPaper(evt, paperId, btnId, paperJump, graphJump, cellView);
   }
 }
 
@@ -425,10 +415,9 @@ function deletePaper(paperId) {
 }
 
 // Paper-Switch-Panel
-function switchPaper(evt, paperId, btnId, pp, grph) {
-  let btnText = document.querySelector('#' + btnId);
-  let elem = btnText.innerText;
-  console.log(elem);
+function switchPaper(evt, paperId, btnId, pp, grph, targetCellView) {
+  let targetElemId = paperId.split("-")[1];
+  console.log(targetElemId);
   // Declare all variables
   let i, paperContent, tablink;
   // Get all elements with class="paperContent" and hide them
@@ -447,19 +436,18 @@ function switchPaper(evt, paperId, btnId, pp, grph) {
   btn.classList.add("active");
   paperIdGlobal = paperId;
   btnIdGlobal = btnId;
-  // if (paperIdGlobal === "paper1") {
-  //   paperX = paper;
-  //   graphX = graph;
-  // } else {
     paperX = pp;
     graphX = grph;
-  // }
-  let cell = paperX.findViewByModel(elem);
+  let cell = graphX.getCell(targetElemId);
   console.log(cell);
+  let cellView = paperX.findViewByModel(cell);
+  console.log(cellView);
   if (cell !== undefined) {
-    metaPanel(cell);
+    metaPanel(cellView);
   }
-  paperX.on('cell:pointerclick', function (cellView, evt) {
+  paperX.on('cell:pointerclick', function (cellView) {
+    console.log(cellView);
+    highlight(cellView);
     metaPanel(cellView);
     currentCell = cellView;
   });
@@ -515,9 +503,6 @@ joint.shapes.xproc.toolElementAtomic = joint.shapes.devs.Atomic.extend({
     '</g>'].join(''),
 
   defaults: joint.util.deepSupplement({
-    // attrs: {
-    //     text: { 'font-weight': 'bold', fill: 'black', 'text-anchor': 'middle', 'ref-x': .5, 'ref-y': 0.4, 'y-alignment': 'middle' },
-    // },
   }, joint.shapes.devs.Atomic.prototype.defaults)
 });
 xRel = 100;
@@ -887,7 +872,9 @@ function loadPipeline(pipelineId, num) {
   newPipeline.addInPort("source");
   newPipeline.addOutPort("result");
   graphX.addCell(newPipeline);
+  globalPipeModel = newPipeline;
   let cell = paperX.findViewByModel(pipelineId);
+  highlight(cell);
   metaPanel(cell);
 }
 
@@ -1042,6 +1029,7 @@ joint.shapes.devs.Model.define('xproc.Option', {
   optionSelect: "unset"
 });
 
+//Responsive Settings
 function resize() {
   let canvasWidth = canvas.offsetWidth;
   let canvasHeight = canvas.offsetHeight;

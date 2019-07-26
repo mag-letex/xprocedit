@@ -6,12 +6,10 @@ function stepNameCheck(val) {
       checkSum = true;
       console.log(checkSum);
       return checkSum;
-    }
-    else{
+    } else {
       checkSum = false;
     }
   }
-  // console.log(checkSum);
 }
 
 // Load Steps into Paper
@@ -36,6 +34,7 @@ function stepLoad(elem, placeX, placeY) {
     }
   }
   let cell = paperX.findViewByModel(stepId);
+  highlight(cell);
   metaPanel(cell);
 }
 
@@ -44,6 +43,7 @@ function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
     .prop('id', stepId)
     .prop('stepId', stepId)
     .prop('stepName', stepIdNum)
+    .prop('stepPrefix', "p")
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
   graphX.addCell(newCell);
@@ -85,6 +85,7 @@ function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
     .prop('id', stepId)
     .prop('stepId', stepId)
     .prop('stepName', stepIdNum)
+    .prop('stepPrefix', "p")
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
   graphX.addCell(newCell);
@@ -170,9 +171,7 @@ function cellPointerDblClick(cellView, evt) {
 
 //HIGHLIGHTING FUNCTION
 let oldCellView = null;
-clickHighlight = 0;
-paper.on('element:pointerdown', function (cellView) {
-  //HIGHLIGHTING FUNCTION
+function highlight(cellView){
   if (oldCellView != null) {
     oldCellView.unhighlight(null, {
       highlighter: {
@@ -182,10 +181,8 @@ paper.on('element:pointerdown', function (cellView) {
         }
       }
     });
-    // V(paper.findViewByModel(oldCellView.model).el).removeClass('highlight-class');
   }
   if (oldCellView !== cellView) {
-    // V(paper.findViewByModel(cellView.model).el).addClass('highlight-class');
     cellView.highlight(null, {
       highlighter: {
         name: 'addClass',
@@ -210,7 +207,8 @@ paper.on('element:pointerdown', function (cellView) {
   } else {
     oldCellView = null;
   }
-});
+}
+
 document.addEventListener('keydown', function (e) {
   if (e.which === 46) {
     let id = oldCellView.model.attributes.id;
@@ -358,6 +356,12 @@ document.getElementById('metaPanel').addEventListener('submit', function (e) {
 
 function metaPanel(cellView) {
   //Step-Information
+  console.log(cellView);
+  let testElem = graphX.getCell(cellView.model.attributes.id);
+  testElem.on('change', console.log("Change!"));
+  let testView = paperX.findViewByModel(testElem);
+  console.log(testElem);
+  console.log(testView);
   currentCell = cellView;
   let step = cellView.model.toJSON();
   let stepScope = cellView.model.attributes.stepScope;
@@ -404,8 +408,6 @@ function metaPanel(cellView) {
   } else {
     let input = stepType.slice(1).toLowerCase();
     inputType.setAttribute('value', input)
-    // inputType.setAttribute('value', "");
-    // inputType.setAttribute('value', "unset");
   }
 
   let labelName = label.cloneNode();
@@ -451,11 +453,11 @@ function metaPanel(cellView) {
     }
   }
 
-  function switchButtonSave(type){
+  function switchButtonSave(type, cellView) {
     console.log("Hello Function!");
-      let index;
-    for (let i=0; i<testBtnArray.length; i++){
-      if (testBtnArray[i] === btnIdGlobal){
+    let index;
+    for (let i = 0; i < testBtnArray.length; i++) {
+      if (testBtnArray[i] === btnIdGlobal) {
         index = i;
       }
     }
@@ -464,70 +466,69 @@ function metaPanel(cellView) {
     let btnName = "btn-" + type;
     thisBtn.setAttribute('id', btnName);
     paperX.el.id = "paper-" + type;
-    globalPipeline = type;
     testBtnArray[index] = btnName;
     btnIdGlobal = btnName;
+    globalPipeline = type;
+    globalCell(cellView);
   }
 
-  function mainInput(tp, prfx, nm, btn) {
+  function mainInput(type, prefix, label, string, save) {
+    testElem.attr({".label": {text: label}});
+    testElem.prop('stepPrefix', prefix);
+    testElem.prop('stepType', type);
+    testElem.prop('stepId', string);
+    testElem.set('id', string);
+
+    // testView.el.attr('model-id', string);
+    // testView.el.attributes[0]["model-id"] = string;
+    testView.render();
+    // testView.el["model-id"] = string;
+    console.log(testView);
+    console.log(testElem);
+    if (save === true) {
+      switchButtonSave(string, testView);
+    }
+  }
+
+  function calcVar(tp, prfx, nm, bool){
     let tpCap = tp.charAt(0).toUpperCase() + tp.slice(1);
     let type = "" + prfx + tpCap;
     let label = "" + prfx + ":" + tp;
     label = label.toLowerCase();
-    let id = "" + cellView.model.attributes.stepType + "_" + stepName;
-    let thisElem = graphX.getCell(id);
-    // let string = "" + type + "_" + stepName;
     let string = "" + type + "_" + nm;
-    // let string = "bla";
-    // graphX.getCell(cellView.model.id).prop('id', "" + type + "_" + stepName);
-    cellView.model.attr({".label": {text: label}});
-    cellView.model.attributes.stepPrefix = prfx;
-    cellView.model.attributes.stepType = type;
-    cellView.model.attributes.stepId = string;
-    cellView.model.attributes.id = string;
-    cellView.el.attributes[0].value = string;
-    cellView.model.id = string;
-    thisElem.prop('id', string);
-    console.log(cellView);
-    console.log(cellView.model);
-    // cellView.el.id = "" + type + "_" + stepName;
-    // cellView.model.prop('id', "" + type + "_" + stepName);
-    // cellView.model.prop('model-id', "" + type + "_" + stepName);
-    // cellView.el.setAttribute('model-id', "" + type + "_" + stepName);
-    // cellView.el.attributes[0]["model-id"] = "" + type + "_" + stepName;
-    if (btn === true){
-    switchButtonSave(string);
-    }
+    mainInput(type, prfx, label, string, bool)
   }
 
-  selectPrefix.addEventListener('change', function (evt) {
+  selectPrefix.addEventListener('change', function () {
     console.log(this.value);
     prefix = this.value;
-    mainInput(type, prefix, stepName, true);
+    calcVar(type, prefix, stepName, true);
   });
   inputType.addEventListener('change', function () {
     let type = this.value;
-    mainInput(type, prefix, stepName, true);
+    calcVar(type, prefix, stepName, true);
   });
-  inputType.addEventListener('keyup', function (e) {
-    if (e.which !== 13) {
-      let type = this.value;
-      mainInput(type, prefix, stepName);
-    }
-  });
+  // inputType.addEventListener('keyup', function (e) {
+  //   if (e.which !== 13) {
+  //     let type = this.value;
+  //     calcVar(type, prefix, stepName);
+  //   }
+  // });
   inputName.addEventListener('change', function () {
-    if (stepNameCheck(this.value) === true){
+    if (stepNameCheck(this.value) === true) {
       console.log(inputName);
       alert("Please choose another Name. This one already exists.");
       inputName.value = "";
-    }
-    else{
+    } else {
       let tp = cellView.model.attributes.stepType;
       let thisName = "" + tp + "_" + this.value;
-    cellView.model.attributes.stepName = this.value;
-    cellView.model.attr({".word2": {text: this.value}});
-    cellView.model.attributes.stepId = "" + stepType + "_" + this.value;
-    switchButtonSave("" + thisName);
+      cellView.model.prop('stepName', this.value);
+      cellView.model.attr({".word2": {text: this.value}});
+      cellView.model.prop('stepId', "" + tp + "_" + this.value);
+      cellView.el.setAttribute('model-id', "" + tp + _ + this.value);
+      if (cellView.model.attributes.type === "xproc.Pipeline"){
+      switchButtonSave("" + thisName);
+      }
     }
   });
 
@@ -682,7 +683,7 @@ function metaPanel(cellView) {
       let thisBtnDelete = btnDelete.cloneNode(true);
       portBtnDelete(thisBtnDelete, port, thisField);
 
-      if (stepScope > 0 ) {
+      if (stepScope > 0) {
         formPorts.appendChild(thisField);
         thisField.appendChild(noName);
         thisField.appendChild(thisFieldPrimary);
@@ -750,7 +751,6 @@ function metaPanel(cellView) {
     } else {
       alert("You first have to select an option type!");
     }
-
   });
 
   function optionInputLoad(dataId, input) {
@@ -955,12 +955,12 @@ function metaPanel(cellView) {
     // Options
     metaOptions.appendChild(formOptions);
     createOptionContent(null, false);
-  }
-  else if (stepGroup === "xproc.Compound" && stepScope === 2){
+  } else if (stepGroup === "xproc.Compound" && stepScope === 2) {
     // Info
     let type = document.createElement('h3');
     type.appendChild(document.createTextNode(stepType));
     let name = document.createElement('h4');
+    console.log(stepName);
     name.appendChild(document.createTextNode(stepName));
     metaInfo.appendChild(type);
     metaInfo.appendChild(name);

@@ -261,15 +261,12 @@ btnPaperNew.addEventListener('click', function (evt) {
   getId();
   let oldPipeline = graphX.getCell(globalPipeline);
   let newCellView = paperX.findViewByModel(currentCell.model);
-  console.log(oldPipeline);
-  console.log(newCellView);
   let newPipelineId = "newPipeline" + "_" + newId;
   createPaperBtn(newPipelineId, evt, newCellView, newId);
   globalPipeline = newPipelineId;
 });
 
 function createPaperBtn(modelId, evt, cellView, nm) {
-  console.log(evt);
   //CREATE BUTTON
   let newBtn = document.createElement('button');
   let btnId = 'btn-' + modelId;
@@ -439,9 +436,7 @@ function switchPaper(evt, paperId, btnId, pp, grph, targetCellView) {
     paperX = pp;
     graphX = grph;
   let cell = graphX.getCell(targetElemId);
-  console.log(cell);
   let cellView = paperX.findViewByModel(cell);
-  console.log(cellView);
   if (cell !== undefined) {
     metaPanel(cellView);
   }
@@ -451,14 +446,30 @@ function switchPaper(evt, paperId, btnId, pp, grph, targetCellView) {
     metaPanel(cellView);
     currentCell = cellView;
   });
+  paperX.on('element:pointerdown', function (cellView){
+    highlight(cellView);
+    metaPanel(cellView);
+    currentCell = cellView;
+  });
   paperX.on('cell:pointerdblclick', function (cellView, evt) {
     cellPointerDblClick(cellView, evt);
   });
+
+  graphX.on('change:source', function(){
+    console.log("SOURCE-CHANGE");
+  });
+
   paperX.on('link:connect', function (linkView, evt, elementViewConnected) {
+    console.log("Connected!");
+    console.log(linkView);
+    console.log(elementViewConnected);
     let source = linkView.sourceView.model.attributes.type;
     let sourcePort = linkView.sourceMagnet.attributes["port-group"].nodeValue;
     let targetPort = linkView.targetMagnet.attributes["port-group"].nodeValue;
     let target = elementViewConnected.model.attributes.type;
+    let sourceId = linkView.model.attributes.source.id;
+    let targetId = linkView.model.attributes.target.id;
+
     if (source === "xproc.Option") {
       alert("You are not allowed to use an option as source-port!");
       linkView.remove();
@@ -475,6 +486,12 @@ function switchPaper(evt, paperId, btnId, pp, grph, targetCellView) {
       alert("You are not allowed to connect these two ports!");
       linkView.remove();
     } else if (sourcePort === "in" && targetPort === "out" && source !== "xproc.Pipeline" && target === "xproc.Pipeline") {
+      alert("You are not allowed to connect these two ports!");
+      linkView.remove();
+    } else if (sourcePort === "in" && targetPort === "out" && sourceId === targetId && target !== "xproc.Pipeline") {
+      alert("You are not allowed to connect these two ports!");
+      linkView.remove();
+    } else if (sourcePort === "out" && targetPort === "in" && sourceId === targetId) {
       alert("You are not allowed to connect these two ports!");
       linkView.remove();
     }

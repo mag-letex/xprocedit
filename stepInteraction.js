@@ -171,7 +171,8 @@ function cellPointerDblClick(cellView, evt) {
 
 //HIGHLIGHTING FUNCTION
 let oldCellView = null;
-function highlight(cellView){
+
+function highlight(cellView) {
   if (oldCellView != null) {
     oldCellView.unhighlight(null, {
       highlighter: {
@@ -358,10 +359,7 @@ function metaPanel(cellView) {
   //Step-Information
   console.log(cellView);
   let testElem = graphX.getCell(cellView.model.attributes.id);
-  testElem.on('change', console.log("Change!"));
   let testView = paperX.findViewByModel(testElem);
-  console.log(testElem);
-  console.log(testView);
   currentCell = cellView;
   let step = cellView.model.toJSON();
   let stepScope = cellView.model.attributes.stepScope;
@@ -465,7 +463,7 @@ function metaPanel(cellView) {
     thisBtn.innerHTML = type;
     let btnName = "btn-" + type;
     thisBtn.setAttribute('id', btnName);
-    paperX.el.id = "paper-" + type;
+    // paperX.el.id = "paper-" + type;
     testBtnArray[index] = btnName;
     btnIdGlobal = btnName;
     globalPipeline = type;
@@ -473,24 +471,69 @@ function metaPanel(cellView) {
   }
 
   function mainInput(type, prefix, label, string, save) {
+    let links = graphX.getConnectedLinks(testElem);
+    let linkLength = links.length;
+    let linkSourceId = [];
+    let linkSourcePort = [];
+    let linkTargetId = [];
+    let linkTargetPort = [];
+    // let ports = testElem.getPorts();
+    let oldId = testElem.attributes.id;
+    for (let i = 0; i < linkLength; i++) {
+      let source = links[i].source();
+      let sourceId = source.id;
+      if (sourceId === oldId){
+        sourceId = string;
+      }
+      linkSourceId.push(sourceId);
+      let sourcePort = source.port;
+      linkSourcePort.push(sourcePort);
+      let target = links[i].target();
+      let targetId = target.id;
+      if (targetId === oldId){
+        targetId = string;
+      }
+      linkTargetId.push(targetId);
+      let targetPort = target.port;
+      linkTargetPort.push(targetPort);
+      links[i].disconnect();
+    }
+    let embCells = testElem.getEmbeddedCells();
+    console.log(embCells);
     testElem.attr({".label": {text: label}});
     testElem.prop('stepPrefix', prefix);
     testElem.prop('stepType', type);
     testElem.prop('stepId', string);
-    testElem.set('id', string);
-
-    // testView.el.attr('model-id', string);
-    // testView.el.attributes[0]["model-id"] = string;
-    testView.render();
-    // testView.el["model-id"] = string;
+    testElem.prop('id', string);
+    for (let i=0; i<embCells.length; i++){
+      embCells[i].prop('parent', string);
+    }
     console.log(testView);
     console.log(testElem);
+    let secReset = graphX.getCells();
+    graphX.resetCells(secReset);
+    for (let i = 0; i < linkLength; i++) {
+      let newLink = new devsLink({
+        router: {name: 'manhattan'},
+        connector: {name: 'rounded'},
+        attrs: {
+          '.connection': {fill: '#142529', stroke: '#142529', 'stroke-width': 4},
+          '.marker-target': {fill: 'black', d: 'M 10 0 L 0 5 L 10 10 z'},
+        },
+        source: { id: linkSourceId[i], port: linkSourcePort[i] },
+        target: { id: linkTargetId[i], port: linkTargetPort[i] }
+      });
+      graphX.addCell(newLink);
+    }
+    let checkCell = graphX.getCell(string);
+    let newPipeView = paperX.findViewByModel(checkCell);
+    console.log(newPipeView);
     if (save === true) {
-      switchButtonSave(string, testView);
+      switchButtonSave(string, newPipeView);
     }
   }
 
-  function calcVar(tp, prfx, nm, bool){
+  function calcVar(tp, prfx, nm, bool) {
     let tpCap = tp.charAt(0).toUpperCase() + tp.slice(1);
     let type = "" + prfx + tpCap;
     let label = "" + prfx + ":" + tp;
@@ -522,12 +565,12 @@ function metaPanel(cellView) {
     } else {
       let tp = cellView.model.attributes.stepType;
       let thisName = "" + tp + "_" + this.value;
-      cellView.model.prop('stepName', this.value);
       cellView.model.attr({".word2": {text: this.value}});
+      cellView.model.prop('stepName', this.value);
       cellView.model.prop('stepId', "" + tp + "_" + this.value);
-      cellView.el.setAttribute('model-id', "" + tp + _ + this.value);
-      if (cellView.model.attributes.type === "xproc.Pipeline"){
-      switchButtonSave("" + thisName);
+      // cellView.el.setAttribute('model-id', "" + tp + _ + this.value);
+      if (cellView.model.attributes.type === "xproc.Pipeline") {
+        switchButtonSave("" + thisName);
       }
     }
   });

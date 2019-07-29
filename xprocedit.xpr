@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="21.1">
+    <meta>
+        <filters directoryPatterns="" filePatterns="\Qxprocedit.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
+        <options>
+            <serialized version="21.1" xml:space="preserve">
+                <serializableOrderedMap>
+                    <entry>
+                        <String>Shk.Compile_xsl_stylesheet_saxon.Tools</String>
+                        <String>ctrl shift NUMBER_SIGN</String>
+                    </entry>
+                    <entry>
+                        <String>Shk.Decrease_font.Font_size</String>
+                        <String>ctrl MINUS</String>
+                    </entry>
+                    <entry>
+                        <String>Shk.Element.Select</String>
+                        <String>ctrl NUMBER_SIGN</String>
+                    </entry>
+                    <entry>
+                        <String>Shk.Increase_font.Font_size</String>
+                        <String>ctrl PLUS</String>
+                    </entry>
+                    <entry>
+                        <String>key.menu.shorcut.keys.option.pane</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
+                        <String>key.xml.catalog.option.pane</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
+                        <String>prefer</String>
+                        <String>system</String>
+                    </entry>
+                </serializableOrderedMap>
+            </serialized>
+        </options>
+    </meta>
+    <projectTree name="xprocedit.xpr">
+        <folder path="."/>
+    </projectTree>
+</project>

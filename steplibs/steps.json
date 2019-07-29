@@ -377,12 +377,14 @@
       "portData": [
         {
           "portId": "source",
-          "portGroup": "in"
+          "portGroup": "in",
+          "portPrimary": true
         },
         {
           "portId": "result",
           "portGroup": "out",
-          "portSequence": true
+          "portSequence": true,
+          "portPrimary": true
         }
       ],
       "stepOption": [
@@ -509,12 +511,14 @@
         {
           "portId": "source",
           "portGroup": "in",
-          "portSequence": true
+          "portSequence": true,
+          "portPrimary": true
         },
         {
           "portId": "result",
           "portGroup": "out",
-          "portSequence": true
+          "portSequence": true,
+          "portPrimary": true
         }
       ]
     },
@@ -546,7 +550,8 @@
         },
         {
           "portId": "result",
-          "portGroup": "out"
+          "portGroup": "out",
+          "portPrimary": true
         }
       ],
       "stepOption": [
@@ -657,6 +662,58 @@
           "defaultInputType": "string"
         }
       ]
+    },
+    {
+      "stepGroup": "xproc.Atomic",
+      "stepType": "pWrapSequence",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:wrap-sequence"
+        }
+      },
+      "portData": [
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true,
+          "portSequence": true
+        },
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "match",
+          "required": true,
+          "defaultInputType": "XSLT Pattern"
+        },
+        {
+          "name": "wrapper",
+          "required": true,
+          "defaultInputType": "QName"
+        },
+        {
+          "name": "wrapper-prefix",
+          "defaultInputType": "NCName"
+        },
+        {
+          "name": "wrapper-namespace",
+          "defaultInputType": "anyURI"
+        },
+        {
+          "name": "group-adjacent",
+          "defaultInputType": "XPath"
+        }
+      ]
     }
 
 
@@ -666,7 +723,7 @@
       "stepGroup": "xproc.Compound",
       "stepType": "pForEach",
       "inPorts": [
-        "source"
+        "current"
       ],
       "outPorts": [
         "result"
@@ -678,9 +735,9 @@
       },
       "portData": [
         {
-          "portId": "source",
+          "portId": "current",
           "portGroup": "in",
-          "portPrimary": false
+          "portPrimary": true
         },
         {
           "portId": "result",
@@ -688,28 +745,16 @@
           "portPrimary": true,
           "portSequence": true
         }
-      ],
-      "stepOption": [
-        {
-          "name": "code",
-          "required": true
-        },
-        {
-          "name": "code-prefix"
-        },
-        {
-          "name": "code-namespace"
-        }
       ]
     },
     {
       "stepGroup": "xproc.Compound",
       "stepType": "pViewport",
       "inPorts": [
-        "source"
+        "[source]"
       ],
       "outPorts": [
-        "result"
+        "[result]"
       ],
       "attrs": {
         ".label": {
@@ -718,27 +763,16 @@
       },
       "portData": [
         {
-          "portId": "source",
+          "portId": "[source]",
           "portGroup": "in",
-          "portPrimary": false
+          "portPrimary": true,
+          "portSequence": false
         },
         {
           "portId": "result",
           "portGroup": "out",
           "portPrimary": true,
-          "portSequence": true
-        }
-      ],
-      "stepOption": [
-        {
-          "name": "code",
-          "required": true
-        },
-        {
-          "name": "code-prefix"
-        },
-        {
-          "name": "code-namespace"
+          "portSequence": false
         }
       ]
     },

@@ -255,16 +255,87 @@ let devsOptionLink = new devsLink({
 });
 devsOptionLink.set('z', 1);
 
+// Port Definition
+let groupIn = {
+  position: 'left',
+  label: {
+    position: {
+      name: 'manual',
+      args: {
+        y: 5,
+        x: -35,
+        attrs: {'.': {'text-anchor': 'right'}}
+      }
+    }
+  },
+  attrs: {
+    '.port-body': {
+      r: 10,
+      fill: '#fff'
+      // magnet: 'passive'
+    }
+    // 'circle': {fill: 'red'}
+  },
+  markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#fff\" fill=\"#fff\"/>",
+  // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
+};
+
+let groupOut = {
+  position: 'right',
+  label: {
+    position: {
+      name: 'manual',
+      args: {
+        y: 5,
+        x: 35,
+        attrs: {'.': {'text-anchor': 'left'}}
+      }
+    }
+  },
+  attrs: {
+    '.port-body': {
+      fill: '#fff',
+      r: 10,
+      // magnet: 'passive'
+    }
+    // 'circle': {fill: 'red'}
+  },
+  markup: "<circle class=\"port-body out-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>"
+};
+
+let groupStub = {
+  position: 'up',
+  label: {
+    position: {
+      name: 'manual',
+      args: {
+        y: 5,
+        x: 35,
+        attrs: {'.': {'text-anchor': 'left'}}
+      }
+    }
+  },
+  attrs: {
+    '.port-body': {
+      fill: '#fff',
+      r: 10,
+      // magnet: 'passive'
+    }
+    // 'circle': {fill: 'red'}
+  },
+  markup: "<circle class=\"port-body stub-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>"
+};
+
 
 // Create New Paper (Button)
-btnPaperNew.addEventListener('click', function (evt) {
-  getId();
-  let oldPipeline = graphX.getCell(globalPipeline);
-  let newCellView = paperX.findViewByModel(currentCell.model);
-  let newPipelineId = "newPipeline" + "_" + newId;
-  createPaperBtn(newPipelineId, evt, newCellView, newId);
-  globalPipeline = newPipelineId;
-});
+// btnPaperNew.addEventListener('click', function (evt) {
+//   getId();
+//   let oldPipeline = graphX.getCell(globalPipeline);
+//   let newCellView = paperX.findViewByModel(currentCell.model);
+//   let newPipelineId = "newPipeline" + "_" + newId;
+//   createPaperBtn(newPipelineId, evt, newCellView, newId);
+//   globalPipeline = newPipelineId;
+// });
 
 function createPaperBtn(modelId, evt, cellView, nm) {
   //CREATE BUTTON
@@ -414,7 +485,6 @@ function deletePaper(paperId) {
 // Paper-Switch-Panel
 function switchPaper(evt, paperId, btnId, pp, grph, targetCellView) {
   let targetElemId = paperId.split("-")[1];
-  console.log(targetElemId);
   // Declare all variables
   let i, paperContent, tablink;
   // Get all elements with class="paperContent" and hide them
@@ -546,51 +616,8 @@ joint.shapes.xproc.Atomic = joint.shapes.xproc.toolElementAtomic.extend({
     size: {width: 180, height: 100},
     ports: {
       groups: {
-        'in': {
-          position: 'left',
-          label: {
-            position: {
-              name: 'manual',
-              args: {
-                y: 5,
-                x: -35,
-                attrs: {'.': {'text-anchor': 'right'}}
-              }
-            }
-          },
-          attrs: {
-            '.port-body': {
-              r: 10,
-              fill: '#fff'
-              // magnet: 'passive'
-            }
-            // 'circle': {fill: 'green'}
-          },
-          markup: "<circle class=\"port-body in-ports\" r=\"8\" stroke=\"#000\" fill=\"#fff\"/>",
-          // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
-        },
-        'out': {
-          position: 'right',
-          label: {
-            position: {
-              name: 'manual',
-              args: {
-                y: 5,
-                x: 35,
-                attrs: {'.': {'text-anchor': 'left'}}
-              }
-            }
-          },
-          attrs: {
-            '.port-body': {
-              fill: '#fff',
-              r: 10,
-              // magnet: 'passive'
-            }
-            // 'circle': {fill: 'green'}
-          },
-          markup: "<circle class=\"port-body out-ports\" r=\"8\" stroke=\"#000\" fill=\"#fff\"/>"
-        }
+        'in': groupIn,
+        'out': groupOut
       }
     },
     stepGroup: "xproc.Atomic",
@@ -637,6 +664,7 @@ joint.shapes.xproc.toolElementCompound = joint.shapes.devs.Coupled.extend({
   }, joint.shapes.devs.Coupled.prototype.defaults)
 });
 
+
 // xproc.Compound - Default
 joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
   markup: '<g class="rotatable"><g class="scalable"><rect/><title class="tooltip"/></g><text class="label"></text><text class="word2"></text></g>',
@@ -660,58 +688,16 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
     size: {width: 180, height: 100},
     ports: {
       groups: {
-        'in': {
-          position: 'left',
-          label: {
-            position: {
-              name: 'manual',
-              args: {
-                y: 5,
-                x: -35,
-                attrs: {'.': {'text-anchor': 'right'}}
-              }
-            }
-          },
-          attrs: {
-            '.port-body': {
-              r: 10,
-              fill: '#fff'
-              // magnet: 'passive'
-            }
-            // 'circle': {fill: 'red'}
-          },
-          markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>",
-          // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
-        },
-        'out': {
-          position: 'right',
-          label: {
-            position: {
-              name: 'manual',
-              args: {
-                y: 5,
-                x: 35,
-                attrs: {'.': {'text-anchor': 'left'}}
-              }
-            }
-          },
-          attrs: {
-            '.port-body': {
-              fill: '#fff',
-              r: 10,
-              // magnet: 'passive'
-            }
-            // 'circle': {fill: 'red'}
-          },
-          markup: "<circle class=\"port-body out-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>"
-        }
+        'in': groupIn,
+        'out': groupOut,
+        'stub': groupStub
       }
     },
     stepGroup: "xproc.Compound",
     stepScope: 1,
     stepType: "unset",
     stepId: "unset",
-    stepPrefix: "unset",
+    stepPrefix: "x",
     stepName: "unset",
     stepEmbeds: [],
     portData: [
@@ -727,6 +713,8 @@ joint.shapes.xproc.Compound = joint.shapes.xproc.toolElementCompound.extend({
     stepOption: []
   }, joint.shapes.xproc.toolElementCompound.prototype.defaults)
 });
+
+
 
 // Element Tool Settings
 joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
@@ -780,11 +768,16 @@ joint.shapes.xproc.ToolElementView = joint.dia.ElementView.extend({
 joint.shapes.xproc.AtomicView = joint.shapes.xproc.ToolElementView;
 joint.shapes.xproc.CompoundView = joint.shapes.xproc.ToolElementView;
 
+let groupInPipe = groupIn;
+groupInPipe.label.position.args.x = 35;
+let groupOutPipe = groupOut;
+groupOutPipe.label.position.args.x = -35;
+
 // xproc.Pipeline Initialization and Default
 let stepPipeWidth = canvas.offsetWidth - (canvas.offsetWidth * 10 / 100);
 joint.shapes.xproc.Compound.define('xproc.Pipeline', {
   type: "xproc.Compound",
-  stepType: "pipeline",
+  stepType: "pUnset",
   attrs: {
     rect: {
       fill: '#58ada4',
@@ -805,50 +798,8 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
   },
   ports: {
     groups: {
-      'in': {
-        position: 'left',
-        label: {
-          position: {
-            name: 'manual',
-            args: {
-              y: 5,
-              x: 35,
-              attrs: {'.': {'text-anchor': 'left'}}
-            }
-          }
-        },
-        attrs: {
-          '.port-body': {
-            r: 10,
-            fill: '#fff'
-            // magnet: 'passive'
-          }
-          // 'circle': {fill: 'red'}
-        },
-        markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>",
-      },
-      'out': {
-        position: 'right',
-        label: {
-          position: {
-            name: 'manual',
-            args: {
-              y: 5,
-              x: -35,
-              attrs: {'.': {'text-anchor': 'right'}}
-            }
-          }
-        },
-        attrs: {
-          '.port-body': {
-            fill: '#fff',
-            r: 10,
-            // magnet: 'passive'
-          }
-          // 'circle': {fill: 'red'}
-        },
-        markup: "<circle class=\"port-body out-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>"
-      }
+      'in': groupInPipe,
+      'out': groupOutPipe
     }
   },
   portData: [
@@ -866,6 +817,7 @@ joint.shapes.xproc.Compound.define('xproc.Pipeline', {
     }
   ]
 });
+
 
 function loadPipeline(pipelineId, num) {
   getId();
@@ -895,6 +847,7 @@ function loadPipeline(pipelineId, num) {
   metaPanel(cell);
 }
 
+
 // xproc.Custom - Initialization and Default
 joint.shapes.xproc.Compound.define('xproc.Custom', {
   type: 'xproc.Compound',
@@ -917,56 +870,14 @@ joint.shapes.xproc.Compound.define('xproc.Custom', {
   size: {width: 180, height: 100},
   ports: {
     groups: {
-      'in': {
-        position: 'left',
-        label: {
-          position: {
-            name: 'manual',
-            args: {
-              y: 5,
-              x: -40,
-              attrs: {'.': {'text-anchor': 'middle'}}
-            }
-          }
-        },
-        attrs: {
-          '.port-body': {
-            r: 10,
-            fill: '#fff'
-            // magnet: 'passive'
-          }
-          // 'circle': {fill: 'red'}
-        },
-        markup: "<circle class=\"port-body in-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>",
-        // markup: '<path d="M-20 0 l -10 30 l 20 0 Z" stroke="black"/>'
-      },
-      'out': {
-        position: 'right',
-        label: {
-          position: {
-            name: 'manual',
-            args: {
-              y: 5,
-              x: 40
-            }
-          }
-        },
-        attrs: {
-          '.port-body': {
-            fill: '#fff',
-            r: 10,
-            // magnet: 'passive'
-          }
-          // 'circle': {fill: 'red'}
-        },
-        markup: "<circle class=\"port-body out-ports\" r=\"10\" stroke=\"#000\" fill=\"#fff\"/>"
-      }
+      'in': groupIn,
+      'out': groupOut
     }
   },
   stepGroup: "xproc.Custom",
   stepType: "unset",
   stepId: "unset",
-  stepPrefix: "unset",
+  stepPrefix: "x",
   stepName: "unset",
   portData: [
     {

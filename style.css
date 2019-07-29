@@ -460,15 +460,21 @@ font-size: 1em;
 }
 
 .h3Input{
-  width: 50%;
+  width: 33.3%;
   float:left;
   background-color: #CAFF3A;
   cursor: initial;
 }
 .h3Output{
-  width: 50%;
-  float:right;
+  width: 33.3%;
+  float:left;
   background-color: #ff804a;
+  cursor: pointer;
+}
+.h3Stub{
+  width: 33.3%;
+  float:right;
+  background-color: #63aeff;
   cursor: pointer;
 }
 .divPorts{
@@ -482,6 +488,9 @@ font-size: 1em;
 }
 #divOutput{
   background-color: #ff804a;
+}
+#divStub{
+  background-color: #63aeff;
 }
 #metaOptions{
   grid-row: 9 / 14;

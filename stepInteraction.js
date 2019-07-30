@@ -1052,7 +1052,7 @@ function metaPanel(cellView) {
     let nameInput = thisName.appendChild(input.cloneNode(true));
     optionValueLoad(optValue, nameInput, cellView);
     formOptions.appendChild(thisName);
-  } else if ((step.type === "xproc.Atomic" || step.type === "xproc.Compound") && stepScope === 1) {
+  } else if ((step.type === "xproc.Atomic" || step.type === "xproc.Compound") && stepScope >= 1) {
     // Info
     let type = document.createElement('h3');
     type.appendChild(document.createTextNode(stepType));
@@ -1073,7 +1073,7 @@ function metaPanel(cellView) {
     // Options
     metaOptions.appendChild(formOptions);
     createOptionContent(null, false);
-  } else if (stepGroup === "xproc.Compound" && stepScope === 2) {
+  } else if (stepGroup === "xproc.Compound" && stepScope >= 2) {
     // Info
     let type = document.createElement('h3');
     type.appendChild(document.createTextNode(stepType));

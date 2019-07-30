@@ -394,6 +394,8 @@ function metaPanel(cellView) {
       inputPorts.push(portData[i]);
     } else if (portData[i].portGroup === "out") {
       outputPorts.push(portData[i]);
+    } else if (portData[i].portGroup === "stub") {
+      stubPorts.push(portData[i]);
     }
   }
   //Empty Panel Content
@@ -805,7 +807,7 @@ function metaPanel(cellView) {
                 // let thisOption = option.cloneNode().appendChild(document.createTextNode(string));
                 let liEl = document.createElement('li');
                 liEl.classList.add('stubListLi');
-                let thisEl = liEl.appendChild(document.createTextNode(string));
+                liEl.appendChild(document.createTextNode(string));
                 scopeUl.appendChild(liEl);
               }
             }
@@ -1097,6 +1099,7 @@ function metaPanel(cellView) {
     metaPorts.appendChild(divStub);
     divStub.appendChild(formStub);
     formStub.appendChild(btnStubAdd);
+    createPortContent(null, false, stubPorts, formStub, "stub");
     // Options
     metaOptions.appendChild(formOptions);
     createOptionContent(null, false);

@@ -14,6 +14,9 @@ function globalCell(view){
 
 let globalPipeline;
 let globalPipeModel;
+let globalStepArray = [];
+let globalStepScopeArray = [];
+let globalStepPortArray =[];
 let paperArr = [];
 let graphArr = [];
 let testGraph = [];
@@ -442,7 +445,7 @@ function createPaperBtn(modelId, evt, cellView, nm) {
     let stepType = cellView.model.toJSON().type;
     if (stepType === "xproc.Compound") {
       stepColor = '#85dfff';
-      scope = 2;
+      scope = cellView.model.attributes.stepScope + 1;
     } else {
       stepColor = '#58ada4';
       scope = 0;

@@ -258,7 +258,6 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     <xsl:variable name="plan-with-positions" as="element(fn:plan)">
       <xsl:apply-templates select="$plan" mode="plan-add-position"/>
     </xsl:variable>
-<!--    <xsl:message select="'PLAN:', $plan"></xsl:message>-->
     <xsl:variable name="sorted-plan-items" as="document-node(element(fn:plan))">
       <xsl:document>
         <plan xmlns="http://www.w3.org/2005/xpath-functions" sorted="true">

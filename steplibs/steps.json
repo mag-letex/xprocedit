@@ -602,6 +602,40 @@
     },
     {
       "stepGroup": "xproc.Atomic",
+      "stepType": "pStore",
+      "inPorts": [
+        "source"
+      ],
+      "outPorts": [
+        "result"
+      ],
+      "attrs": {
+        ".label": {
+          "text": "p:store"
+        }
+      },
+      "portData": [
+        {
+          "portId": "result",
+          "portGroup": "out",
+          "portPrimary": false
+        },
+        {
+          "portId": "source",
+          "portGroup": "in",
+          "portPrimary": true
+        }
+      ],
+      "stepOption": [
+        {
+          "name": "href",
+          "required": true,
+          "defaultInputType": "anyURI"
+        }
+      ]
+    },
+    {
+      "stepGroup": "xproc.Atomic",
       "stepType": "pXslt",
       "inPorts": [
         "source",

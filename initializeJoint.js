@@ -1,3 +1,5 @@
+alert("Marco sends greets and kisses to Balisage-Conference! I hope you all enjoy! =)");
+
 // GLOBAL VARIABLES
 let failedId = "";
 let newId = "";

@@ -48,7 +48,9 @@
     </xsl:variable>
     
     <xsl:variable name="xprocify">
-      <xsl:apply-templates select="$simplify-json-representation" mode="xprocify"/>  
+      <xsl:apply-templates select="$simplify-json-representation" mode="xprocify">
+<!--        <xsl:with-param name="generate-debug-info" as="xs:boolean" select="true()" tunnel="yes"/>-->
+      </xsl:apply-templates>  
     </xsl:variable>
     
     <xsl:variable name="clean">
@@ -87,7 +89,7 @@
     <xsl:sequence select="$clean"/>
   </xsl:template>
   
-  <xsl:template match="@* | *" mode="simplify-json-representation plan-add-position xprocify-post"
+  <xsl:template match="@* | *" mode="simplify-json-representation plan-add-position plan-add-prelim-position xprocify-post"
     xmlns="http://www.w3.org/2005/xpath-functions">
     <xsl:copy>
       <xsl:apply-templates select="@*, node()" mode="#current"/>
@@ -255,8 +257,15 @@
 We sort them according to sort-before[last()]/@pos (or according to @pos as fallback),
 with a descending sort by sort-before[last()]/@distance as tie-breaker
     -->
+    <xsl:variable name="plan-with-prelim-positions" as="document-node(element(fn:plan))">
+      <xsl:document><xsl:apply-templates select="$plan" mode="plan-add-prelim-position"/></xsl:document>
+    </xsl:variable>
+    <xsl:message select="'PPPPPPPPPPPPPPP ', $plan-with-prelim-positions"></xsl:message>
     <xsl:variable name="plan-with-positions" as="element(fn:plan)">
-      <xsl:apply-templates select="$plan" mode="plan-add-position"/>
+      <xsl:apply-templates select="$plan-with-prelim-positions" mode="plan-add-position">
+        <xsl:with-param name="max-distance" as="xs:integer" tunnel="yes"
+          select="xs:integer(max($plan-with-prelim-positions//@ppos))"/>
+      </xsl:apply-templates>
     </xsl:variable>
     <xsl:variable name="sorted-plan-items" as="document-node(element(fn:plan))">
       <xsl:document>
@@ -277,6 +286,7 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
         </plan>
       </xsl:document>
     </xsl:variable>
+    <xsl:message select="'SSSSSSSSSS ', $sorted-plan-items"></xsl:message>
     <!--<xsl:message select="'HHHHHHHHHHHHH ',for $p in $plan-with-positions/* return string-join(($p/@id, 
       'a:',$p/self::fn:plan-item[empty(@container)]/fn:sort-before[empty(@primary)][1]/@pos,
       'b:',$p/fn:sort-before[last()]/@pos,
@@ -391,7 +401,7 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="p:for-each[empty(@name)] | p:viewport[empty(@name)]" mode="xprocify-post">
+  <xsl:template match="p:for-each[empty(@name)] | p:viewport[empty(@name)]" mode="xprocify-post" priority="-1">
     <xsl:apply-templates mode="#current"/>
   </xsl:template>
   
@@ -444,32 +454,71 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     </xsl:for-each-group>
   </xsl:template>
   
+  
   <xsl:template match="fn:plan-item" mode="plan-add-position">
+    <xsl:param name="max-distance" tunnel="yes" as="xs:integer"/>
     <xsl:copy>
       <xsl:apply-templates select="@*" mode="#current"/>
-      <xsl:attribute name="pos" select="my:index-of(../*, .)"/>
+      <xsl:attribute name="pos" select="$max-distance - xs:integer(@ppos)"/>
       <xsl:if test="fn:connection(:[@primary = 'foo']:)">
-        <xsl:sequence select="my:plan-distance(., 1)"/>
+        <xsl:sequence select="my:plan-distance(., 1, $max-distance)"/>
       </xsl:if>
       <xsl:apply-templates mode="#current"/>
     </xsl:copy>
   </xsl:template>
   
+  <xsl:template match="fn:plan-item" mode="plan-add-prelim-position">
+    <xsl:copy>
+      <xsl:attribute name="ppos" select="my:distance-to-end(., 0, (), 0)"/>
+      <xsl:apply-templates select="@*" mode="#current"/>
+      <xsl:apply-templates mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:function name="my:distance-to-end" as="xs:integer">
+    <xsl:param name="plan-item" as="element(fn:plan-item)"/>
+    <xsl:param name="current" as="xs:integer"/>
+    <xsl:param name="seen" as="element(fn:plan-item)*"/>
+    <xsl:param name="iteration" as="xs:integer"/>
+    <xsl:variable name="connected-to" as="element(fn:plan-item)*" 
+      select="key('plan-by-id', $plan-item/fn:connection/@target, root($plan-item))"/>
+    <xsl:choose>
+      <xsl:when test="some $pi in $seen satisfies ($pi is $plan-item)">
+        <xsl:sequence select="$current"/>
+      </xsl:when>
+      <xsl:when test="$iteration gt 20">
+        <xsl:sequence select="$current"/>
+      </xsl:when>
+      <xsl:when test="exists($connected-to)">
+        <xsl:variable name="vals" as="xs:integer+">
+          <xsl:for-each select="$connected-to">
+            <xsl:sequence select="my:distance-to-end(., $current + 1, ($seen, $plan-item), $iteration + 1)"/>
+          </xsl:for-each>
+        </xsl:variable>
+        <xsl:sequence select="xs:integer(max($vals))"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="$current"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  
   <xsl:function name="my:plan-distance" as="element(fn:sort-before)*">
     <xsl:param name="plan-item" as="element(fn:plan-item)"/>
     <xsl:param name="distance" as="xs:integer"/>
+    <xsl:param name="max-distance" as="xs:integer"/>
     <xsl:variable name="connected-to" as="element(fn:plan-item)*" 
       select="key('plan-by-id', $plan-item/fn:connection(:[@primary = 'foo']:)/@target, root($plan-item))"/>
     <xsl:for-each select="$connected-to">
       <sort-before target="{@id}" distance="{$distance}" xmlns="http://www.w3.org/2005/xpath-functions">
-        <xsl:attribute name="pos" select="my:index-of($plan-item/../*, .)"/>
+        <xsl:attribute name="pos" select="$max-distance - xs:integer(@ppos)"/>
         <xsl:copy-of select="$plan-item/fn:connection[@target = current()/@id]/@primary"/>
         <xsl:if test="@container">
-          <xsl:attribute name="pos" select="count($plan-item/../*) + 1"/>
+          <xsl:attribute name="pos" select="$max-distance"/>
         </xsl:if>
       </sort-before>
       <xsl:if test=".[not(@container)]/fn:connection[@primary]">
-        <xsl:sequence select="my:plan-distance(., $distance + 1)"/>
+        <xsl:sequence select="my:plan-distance(., $distance + 1, $max-distance)"/>
       </xsl:if>
     </xsl:for-each>
   </xsl:function>

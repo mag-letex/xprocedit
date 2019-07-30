@@ -52,7 +52,27 @@
     </xsl:variable>
     
     <xsl:variable name="clean">
-      <xsl:apply-templates select="$xprocify" mode="clean"/>
+      <xsl:variable name="prelim" as="element(p:declare-step)">
+        <xsl:apply-templates select="$xprocify" mode="clean"/>
+      </xsl:variable>
+      <xsl:for-each select="$prelim">
+        <xsl:copy>
+          <xsl:copy-of select="@*, node()"/>
+          <xsl:if test="$generate-debug-info">
+            <p:documentation>Simplified XML representation of the JSON model</p:documentation>
+            <p:pipeinfo>
+              <xsl:sequence select="$simplify-json-representation"/>
+            </p:pipeinfo>
+            <p:documentation>JSON</p:documentation>
+            <p:pipeinfo>
+              <json>
+                <xsl:sequence select="$graph-as-json"/>
+              </json>
+            </p:pipeinfo>
+
+          </xsl:if>
+        </xsl:copy>
+      </xsl:for-each>
     </xsl:variable>
     
     <xsl:if test="$generate-debug-info">
@@ -191,6 +211,7 @@
   
   <xsl:template name="process-subpipeline">
     <xsl:param name="optimize-for-editing" as="xs:boolean" select="true()" tunnel="yes"/>
+    <xsl:param name="generate-debug-info" as="xs:boolean" select="false()" tunnel="yes"/>
     <xsl:variable name="to-be-processed" as="element(*)*" 
       select="key('step-by-id', fn:embeds/fn:value)[local-name() = $subpipeline-element-names]"/>
     <xsl:variable name="plan" as="document-node(element(fn:plan))">
@@ -263,7 +284,9 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
       'c:',$p/@pos,
       'd:',min(for $sb in $p/fn:sort-before[@distance][@pos]
                                           return $sb/@pos - $sb/@distance)), ' :: ')"></xsl:message>-->
-    <xsl:message select="'SORTED PLAN:', $sorted-plan-items"></xsl:message>
+    <xsl:if test="$generate-debug-info">
+      <xsl:message select="'SORTED PLAN:', $sorted-plan-items"></xsl:message>
+    </xsl:if>
     <!-- Watch out: Now the “plan” is transformed in xprocify mode! -->
     <xsl:variable name="plan" as="document-node(element(fn:plan))">
       <xsl:choose>
@@ -310,11 +333,11 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     </xsl:variable>
     <xsl:apply-templates select="$prelim" mode="xprocify-post">
       <xsl:with-param name="step-name" select="$step-name" tunnel="yes"/>
-      <xsl:with-param name="pipeinfo" as="element(p:pipeinfo)?" tunnel="yes">
+      <xsl:with-param name="pipeinfo" as="element(*)*" tunnel="yes">
         <xsl:if test="$generate-debug-info">
+          <p:documentation>Ordering plan</p:documentation>
           <p:pipeinfo>
             <xsl:sequence select="root(.)"/>
-            <xsl:sequence select="$simplified-graph"/>
           </p:pipeinfo>
         </xsl:if>
       </xsl:with-param>
@@ -359,6 +382,8 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
   </xsl:template>
   
+  <xsl:template match="@primary[.='unset'] | @sequence[.='unset']" mode="xprocify-post"/>
+  
   <xsl:template match="p:viewport/p:input[@port = '[source]'][empty(p:pipe)]" mode="xprocify-post" priority="1"/>
 
   <xsl:template match="p:viewport/p:input[@port = '[source]']" mode="xprocify-post">
@@ -381,7 +406,7 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
   </xsl:template>
   
   <xsl:template match="*[empty(..)]" mode="xprocify-post">
-    <xsl:param name="pipeinfo" as="element(p:pipeinfo)?" tunnel="yes"/>
+    <xsl:param name="pipeinfo" as="element(*)*" tunnel="yes"/>
     <xsl:copy>
       <xsl:apply-templates select="@*, node()" mode="#current"/>
       <xsl:sequence select="$pipeinfo"/>
@@ -412,7 +437,7 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     <xsl:param name="connections" as="element(fn:devs.StandLink)*"/>
     <xsl:for-each-group select="$connections" group-by="fn:target/fn:port">
       <xsl:element name="{if (xs:decimal($xproc-version) >= 3) then 'p:with-input' else 'p:input'}">
-        <xsl:attribute name="port" select="fn:target/fn:port"/>
+        <xsl:attribute name="port" select="fn:current-grouping-key()"/>
         <xsl:for-each select="current-group()">
           <p:pipe step="{fn:source/fn:id}" port="{fn:source/fn:port}"/>      
         </xsl:for-each>
@@ -531,13 +556,13 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
         <xsl:if test="$port-type = 'out'">
           <xsl:variable name="container" as="element(fn:plan-item)"
             select="$plan/fn:plan/fn:plan-item[@container]"/>
-          <xsl:variable name="out-connections" as="element(p:input)">
+          <xsl:variable name="out-connections" as="element(p:input)*">
             <xsl:call-template name="connections">
               <xsl:with-param name="connections" as="element(fn:devs.StandLink)*"
                 select="key('connect-target', $container/@id, $simplified-graph)[fn:parent = $container/@id]"/>
             </xsl:call-template>  
           </xsl:variable>
-          <xsl:sequence select="$out-connections/p:pipe"/>
+          <xsl:sequence select="$out-connections[@port = $port-name]/p:pipe"/>
         </xsl:if>
       </xsl:if>
       <xsl:if test="$pipe-step-name">

@@ -9,10 +9,11 @@
   xmlns:p="http://www.w3.org/ns/xproc"
   version="3.0"
   xpath-default-namespace="http://www.w3.org/1999/xhtml"
-  exclude-result-prefixes="math output fn my xs">
+  exclude-result-prefixes="math output fn my xs c">
   
   <xsl:param name="json" as="item()"/>
   <xsl:param name="layout" as="xs:string?" select="'false'"/>
+  <xsl:param name="optimize" as="xs:string?" select="'true'"/>
   <xsl:param name="debug" as="xs:string?" select="'true'"/>
 
   <xsl:variable name="xproc-version" as="xs:string" select="'1.0'"/>
@@ -22,13 +23,17 @@
   <xsl:template name="create-xpl">
     <xsl:call-template name="create-xpl-noninteractive">
       <xsl:with-param name="graph-as-json" select="unparsed-text($json)"/>
-      <xsl:with-param name="retain-layout" select="$layout = ('1', 'true', 'yes')"/>
+      <xsl:with-param name="retain-layout" select="$layout = ('1', 'true', 'yes')" tunnel="yes"/>
+      <xsl:with-param name="optimize-for-editing" select="$optimize = ('1', 'true', 'yes')" tunnel="yes"/>
+      <xsl:with-param name="generate-debug-info" select="$debug = ('1', 'true', 'yes')" tunnel="yes"/>
     </xsl:call-template>
   </xsl:template>
   
   <xsl:template name="create-xpl-noninteractive">
     <xsl:param name="graph-as-json" as="xs:string"/>
-    <xsl:param name="retain-layout" as="xs:boolean" select="false()"/>
+    <xsl:param name="retain-layout" as="xs:boolean" select="false()" tunnel="yes"/>
+    <xsl:param name="optimize-for-editing" as="xs:boolean" select="true()" tunnel="yes"/>
+    <xsl:param name="generate-debug-info" as="xs:boolean" select="false()" tunnel="yes"/>
     
     <xsl:variable name="graph" as="document-node(element(fn:array))"
       select="json-to-xml($graph-as-json)"/>
@@ -36,20 +41,43 @@
     <xsl:variable name="simplify-json-representation" as="document-node(element(fn:doc))">
       <xsl:document>
         <xsl:apply-templates select="$graph" mode="simplify-json-representation">
+          <!-- can probably omit this explicit param passing -->
           <xsl:with-param name="retain-layout" as="xs:boolean" tunnel="yes" select="$retain-layout"/>
         </xsl:apply-templates>
       </xsl:document>
     </xsl:variable>
     
     <xsl:variable name="xprocify">
-      <xsl:apply-templates select="$simplify-json-representation" mode="xprocify"/>  
+      <xsl:apply-templates select="$simplify-json-representation" mode="xprocify">
+<!--        <xsl:with-param name="generate-debug-info" as="xs:boolean" select="true()" tunnel="yes"/>-->
+      </xsl:apply-templates>  
     </xsl:variable>
     
     <xsl:variable name="clean">
-      <xsl:apply-templates select="$xprocify" mode="clean"/>
+      <xsl:variable name="prelim" as="element(p:declare-step)">
+        <xsl:apply-templates select="$xprocify" mode="clean"/>
+      </xsl:variable>
+      <xsl:for-each select="$prelim">
+        <xsl:copy>
+          <xsl:copy-of select="@*, node()"/>
+          <xsl:if test="$generate-debug-info">
+            <p:documentation>Simplified XML representation of the JSON model</p:documentation>
+            <p:pipeinfo>
+              <xsl:sequence select="$simplify-json-representation"/>
+            </p:pipeinfo>
+            <p:documentation>JSON</p:documentation>
+            <p:pipeinfo>
+              <json>
+                <xsl:sequence select="$graph-as-json"/>
+              </json>
+            </p:pipeinfo>
+
+          </xsl:if>
+        </xsl:copy>
+      </xsl:for-each>
     </xsl:variable>
     
-    <xsl:if test="$debug = 'true'">
+    <xsl:if test="$generate-debug-info">
       <xsl:message select="'########JSON GRAPH: ', $graph-as-json"/>
       <xsl:message select="'########XML GRAPH: ', serialize($graph)"/>
       <xsl:message select="'########SIMPLIFY: ', serialize($simplify-json-representation)"/>
@@ -61,7 +89,7 @@
     <xsl:sequence select="$clean"/>
   </xsl:template>
   
-  <xsl:template match="@* | *" mode="simplify-json-representation plan-add-position xprocify-post"
+  <xsl:template match="@* | *" mode="simplify-json-representation plan-add-position plan-add-prelim-position xprocify-post"
     xmlns="http://www.w3.org/2005/xpath-functions">
     <xsl:copy>
       <xsl:apply-templates select="@*, node()" mode="#current"/>
@@ -184,6 +212,8 @@
     select="('xproc.Atomic', 'xproc.Compound', 'xproc.Variable')"/>
   
   <xsl:template name="process-subpipeline">
+    <xsl:param name="optimize-for-editing" as="xs:boolean" select="true()" tunnel="yes"/>
+    <xsl:param name="generate-debug-info" as="xs:boolean" select="false()" tunnel="yes"/>
     <xsl:variable name="to-be-processed" as="element(*)*" 
       select="key('step-by-id', fn:embeds/fn:value)[local-name() = $subpipeline-element-names]"/>
     <xsl:variable name="plan" as="document-node(element(fn:plan))">
@@ -227,43 +257,100 @@
 We sort them according to sort-before[last()]/@pos (or according to @pos as fallback),
 with a descending sort by sort-before[last()]/@distance as tie-breaker
     -->
+    <xsl:variable name="plan-with-prelim-positions" as="document-node(element(fn:plan))">
+      <xsl:document><xsl:apply-templates select="$plan" mode="plan-add-prelim-position"/></xsl:document>
+    </xsl:variable>
+    <xsl:message select="'PPPPPPPPPPPPPPP ', $plan-with-prelim-positions"></xsl:message>
     <xsl:variable name="plan-with-positions" as="element(fn:plan)">
-      <xsl:apply-templates select="$plan" mode="plan-add-position"/>
+      <xsl:apply-templates select="$plan-with-prelim-positions" mode="plan-add-position">
+        <xsl:with-param name="max-distance" as="xs:integer" tunnel="yes"
+          select="xs:integer(max($plan-with-prelim-positions//@ppos))"/>
+      </xsl:apply-templates>
     </xsl:variable>
     <xsl:variable name="sorted-plan-items" as="document-node(element(fn:plan))">
       <xsl:document>
-        <plan xmlns="http://www.w3.org/2005/xpath-functions">
+        <plan xmlns="http://www.w3.org/2005/xpath-functions" sorted="true">
           <xsl:perform-sort select="$plan-with-positions/*">
-            <xsl:sort select="xs:integer((fn:sort-before[last()]/@pos, @pos)[1])"/>
-            <xsl:sort select="xs:integer((fn:sort-before[last()]/@distance, 0)[1])" order="descending"/>
+            <xsl:sort select="xs:integer((self::fn:plan-item[@container]/@pos,
+                                          self::fn:plan-item/fn:sort-before[empty(@primary)][1]/@pos, 
+                                          self::fn:plan-item/fn:sort-before[last()]/@pos, 
+                                          @pos
+                                         )[1])"/>
+            <xsl:sort select="xs:integer((self::fn:plan-item/fn:sort-before[empty(@primary)][1]/@distance, 
+                                          self::fn:plan-item/fn:sort-before[last()]/@distance, 
+                                          0
+                                         )[1])" order="descending"/>
+            <xsl:sort select="xs:integer(min(for $sb in fn:sort-before[@distance][@pos]
+                                          return $sb/@pos - $sb/@distance))"/>
           </xsl:perform-sort>
         </plan>
       </xsl:document>
     </xsl:variable>
-    <xsl:apply-templates select="$sorted-plan-items/fn:plan/fn:plan-item[@container]" mode="#current">
+    <xsl:message select="'SSSSSSSSSS ', $sorted-plan-items"></xsl:message>
+    <!--<xsl:message select="'HHHHHHHHHHHHH ',for $p in $plan-with-positions/* return string-join(($p/@id, 
+      'a:',$p/self::fn:plan-item[empty(@container)]/fn:sort-before[empty(@primary)][1]/@pos,
+      'b:',$p/fn:sort-before[last()]/@pos,
+      'c:',$p/@pos,
+      'd:',min(for $sb in $p/fn:sort-before[@distance][@pos]
+                                          return $sb/@pos - $sb/@distance)), ' :: ')"></xsl:message>-->
+    <xsl:if test="$generate-debug-info">
+      <xsl:message select="'SORTED PLAN:', $sorted-plan-items"></xsl:message>
+    </xsl:if>
+    <!-- Watch out: Now the “plan” is transformed in xprocify mode! -->
+    <xsl:variable name="plan" as="document-node(element(fn:plan))">
+      <xsl:choose>
+        <xsl:when test="$optimize-for-editing">
+          <xsl:sequence select="$sorted-plan-items"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:document>
+            <xsl:sequence select="$plan-with-positions"/>
+          </xsl:document>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:apply-templates select="$plan/fn:plan/fn:plan-item[@container]" mode="#current">
       <xsl:with-param name="simplified-graph" select="root(.)" as="document-node(element(fn:doc))" tunnel="yes"/>
+      <xsl:with-param name="plan" as="document-node(element(fn:plan))" tunnel="yes" select="$plan"/>
       <xsl:with-param name="container-id" select="fn:stepId" tunnel="yes" as="xs:string"/>
     </xsl:apply-templates>
   </xsl:template>
   
   <xsl:template match="fn:plan-item[@container]" mode="xprocify">
+    <xsl:param name="optimize-for-editing" as="xs:boolean?" tunnel="yes"/>
     <xsl:param name="simplified-graph" as="document-node(element(fn:doc))" tunnel="yes"/>
     <xsl:param name="container-id" as="xs:string" tunnel="yes"/>
+    <xsl:param name="generate-debug-info" as="xs:boolean?" tunnel="yes"/>
     <xsl:variable name="corresponding" as="element(*)" 
       select="key('step-by-id', @id, $simplified-graph)[fn:stepId = $container-id]/self::fn:xproc.Pipeline"/>
-    <xsl:element name="{($corresponding/fn:text, 'p:declare-step')[1]}">
-      <xsl:if test="empty($corresponding/fn:text)">
-        <xsl:attribute name="version" select="$xproc-version"/>
-        <xsl:attribute name="name" select="$corresponding/fn:stepId"/>
-      </xsl:if>
-      <xsl:apply-templates select="$corresponding/fn:portData" mode="#current"/>
-      <xsl:apply-templates select="key('options', $corresponding/fn:stepId, $simplified-graph)
-                                     [fn:paren = $container-id]" mode="#current">
-        <xsl:with-param name="global" select="exists($corresponding/self::fn:xproc.Pipeline/fn:stepType[. = 'pipeline'])"
-          as="xs:boolean"/>
-      </xsl:apply-templates>
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
-    </xsl:element>
+    <xsl:variable name="step-name" as="xs:string" select="@id"/>
+    <xsl:variable name="prelim" as="element(*)">
+      <xsl:element name="{($corresponding/fn:text, 'p:declare-step')[1]}">
+        <xsl:if test="empty($corresponding/fn:text)">
+          <xsl:attribute name="version" select="$xproc-version"/>
+          <xsl:attribute name="name" select="$corresponding/fn:stepId"/>
+        </xsl:if>
+        <xsl:apply-templates select="$corresponding/fn:portData" mode="#current"/>
+        <xsl:apply-templates select="key('options', $corresponding/fn:stepId, $simplified-graph)
+                                       [fn:paren = $container-id]" mode="#current">
+          <xsl:with-param name="global" select="exists($corresponding/self::fn:xproc.Pipeline/fn:stepType[. = 'pipeline'])"
+            as="xs:boolean"/>
+        </xsl:apply-templates>
+        <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+        
+      </xsl:element>
+    </xsl:variable>
+    <xsl:apply-templates select="$prelim" mode="xprocify-post">
+      <xsl:with-param name="step-name" select="$step-name" tunnel="yes"/>
+      <xsl:with-param name="pipeinfo" as="element(*)*" tunnel="yes">
+        <xsl:if test="$generate-debug-info">
+          <p:documentation>Ordering plan</p:documentation>
+          <p:pipeinfo>
+            <xsl:sequence select="root(.)"/>
+          </p:pipeinfo>
+        </xsl:if>
+      </xsl:with-param>
+    </xsl:apply-templates>
   </xsl:template>
   
   <xsl:template match="fn:plan-item[empty(@container)]" mode="xprocify">
@@ -304,18 +391,46 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
   </xsl:template>
   
-  <xsl:template match="p:for-each" mode="xprocify-post">
+  <xsl:template match="@primary[.='unset'] | @sequence[.='unset']" mode="xprocify-post"/>
+  
+  <xsl:template match="p:viewport/p:input[@port = '[source]'][empty(p:pipe)]" mode="xprocify-post" priority="1"/>
+
+  <xsl:template match="p:viewport/p:input[@port = '[source]']" mode="xprocify-post">
+    <xsl:element name="{if (xs:decimal($xproc-version) >= 3) then 'p:with-input' else 'p:viewport-source'}">
+      <xsl:apply-templates mode="#current"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="p:for-each[empty(@name)] | p:viewport[empty(@name)]" mode="xprocify-post" priority="-1">
     <xsl:apply-templates mode="#current"/>
   </xsl:template>
   
   <xsl:template match="p:for-each/p:input" mode="xprocify-post"/>
   
-  <xsl:template match="p:for-each/*/*[name() = ('p:input', 'p:with-input')][p:pipe/@step]" mode="xprocify-post">
+  <xsl:template match="p:for-each/*/*[name() = ('p:input', 'p:with-input')][p:pipe/@step]" mode="xprocify-post" priority="2">
     <xsl:param name="step-name" as="xs:string" tunnel="yes"/>
     <xsl:if test="not(p:pipe/@step = $step-name)">
       <xsl:next-match/>
     </xsl:if>
   </xsl:template>
+  
+  <xsl:template match="*[empty(..)]" mode="xprocify-post">
+    <xsl:param name="pipeinfo" as="element(*)*" tunnel="yes"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*, node()" mode="#current"/>
+      <xsl:sequence select="$pipeinfo"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="*[empty(..)][empty(*[last()]/self::p:sink)]
+                          /p:output[@primary = 'true'][count(p:pipe) = 1]/p:pipe" mode="xprocify-post"/>
+
+  <xsl:template match="*[empty(..)][empty(*[last()]/self::p:sink)]
+                          [p:output[@primary = 'true'][count(p:pipe) gt 1]]/*[last()]" mode="xprocify-post">
+    <xsl:next-match/>
+    <p:sink/>
+  </xsl:template>
+
   
   <xsl:template match="p:for-each/p:input" mode="clean">
     <p:iteration-source>
@@ -331,7 +446,7 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     <xsl:param name="connections" as="element(fn:devs.StandLink)*"/>
     <xsl:for-each-group select="$connections" group-by="fn:target/fn:port">
       <xsl:element name="{if (xs:decimal($xproc-version) >= 3) then 'p:with-input' else 'p:input'}">
-        <xsl:attribute name="port" select="fn:target/fn:port"/>
+        <xsl:attribute name="port" select="fn:current-grouping-key()"/>
         <xsl:for-each select="current-group()">
           <p:pipe step="{fn:source/fn:id}" port="{fn:source/fn:port}"/>      
         </xsl:for-each>
@@ -339,31 +454,73 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
     </xsl:for-each-group>
   </xsl:template>
   
+  
   <xsl:template match="fn:plan-item" mode="plan-add-position">
+    <xsl:param name="max-distance" tunnel="yes" as="xs:integer"/>
     <xsl:copy>
       <xsl:apply-templates select="@*" mode="#current"/>
-      <xsl:attribute name="pos" select="my:index-of(../*, .)"/>
-      <xsl:if test="fn:connection[@primary]">
-        <xsl:sequence select="my:plan-distance(., 1)"/>
+      <xsl:attribute name="pos" select="$max-distance - xs:integer(@ppos)"/>
+      <xsl:if test="fn:connection(:[@primary = 'foo']:)">
+        <xsl:sequence select="my:plan-distance(., 1, $max-distance)"/>
       </xsl:if>
       <xsl:apply-templates mode="#current"/>
     </xsl:copy>
   </xsl:template>
   
+  <xsl:template match="fn:plan-item" mode="plan-add-prelim-position">
+    <xsl:copy>
+      <xsl:attribute name="ppos" select="my:distance-to-end(., 0, (), 0)"/>
+      <xsl:apply-templates select="@*" mode="#current"/>
+      <xsl:apply-templates mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:function name="my:distance-to-end" as="xs:integer">
+    <xsl:param name="plan-item" as="element(fn:plan-item)"/>
+    <xsl:param name="current" as="xs:integer"/>
+    <xsl:param name="seen" as="element(fn:plan-item)*"/>
+    <xsl:param name="iteration" as="xs:integer"/>
+    <xsl:variable name="connected-to" as="element(fn:plan-item)*" 
+      select="key('plan-by-id', $plan-item/fn:connection/@target, root($plan-item))"/>
+    <xsl:choose>
+      <xsl:when test="some $pi in $seen satisfies ($pi is $plan-item)">
+        <xsl:sequence select="$current"/>
+      </xsl:when>
+      <xsl:when test="$iteration gt 20">
+        <xsl:sequence select="$current"/>
+      </xsl:when>
+      <xsl:when test="exists($connected-to)">
+        <xsl:variable name="vals" as="xs:integer+">
+          <xsl:for-each select="$connected-to">
+            <xsl:sequence select="my:distance-to-end(., $current + 1, ($seen, $plan-item), $iteration + 1)"/>
+          </xsl:for-each>
+        </xsl:variable>
+        <xsl:sequence select="xs:integer(max($vals))"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="$current"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  
   <xsl:function name="my:plan-distance" as="element(fn:sort-before)*">
     <xsl:param name="plan-item" as="element(fn:plan-item)"/>
     <xsl:param name="distance" as="xs:integer"/>
-    <xsl:variable name="connected-to" as="element(fn:plan-item)" 
-      select="key('plan-by-id', $plan-item/fn:connection[@primary]/@target, root($plan-item))"/>
-    <sort-before target="{$connected-to/@id}" distance="{$distance}" xmlns="http://www.w3.org/2005/xpath-functions">
-      <xsl:attribute name="pos" select="my:index-of($plan-item/../*, $connected-to)"/>
-      <xsl:if test="$connected-to/@container">
-        <xsl:attribute name="pos" select="count($plan-item/../*) + 1"/>
+    <xsl:param name="max-distance" as="xs:integer"/>
+    <xsl:variable name="connected-to" as="element(fn:plan-item)*" 
+      select="key('plan-by-id', $plan-item/fn:connection(:[@primary = 'foo']:)/@target, root($plan-item))"/>
+    <xsl:for-each select="$connected-to">
+      <sort-before target="{@id}" distance="{$distance}" xmlns="http://www.w3.org/2005/xpath-functions">
+        <xsl:attribute name="pos" select="$max-distance - xs:integer(@ppos)"/>
+        <xsl:copy-of select="$plan-item/fn:connection[@target = current()/@id]/@primary"/>
+        <xsl:if test="@container">
+          <xsl:attribute name="pos" select="$max-distance"/>
+        </xsl:if>
+      </sort-before>
+      <xsl:if test=".[not(@container)]/fn:connection[@primary]">
+        <xsl:sequence select="my:plan-distance(., $distance + 1, $max-distance)"/>
       </xsl:if>
-    </sort-before>
-    <xsl:if test="$connected-to[not(@container)]/fn:connection[@primary]">
-      <xsl:sequence select="my:plan-distance($connected-to, $distance + 1)"/>
-    </xsl:if>
+    </xsl:for-each>
   </xsl:function>
   
   <xsl:key name="plan-by-id" match="fn:plan-item" use="@id"/>
@@ -428,19 +585,36 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
   
   <xsl:template match="fn:xproc.Pipeline/fn:portData/fn:anonymous-map" mode="xprocify" priority="1">
     <xsl:param name="pipe-step-name" as="xs:string?" tunnel="yes"/>
+    <xsl:param name="plan" as="document-node(element(fn:plan))" tunnel="yes"/>
+    <xsl:param name="simplified-graph" as="document-node(element(fn:doc))" tunnel="yes"/>
     <xsl:variable name="port-type" select="fn:portGroup" as="xs:string"/>
     <xsl:variable name="port-name" select="fn:portId"/>
-    <xsl:variable name="port-primary" select="fn:portPrimary" as="xs:string?"/>
+    <xsl:variable name="port-primary" as="xs:string"
+      select="(fn:portPrimary, 
+               'true'[count(current()/../fn:anonymous-map[fn:portGroup = $port-type]) = 1]
+              )[1]"/>
     <xsl:variable name="port-sequence" select="fn:portSequence" as="xs:string?"/>
     <xsl:element name="{if($port-type eq 'in') then 'p:input' else 'p:output'}">
       <xsl:attribute name="port" select="$port-name"/>
       <xsl:if test="$port-primary">
-        <xsl:attribute name="primary" select="$port-primary"/>  
-      </xsl:if>
-      <xsl:if test="$port-sequence">
-        <xsl:attribute name="sequence" select="$port-sequence"/>  
+        <xsl:attribute name="primary" select="$port-primary"/>
+        <xsl:if test="$port-sequence">
+          <xsl:attribute name="sequence" select="$port-sequence"/>
+        </xsl:if>
+        <xsl:if test="$port-type = 'out'">
+          <xsl:variable name="container" as="element(fn:plan-item)"
+            select="$plan/fn:plan/fn:plan-item[@container]"/>
+          <xsl:variable name="out-connections" as="element(p:input)*">
+            <xsl:call-template name="connections">
+              <xsl:with-param name="connections" as="element(fn:devs.StandLink)*"
+                select="key('connect-target', $container/@id, $simplified-graph)[fn:parent = $container/@id]"/>
+            </xsl:call-template>  
+          </xsl:variable>
+          <xsl:sequence select="$out-connections[@port = $port-name]/p:pipe"/>
+        </xsl:if>
       </xsl:if>
       <xsl:if test="$pipe-step-name">
+        <!-- What is this? -->
         <p:pipe step="{$pipe-step-name}" port="result"/>
       </xsl:if>
     </xsl:element>

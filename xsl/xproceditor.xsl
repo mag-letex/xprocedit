@@ -43,6 +43,10 @@
         select="ixsl:eval('JSON.stringify(allPipelines())')"/>
       <xsl:with-param name="retain-layout" select="ixsl:get(id('layout-checkbox',ixsl:page()), 'checked')" 
           as="xs:boolean" tunnel="yes"/>
+      <xsl:with-param name="generate-debug-info" select="ixsl:get(id('debug-checkbox',ixsl:page()), 'checked')" 
+          as="xs:boolean" tunnel="yes"/>
+      <xsl:with-param name="optimize-for-editing" select="ixsl:get(id('optimize-checkbox',ixsl:page()), 'checked')" 
+          as="xs:boolean" tunnel="yes"/>
     </xsl:call-template>
   </xsl:template>
   

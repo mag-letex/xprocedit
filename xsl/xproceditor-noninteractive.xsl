@@ -52,6 +52,10 @@
       </xsl:document>
     </xsl:variable>
     
+    <xsl:if test="$generate-debug-info">
+      <xsl:message select="'########SIMPLIFY: ', serialize($simplify-json-representation)"/>
+    </xsl:if>
+    
     <xsl:variable name="xprocify">
       <xsl:apply-templates select="$simplify-json-representation" mode="xprocify">
 <!--        <xsl:with-param name="generate-debug-info" as="xs:boolean" select="true()" tunnel="yes"/>-->
@@ -83,7 +87,6 @@
     </xsl:variable>
     
     <xsl:if test="$generate-debug-info">
-      <xsl:message select="'########SIMPLIFY: ', serialize($simplify-json-representation)"/>
       <xsl:message select="'########XPROCIFY: ', serialize($xprocify)"/>
     </xsl:if>
 <!--    <xsl:sequence select="$graph"></xsl:sequence>-->
@@ -204,10 +207,10 @@
   <xsl:key name="step-by-id" match="*[fn:stepId]" use="fn:stepId"/>
   
   <xsl:template match="fn:doc" mode="xprocify">
-    <xsl:apply-templates select="fn:anonymous-array/fn:xproc.Pipeline[fn:stepType = 'pipeline']" mode="#current"/>
+    <xsl:apply-templates select="fn:anonymous-array/fn:xproc.Pipeline[fn:stepScope = '0']" mode="#current"/>
   </xsl:template>
   
-  <xsl:template match="fn:xproc.Pipeline[fn:stepType = 'pipeline']" mode="xprocify">
+  <xsl:template match="fn:xproc.Pipeline[fn:stepScope = '0']" mode="xprocify">
     <xsl:call-template name="process-subpipeline"/>
   </xsl:template>
   
@@ -336,8 +339,8 @@ with a descending sort by sort-before[last()]/@distance as tie-breaker
         <xsl:apply-templates select="$corresponding/fn:portData" mode="#current"/>
         <xsl:apply-templates select="key('options', $corresponding/fn:stepId, $simplified-graph)
                                        [fn:paren = $container-id]" mode="#current">
-          <xsl:with-param name="global" select="exists($corresponding/self::fn:xproc.Pipeline/fn:stepType[. = 'pipeline'])"
-            as="xs:boolean"/>
+          <xsl:with-param name="global" as="xs:boolean"
+            select="exists($corresponding/self::fn:xproc.Pipeline[fn:stepScope = '0'])"/>
         </xsl:apply-templates>
         <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
         

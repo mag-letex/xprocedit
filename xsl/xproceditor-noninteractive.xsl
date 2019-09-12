@@ -38,6 +38,11 @@
     <xsl:variable name="graph" as="document-node(element(fn:array))"
       select="json-to-xml($graph-as-json)"/>
 
+    <xsl:if test="$generate-debug-info">
+      <xsl:message select="'########JSON GRAPH: ', $graph-as-json"/>
+      <xsl:message select="'########XML GRAPH: ', serialize($graph)"/>
+    </xsl:if>
+    
     <xsl:variable name="simplify-json-representation" as="document-node(element(fn:doc))">
       <xsl:document>
         <xsl:apply-templates select="$graph" mode="simplify-json-representation">
@@ -78,8 +83,6 @@
     </xsl:variable>
     
     <xsl:if test="$generate-debug-info">
-      <xsl:message select="'########JSON GRAPH: ', $graph-as-json"/>
-      <xsl:message select="'########XML GRAPH: ', serialize($graph)"/>
       <xsl:message select="'########SIMPLIFY: ', serialize($simplify-json-representation)"/>
       <xsl:message select="'########XPROCIFY: ', serialize($xprocify)"/>
     </xsl:if>

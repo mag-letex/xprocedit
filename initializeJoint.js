@@ -1,5 +1,3 @@
-alert("Marco sends greets and kisses to Balisage-Conference! I hope you all enjoy! =)");
-
 // GLOBAL VARIABLES
 let failedId = "";
 let newId = "";
@@ -37,7 +35,6 @@ function getId() {
     getId();
   } else return alert("No Element-IDs left!");
 }
-
 
 //BUTTON-INITIALIZATION
 const btnJSON = document.getElementById('btn_json');

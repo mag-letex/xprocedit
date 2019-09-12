@@ -6,47 +6,54 @@ function stepNameCheck(val) {
       checkSum = true;
       console.log(checkSum);
       return checkSum;
-    }
-    else{
+    } else {
       checkSum = false;
     }
   }
-  // console.log(checkSum);
 }
 
 // Load Steps into Paper
 function stepLoad(elem, placeX, placeY) {
+  console.log(elem);
   getId();
   let id = elem.id;
   let stepIdNum = newId;
   let stepId = "" + id + "_" + stepIdNum;
+  let embedIn = graphX.getCell(globalPipeline);
+  console.log(embedIn);
+  let scope = embedIn.attributes.stepScope;
   let i;
   for (i = 0; i < superObj.length; i++) {
     if (superObj[i].stepType === id) {
       let group = superObj[i].stepGroup;
       if (group === "xproc.Atomic") {
-        loadAtomicStep(i, stepIdNum, stepId, placeX, placeY);
+        loadAtomicStep(i, stepIdNum, stepId, placeX, placeY, scope);
       }
       if (group === "xproc.Compound") {
-        loadCompoundStep(i, stepIdNum, stepId, placeX, placeY);
+        loadCompoundStep(i, stepIdNum, stepId, placeX, placeY, scope);
       }
       if (group === "xproc.Custom") {
-        loadCustomStep(i, stepIdNum, stepId, placeX, placeY);
+        loadCustomStep(i, stepIdNum, stepId, placeX, placeY, scope);
       }
     }
   }
   let cell = paperX.findViewByModel(stepId);
+  highlight(cell);
   metaPanel(cell);
 }
 
-function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
+function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY, scope) {
+  let thisScope = scope + 1;
   let newCell = new joint.shapes.xproc.Atomic(superObj[i])
     .prop('id', stepId)
     .prop('stepId', stepId)
     .prop('stepName', stepIdNum)
+    .prop('stepPrefix', "p")
+    .prop('stepScope', thisScope)
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
   graphX.addCell(newCell);
+  globalStepArray.push(newCell.attributes);
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.embed(newCell);
   currentPipeline.attributes.stepEmbeds.push(stepId);
@@ -79,15 +86,19 @@ function loadAtomicStep(i, stepIdNum, stepId, placeX, placeY) {
   }
 }
 
-function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY) {
+function loadCompoundStep(i, stepIdNum, stepId, placeX, placeY, scope) {
+  let thisScope = scope + 1;
   testGraph.push(stepId);
   let newCell = new joint.shapes.xproc.Compound(superObj[i])
     .prop('id', stepId)
     .prop('stepId', stepId)
     .prop('stepName', stepIdNum)
+    .prop('stepScope', thisScope)
+    .prop('stepPrefix', "p")
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
   graphX.addCell(newCell);
+  globalStepArray.push(newCell.attributes);
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.embed(newCell);
   currentPipeline.attributes.stepEmbeds.push(stepId);
@@ -128,6 +139,7 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
     .attr({'.word2': {text: stepIdNum}})
     .position(placeX, placeY);
   graphX.addCell(newCell);
+  globalStepArray.push(newCell.attributes);
   let currentPipeline = graphX.getCell(globalPipeline);
   currentPipeline.embed(newCell);
   if (superObj[i].stepOption !== undefined) {
@@ -162,17 +174,17 @@ function loadCustomStep(i, stepIdNum, stepId, placeX, placeY) {
 function cellPointerDblClick(cellView, evt) {
   let modelType = cellView.model.attributes.type;
   let modelId = cellView.model.attributes.stepId;
+  let modelName = cellView.model.attributes.stepName;
   if (modelType === "xproc.Compound") {
-    createPaperBtn(modelId, evt, cellView);
+    createPaperBtn(modelId, evt, cellView, modelName);
     globalPipeline = modelId;
   }
 }
 
 //HIGHLIGHTING FUNCTION
 let oldCellView = null;
-clickHighlight = 0;
-paper.on('element:pointerdown', function (cellView) {
-  //HIGHLIGHTING FUNCTION
+
+function highlight(cellView) {
   if (oldCellView != null) {
     oldCellView.unhighlight(null, {
       highlighter: {
@@ -182,10 +194,8 @@ paper.on('element:pointerdown', function (cellView) {
         }
       }
     });
-    // V(paper.findViewByModel(oldCellView.model).el).removeClass('highlight-class');
   }
   if (oldCellView !== cellView) {
-    // V(paper.findViewByModel(cellView.model).el).addClass('highlight-class');
     cellView.highlight(null, {
       highlighter: {
         name: 'addClass',
@@ -210,7 +220,8 @@ paper.on('element:pointerdown', function (cellView) {
   } else {
     oldCellView = null;
   }
-});
+}
+
 document.addEventListener('keydown', function (e) {
   if (e.which === 46) {
     let id = oldCellView.model.attributes.id;
@@ -358,6 +369,8 @@ document.getElementById('metaPanel').addEventListener('submit', function (e) {
 
 function metaPanel(cellView) {
   //Step-Information
+  let testElem = graphX.getCell(cellView.model.attributes.id);
+  let testView = paperX.findViewByModel(testElem);
   currentCell = cellView;
   let step = cellView.model.toJSON();
   let stepScope = cellView.model.attributes.stepScope;
@@ -374,12 +387,15 @@ function metaPanel(cellView) {
   let optValue = cellView.model.attributes.optionValue;
   let inputPorts = [];
   let outputPorts = [];
+  let stubPorts = [];
   console.log(step);
   for (let i = 0; i < portData.length; i++) {
     if (portData[i].portGroup === "in") {
       inputPorts.push(portData[i]);
     } else if (portData[i].portGroup === "out") {
       outputPorts.push(portData[i]);
+    } else if (portData[i].portGroup === "stub") {
+      stubPorts.push(portData[i]);
     }
   }
   //Empty Panel Content
@@ -399,13 +415,11 @@ function metaPanel(cellView) {
   let inputType = labelType.appendChild(input.cloneNode());
   inputType.setAttribute('type', 'text');
   inputType.classList.add("inputTypeInfo");
-  if (stepType === "pipeline") {
+  if (stepType === "pUnset") {
     inputType.setAttribute('placeholder', "unset");
   } else {
     let input = stepType.slice(1).toLowerCase();
     inputType.setAttribute('value', input)
-    // inputType.setAttribute('value', "");
-    // inputType.setAttribute('value', "unset");
   }
 
   let labelName = label.cloneNode();
@@ -451,83 +465,106 @@ function metaPanel(cellView) {
     }
   }
 
-  function switchButtonSave(type){
+  function switchButtonSave(type, cellView, oldId, nm) {
     console.log("Hello Function!");
-      let index;
-    for (let i=0; i<testBtnArray.length; i++){
-      if (testBtnArray[i] === btnIdGlobal){
-        index = i;
+    // let buttons = $('.tab');
+    let checkBut = "btn-" + oldId;
+    console.log(nm);
+    let newBut = "" + type + "_" + nm;
+    // console.log(buttons);
+    let index;
+    console.log(testBtnArray);
+
+    if (cellView.model.attributes.type === "xproc.Pipeline") {
+      console.log("Hello Function");
+      let thisBtn = document.getElementById("" + btnIdGlobal);
+      thisBtn.innerHTML = type;
+      // let btnName = "btn-" + type;
+      // thisBtn.setAttribute('id', btnName);
+      // paperX.el.id = "paper-" + type;
+      // testBtnArray[index] = btnName;
+      // btnIdGlobal = btnName;
+      // globalPipeline = type;
+      globalCell(cellView);
+    } else {
+      for (let i = 0; i < testBtnArray.length; i++) {
+        if (testBtnArray[i] === checkBut) {
+          document.getElementById(testBtnArray[i]).innerText = newBut;
+          // .innerText(newBut);
+          // index = i;
+        }
       }
     }
-    let thisBtn = document.getElementById("" + btnIdGlobal);
-    thisBtn.innerHTML = type;
-    let btnName = "btn-" + type;
-    thisBtn.setAttribute('id', btnName);
-    paperX.el.id = "paper-" + type;
-    globalPipeline = type;
-    testBtnArray[index] = btnName;
-    btnIdGlobal = btnName;
   }
 
-  function mainInput(tp, prfx, nm, btn) {
+  function mainInput(type, prefix, nm, label, string, save) {
+    let links = graphX.getConnectedLinks(testElem);
+    // let ports = testElem.getPorts();
+    let oldId = testElem.attributes.id;
+    let pipe = testElem.attributes.type;
+    let embCells = testElem.getEmbeddedCells();
+    console.log(embCells);
+    if (pipe === "xproc.Pipeline") {
+      testElem.attr({".label": {text: label}});
+    }
+    testElem.prop('stepPrefix', prefix);
+    testElem.prop('stepType', type);
+    testElem.prop('stepName', nm);
+    testElem.prop('stepId', string);
+    testElem.prop('stepIdOld', oldId);
+    // testElem.prop('id', string);
+    // for (let i=0; i<embCells.length; i++){
+    //   embCells[i].prop('parent', string);
+    // }
+    console.log(testView);
+    console.log(testElem);
+    let secReset = graphX.getCells();
+    graphX.resetCells(secReset);
+    switchButtonSave(string, testView, oldId, nm);
+  }
+
+  function calcVar(tp, prfx, nm, bool) {
     let tpCap = tp.charAt(0).toUpperCase() + tp.slice(1);
     let type = "" + prfx + tpCap;
     let label = "" + prfx + ":" + tp;
     label = label.toLowerCase();
-    let id = "" + cellView.model.attributes.stepType + "_" + stepName;
-    let thisElem = graphX.getCell(id);
-    // let string = "" + type + "_" + stepName;
     let string = "" + type + "_" + nm;
-    // let string = "bla";
-    // graphX.getCell(cellView.model.id).prop('id', "" + type + "_" + stepName);
-    cellView.model.attr({".label": {text: label}});
-    cellView.model.attributes.stepPrefix = prfx;
-    cellView.model.attributes.stepType = type;
-    cellView.model.attributes.stepId = string;
-    cellView.model.attributes.id = string;
-    cellView.el.attributes[0].value = string;
-    cellView.model.id = string;
-    thisElem.prop('id', string);
-    console.log(cellView);
-    console.log(cellView.model);
-    // cellView.el.id = "" + type + "_" + stepName;
-    // cellView.model.prop('id', "" + type + "_" + stepName);
-    // cellView.model.prop('model-id', "" + type + "_" + stepName);
-    // cellView.el.setAttribute('model-id', "" + type + "_" + stepName);
-    // cellView.el.attributes[0]["model-id"] = "" + type + "_" + stepName;
-    if (btn === true){
-    switchButtonSave(string);
-    }
+    mainInput(type, prfx, nm, label, string, bool)
   }
 
-  selectPrefix.addEventListener('change', function (evt) {
+  selectPrefix.addEventListener('change', function () {
     console.log(this.value);
+    let tp = testElem.attributes.stepType;
+    tp = tp.slice(1);
+    let nm = testElem.attributes.stepName;
     prefix = this.value;
-    mainInput(type, prefix, stepName, true);
+    calcVar(tp, prefix, nm, true);
   });
   inputType.addEventListener('change', function () {
-    let type = this.value;
-    mainInput(type, prefix, stepName, true);
+    let tp = this.value;
+    let prfx = testElem.attributes.stepPrefix;
+    let nm = testElem.attributes.stepName;
+    calcVar(tp, prfx, nm, true);
   });
-  inputType.addEventListener('keyup', function (e) {
-    if (e.which !== 13) {
-      let type = this.value;
-      mainInput(type, prefix, stepName);
-    }
-  });
+  // inputType.addEventListener('keyup', function (e) {
+  //   if (e.which !== 13) {
+  //     let type = this.value;
+  //     calcVar(type, prefix, stepName);
+  //   }
+  // });
   inputName.addEventListener('change', function () {
-    if (stepNameCheck(this.value) === true){
+    if (stepNameCheck(this.value) === true) {
       console.log(inputName);
       alert("Please choose another Name. This one already exists.");
       inputName.value = "";
-    }
-    else{
+    } else {
       let tp = cellView.model.attributes.stepType;
-      let thisName = "" + tp + "_" + this.value;
-    cellView.model.attributes.stepName = this.value;
-    cellView.model.attr({".word2": {text: this.value}});
-    cellView.model.attributes.stepId = "" + stepType + "_" + this.value;
-    switchButtonSave("" + thisName);
+      tp = tp.slice(1);
+      console.log(tp.slice(1));
+      let prfx = cellView.model.attributes.stepPrefix;
+      // let thisName = "" + tp + "_" + this.value;
+      cellView.model.attr({".word2": {text: this.value}});
+      calcVar(tp, prfx, this.value, true);
     }
   });
 
@@ -549,7 +586,9 @@ function metaPanel(cellView) {
       divInput.style.display = "block";
       h3PortsInput.style.cursor = "initial";
       h3PortsOutput.style.cursor = "pointer";
+      h3PortsStub.style.cursor = "pointer";
       divOutput.style.display = "none";
+      divStub.style.display = "none";
     }
   });
   let formInput = form.cloneNode();
@@ -584,7 +623,9 @@ function metaPanel(cellView) {
       divOutput.style.display = "block";
       h3PortsOutput.style.cursor = "initial";
       h3PortsInput.style.cursor = "pointer";
+      h3PortsStub.style.cursor = "pointer";
       divInput.style.display = "none";
+      divStub.style.display = "none";
     }
   });
   let formOutput = form.cloneNode();
@@ -600,7 +641,7 @@ function metaPanel(cellView) {
       "portSequence": "unset"
     };
     cellView.model.addOutPort(portId);
-    createPortContent(portId, true, outputPorts, formOutput, "out");
+    createPortContent(portId, true, stubPorts, formOutput, "out");
     cellView.model.attributes.portData.push(portObject);
   });
   let fieldsetOutput = fieldset.cloneNode();
@@ -608,12 +649,53 @@ function metaPanel(cellView) {
   let legendOutput = fieldsetOutput.appendChild(legend.cloneNode());
   legendOutput.appendChild(document.createTextNode("Out-Port"));
 
+  // Pseudo - Ports
+  let divStub = div.cloneNode();
+  divStub.classList.add('divPorts');
+  divStub.setAttribute('id', "divStub");
+  divStub.style.display = "none";
+  let h3PortsStub = h3.cloneNode();
+  h3PortsStub.appendChild(document.createTextNode("Stubs"));
+  h3PortsStub.classList.add('h3Stub', 'h3Port');
+  h3PortsStub.addEventListener('click', function () {
+    let visibility = divStub.style.display;
+    if (visibility === "none") {
+      divStub.style.display = "block";
+      h3PortsStub.style.cursor = "initial";
+      h3PortsInput.style.cursor = "pointer";
+      h3PortsOutput.style.cursor = "pointer";
+      divInput.style.display = "none";
+      divOutput.style.display = "none";
+    }
+  });
+  let formStub = form.cloneNode();
+  let btnStubAdd = inputBtn.cloneNode();
+  btnStubAdd.setAttribute('value', "add Stub-Port");
+  btnStubAdd.addEventListener('click', function () {
+    getId();
+    let portId = "stubPort-" + newId;
+    let portObject = {
+      "portId": portId,
+      "portGroup": "stub"
+      // "portPrimary": "unset",
+      // "portSequence": "unset"
+    };
+    cellView.model.addInPort(portId);
+    // cellView.model.addPort(groupInPipe);
+    createPortContent(portId, true, stubPorts, formStub, "stub");
+    cellView.model.attributes.portData.push(portObject);
+  });
+  let fieldsetStub = fieldset.cloneNode();
+  fieldsetStub.classList.add("port-field");
+  let legendStub = fieldsetStub.appendChild(legend.cloneNode());
+  legendStub.appendChild(document.createTextNode("Stub-Port"));
+
   function createPortContent(portId, btn, ports, formPorts, inout) {
     function portBtnDelete(btn, id, field) {
       btn.setAttribute('portId', id);
       btn.addEventListener('click', function (e) {
         let thisId = e.target.attributes.portId.nodeValue;
-        if (inout === "in") {
+        if (inout === "in" || inout === "stub") {
           cellView.model.removeInPort(thisId);
         } else if (inout === "out") {
           cellView.model.removeOutPort(thisId);
@@ -659,6 +741,12 @@ function metaPanel(cellView) {
                 outPorts[i] = this.value;
               }
             }
+          } else if (inout === "stub") {
+            for (let i = 0; i < stubPorts.length; i++) {
+              if (stubPorts[i] === dataId) {
+                stubPorts[i] = this.value;
+              }
+            }
           }
           let currentCells = graphX.getCells();
           graphX.resetCells(currentCells);
@@ -669,6 +757,9 @@ function metaPanel(cellView) {
     function portLoadCont(port, primary, sequence) {
       let thisField = fieldsetPort.cloneNode(true);
       let thisName = portName.cloneNode(true);
+      let scopeSelect = select.cloneNode(true);
+      let scopeUl = document.createElement('ul');
+                scopeUl.classList.add('stubListUl');
       let noName = portName.cloneNode(true);
       noName.appendChild(document.createTextNode(port));
       let nameInput = thisName.appendChild(input.cloneNode(true));
@@ -681,19 +772,47 @@ function metaPanel(cellView) {
       selectBoolean("port", cellView, portData, port, sequence, sequenceSelect, "sequence");
       let thisBtnDelete = btnDelete.cloneNode(true);
       portBtnDelete(thisBtnDelete, port, thisField);
-
-      if (stepScope > 0 ) {
+      if (stepScope > 0 && inout !== "stub") {
         formPorts.appendChild(thisField);
         thisField.appendChild(noName);
         thisField.appendChild(thisFieldPrimary);
         thisField.appendChild(thisFieldSequence);
         primarySelect.setAttribute('disabled', "disabled");
         sequenceSelect.setAttribute('disabled', "disabled");
-      } else {
+      } else if (inout !== "stub") {
         formPorts.appendChild(thisField);
         thisField.appendChild(thisName);
         thisField.appendChild(thisFieldPrimary);
         thisField.appendChild(thisFieldSequence);
+        thisField.appendChild(thisBtnDelete);
+      } else if (stepScope >= 1 && inout === "stub") {
+        formPorts.appendChild(thisField);
+        // thisField.appendChild(thisName);
+        thisField.appendChild(scopeUl);
+        console.log(stepScope);
+        for (let i = 0; i < globalStepArray.length; i++) {
+          let thisStepId = cellView.model.attributes.stepId;
+          console.log(thisStepId);
+          if (globalStepArray[i].stepScope < stepScope && globalStepArray[i].stepId !== thisStepId) {
+          console.log(globalStepArray[i]);
+            for (let j = 0; j < globalStepArray[i].portData.length; j++) {
+              console.log("Yes");
+              if (globalStepArray[i].portData[j].portGroup === "out") {
+                let step = globalStepArray[i].stepId;
+              console.log(step);
+                let port = globalStepArray[i].portData[j].portId;
+              console.log(port);
+                let string = "" + port + "@" + step;
+                console.log(string);
+                // let thisOption = option.cloneNode().appendChild(document.createTextNode(string));
+                let liEl = document.createElement('li');
+                liEl.classList.add('stubListLi');
+                liEl.appendChild(document.createTextNode(string));
+                scopeUl.appendChild(liEl);
+              }
+            }
+          }
+        }
         thisField.appendChild(thisBtnDelete);
       }
     }
@@ -712,6 +831,7 @@ function metaPanel(cellView) {
       let sequence = "unset";
       portLoadCont(portId, primary, sequence)
     }
+
   }
 
   // Options-DIV
@@ -750,7 +870,6 @@ function metaPanel(cellView) {
     } else {
       alert("You first have to select an option type!");
     }
-
   });
 
   function optionInputLoad(dataId, input) {
@@ -916,6 +1035,7 @@ function metaPanel(cellView) {
     divOutput.appendChild(formOutput);
     formOutput.appendChild(btnOutputAdd);
     createPortContent(null, false, outputPorts, formOutput, "out");
+
     // Options
     metaOptions.appendChild(divOption);
     divOption.appendChild(formOptions);
@@ -934,7 +1054,7 @@ function metaPanel(cellView) {
     let nameInput = thisName.appendChild(input.cloneNode(true));
     optionValueLoad(optValue, nameInput, cellView);
     formOptions.appendChild(thisName);
-  } else if ((step.type === "xproc.Atomic" || step.type === "xproc.Compound") && stepScope === 1) {
+  } else if ((step.type === "xproc.Atomic" || step.type === "xproc.Compound") && stepScope >= 1) {
     // Info
     let type = document.createElement('h3');
     type.appendChild(document.createTextNode(stepType));
@@ -955,12 +1075,12 @@ function metaPanel(cellView) {
     // Options
     metaOptions.appendChild(formOptions);
     createOptionContent(null, false);
-  }
-  else if (stepGroup === "xproc.Compound" && stepScope === 2){
+  } else if (stepGroup === "xproc.Compound" && stepScope >= 2) {
     // Info
     let type = document.createElement('h3');
     type.appendChild(document.createTextNode(stepType));
     let name = document.createElement('h4');
+    console.log(stepName);
     name.appendChild(document.createTextNode(stepName));
     metaInfo.appendChild(type);
     metaInfo.appendChild(name);
@@ -968,12 +1088,18 @@ function metaPanel(cellView) {
     metaPorts.appendChild(divPortsHead);
     divPortsHead.appendChild(h3PortsInput);
     divPortsHead.appendChild(h3PortsOutput);
+    divPortsHead.appendChild(h3PortsStub);
+
     metaPorts.appendChild(divInput);
     divInput.appendChild(formInput);
     createPortContent(null, false, inputPorts, formInput, "in");
     metaPorts.appendChild(divOutput);
     divOutput.appendChild(formOutput);
     createPortContent(null, false, outputPorts, formOutput, "out");
+    metaPorts.appendChild(divStub);
+    divStub.appendChild(formStub);
+    formStub.appendChild(btnStubAdd);
+    createPortContent(null, false, stubPorts, formStub, "stub");
     // Options
     metaOptions.appendChild(formOptions);
     createOptionContent(null, false);
